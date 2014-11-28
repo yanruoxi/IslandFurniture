@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>IM Workspace</title>
+        <f:event listener="#{loginManagedBean.checkLoginIMWarehouseStaff(cse)}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" /> 
+    </h:head>
+
+    <h:body>
+        <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="imWorkspace.xhtml">
+            <ui:define name="imWorkspace"> 
+            </ui:define>   
+        </ui:composition>
+
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="imWelcome.xhtml"/>
+            <p:menuitem value="Manage Warehouse Stock Level" url="#"/>
+        </p:breadCrumb>
+
+        <h1> Stock level checking </h1> 
+
+
+        <h:form id="formManageBom">
+            <p:growl id="msgs" showDetail="true"/>
+            <p:panel id="panelManageBom" header="Search Warehouse stock level ">
+                <p:ajaxStatus style="width:16px;height:16px">
+                    <f:facet name="start">
+                        <h:graphicImage library="image" name="spinner.gif"/>
+
+                    </f:facet>
+                    <f:facet name="complete">
+                        <h:outputText value=""/>
+                    </f:facet>
+                </p:ajaxStatus>
+                <p:messages />
+
+
+                <p:row>
+                    <p:column style="text-align:right">
+                        <p:outputLabel  style="font-weight:bolder" value="Material name:" />
+                    </p:column>
+                    <p:column style="text-align:right">
+                        <p:selectOneMenu value="#{warehouseManageBean.materialName}" style="font-weight:bolder;width:120px" >
+                            <f:selectItems value="#{warehouseManageBean.materialNameList}" var="material" itemLabel="#{material}" itemValue="#{material}"/>
+                        </p:selectOneMenu>
+                    </p:column>
+                </p:row>
+                <br></br>
+                <br></br>
+                <p:commandButton id="search" value="Search Warehouse Inventory" update=":formBomTable:viewBom msgs @parent " actionListener="#{warehouseManageBean.searchWarehousematerial}" ajax="false" />
+                <p:commandButton id="bt1" value="View all Warehouse Inventory" update=":formBomTable:viewBom msgs @parent " actionListener="#{warehouseManageBean.viewAllBack}" ajax="false" />
+
+            </p:panel>
+        </h:form>
+
+        <h:form id="formBomTable">
+            <p:growl id="msgBom" showDetail="true"/> 
+            <p:panel id="viewBom">
+                <p:dataTable id="materialList" var="material" value="#{warehouseManageBean.materialList}" editable="true"    emptyMessage="No results" >
+                    <f:facet name="header">
+                        Warehouse Stock level Table
+                    </f:facet>
+                    <p:ajax event="rowEdit" listener="#{warehouseManageBean.onRowEdit1}" update=":formBomTable:msgBom :formBomTable:materialList" />
+                    <p:ajax event="rowEditCancel" listener="#{warehouseManageBean.onRowEditCancel1}" update=":formBomTable:msgBom " />
+
+                    <p:column headerText="Material name">
+                        <h:outputText value="#{material.materialName}" />
+                    </p:column>
+                    <p:column headerText="Warehouse material amount">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{material.backQuantity}" />
+                            </f:facet>  
+                            <f:facet name="input">
+                                <p:inputText value="#{material.backQuantity}" />
+                            </f:facet> 
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="Safety level">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{material.safetyStock}" />
+                            </f:facet>  
+                            <f:facet name="input">
+                                <p:inputText value="#{material.safetyStock}" />
+                            </f:facet> 
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="Material Position">
+
+                        <h:outputText value="#{material.materialPosition}" />
+                    </p:column>
+                    <p:column headerText="Outbound" >
+                        <p:commandButton id="btn3" value="Outbound to Front Store"  update=":formBomTable:viewBom :formManageBom:msgs" actionListener="#{warehouseManageBean.setMaterialName(material.materialName)}" oncomplete="PF('dlg1').show();"  ajax="true">
+                        </p:commandButton>
+                    </p:column> 
+                    <p:column style="width:32px">
+                        <p:rowEditor />
+                    </p:column>
+
+                </p:dataTable>
+            </p:panel> 
+        </h:form>
+        <p:dialog header="Outbound to Front Stock " widgetVar="dlg1" minHeight="40">                     
+            <h:form id="outbound">
+                <p:growl id="msgsForOutbound" showDetail="true" /> 
+
+                <p:row>
+                    <p:column>
+                        <p:outputLabel for="quantity" style="font-weight: bold" value="Quantity:" />
+                    </p:column>
+                    <p:column>
+                        <p:inputText required="true" label="quantity" requiredMessage="quantity is required." id="quantity" value="#{warehouseManageBean.materialQuantity}">
+
+                        </p:inputText>
+                    </p:column>               
+                </p:row>
+
+                <p:commandButton value="Save" update=":formBomTable:viewBom :formManageBom:msgs  " actionListener="#{warehouseManageBean.addfrontmaterial}" ajax="true" >
+                </p:commandButton>
+            </h:form>
+        </p:dialog>
+
+
+
+
+
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>   
+
+</html>
+

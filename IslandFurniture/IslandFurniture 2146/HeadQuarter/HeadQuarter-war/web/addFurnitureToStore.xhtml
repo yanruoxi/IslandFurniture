@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Add Furniture to Store</title>
+        <f:event listener="#{loginManagedBean.checkLoginHQ}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+
+    <h:body> 
+        <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="template.xhtml">
+
+        </ui:composition>          
+
+        <h:form id="formMainAddPartToSupplier">
+            
+      
+            <p:menubar>
+                <p:menuitem value="Create Store" url="createStore.xhtml" icon="ui-icon-plus"/>
+                <p:menuitem value="Manage Store" url="manageStore.xhtml" icon="ui-icon-plus"/>
+                <p:menuitem value="Add Product to Store" url="addFurnitureToStore.xhtml" icon="ui-icon-plus"/>
+            </p:menubar> 
+
+
+            <p:tab >
+                <p:panel header="Add Furniture to Store">
+                    <p:growl autoUpdate="true" showDetail="true"/>
+                    <h:panelGrid id="gridAddPartToSupplier" cellpadding="5">
+                        <p:outputLabel for="chooseSupplier" value="Choose Store:"  />
+                        <p:selectOneMenu id="chooseSupplier" value="#{storeProductManagedBean.selectedStore}" converter="storeConverter" effect="fade" filter="true" filterMatchMode="contains">
+                            <f:selectItems value="#{storeProductManagedBean.stores}" var="store" itemLabel="#{store.storeName}" itemValue="#{store}" />
+                        </p:selectOneMenu>
+
+                        <h:outputLabel for="partMenu" value="Choose Products to Add:" />
+                        <p:selectCheckboxMenu id="partMenu" value="#{storeProductManagedBean.selectedProducts}" label="Products" filter="true" filterMatchMode="startsWith" panelStyle="width:300px">
+                            <f:selectItems value="#{storeProductManagedBean.productsNameList}" />
+                        </p:selectCheckboxMenu>
+
+                        <p:separator />
+                        <p:commandButton value="Add Product To Store" update="gridAddPartToSupplier" actionListener="#{storeProductManagedBean.addProductToStore()}"/>    
+
+                    </h:panelGrid>
+
+                </p:panel>
+            </p:tab>
+
+
+        </h:form>
+
+
+    </h:body>
+</html>

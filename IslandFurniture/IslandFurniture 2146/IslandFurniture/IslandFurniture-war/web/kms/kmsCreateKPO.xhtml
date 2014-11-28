@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <h:head>
+        <title>KMS Staff Workspace</title>
+        <f:event listener="#{loginManagedBean.checkLoginKMSStaff}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+
+    <h:body> 
+        <h:form id="formMainPO">
+            <p:growl id="messages"/>
+            <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="kmsWorkspace.xhtml">
+                <ui:define name="kmsWorkspaceMenu"> 
+                </ui:define>            
+            </ui:composition>   
+
+            <p:breadCrumb>
+                <p:menuitem value="Home" url="kmsWelcome.xhtml" />
+                <p:menuitem value="Manage Purchase Orders" url="kmsViewAllPO.xhtml?i=6" />
+                <p:menuitem value="Create Purchase Order" url="#" />
+            </p:breadCrumb>
+            
+            <p:menubar>
+                <p:menuitem value="View Purchase Orders" url="kmsViewAllPO.xhtml?i=6" icon="ui-icon-search"/>
+                <p:menuitem value="Create Purchase Order" url="#" icon="ui-icon-plus"/>
+            </p:menubar>
+            
+            <p:panel header="Create Purchase Order">
+                <p:growl autoUpdate="true" showDetail="true"/>
+                <h:panelGrid id="gridCreateKPO" cellpadding="5">
+                    <h:outputLabel for="ingredientMenu" value="Select Ingredient:" />
+                    <p:selectOneMenu id="ingredientMenu" value="#{kpoManagedBean.selectedIngredientNameForKPO}" label="Ingredient" panelStyle="width:300px" required="true">
+                        <f:selectItems value="#{kpoManagedBean.ingredientNameList}" />
+                    </p:selectOneMenu>
+                </h:panelGrid>
+
+                <p:separator />
+
+                <p:commandButton value="Continue" update="gridCreateKPO" actionListener="#{kpoManagedBean.redirectToCreateKPO}"/>    
+
+            </p:panel>
+            </h:form>
+
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>
+
+</html>
+

@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="kmsInventoryReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5ba3b117-d4ec-4f16-8ea6-26d5d55233db">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT * FROM
+KitchenInventory inv, Ingredient i WHERE i.isDeleted = false]]>
+	</queryString>
+	<field name="KINVENTORYID" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="KDATEUPDATED" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="KQTY" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="KSAFETYSTOCKLEVEL" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="INGREDIENT_ID" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ID" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="DEFAULTSUPPLIERUNITPRICE" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="HASDEFAULTSUPPLIER" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="INGREDIENTNAME" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="INGREDIENTTYPE" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ISDELETED" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="KLEADTIME" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="KLOTSIZE" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="KDEFAULTSUPPLIER_KSUPPLIERID" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="555" height="79" uuid="cb606807-3b95-4be9-a92e-7fb9375d528d"/>
+				<imageExpression><![CDATA["C:\\Users\\ZiGui\\Dropbox\\IS3102-PROJECT\\Logo & Banners\\internal_banner_km.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="21" splitType="Stretch">
+			<textField pattern="EEE, d MMM yyyy HH:mm:ss Z">
+				<reportElement x="416" y="0" width="137" height="20" uuid="e4c548c6-6ee1-44e5-904d-0a86fd4c35f0"/>
+				<textElement textAlignment="Right">
+					<font fontName="Agency FB" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="29" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="477" y="0" width="76" height="28" backcolor="#9999FF" uuid="fdce49fe-d48e-4e62-9b40-8d5e2015f357"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Evogria" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Date updated]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="297" y="0" width="109" height="28" backcolor="#9999FF" uuid="f6e92b1f-340e-4a6a-921d-4ecef97ade6f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Evogria" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Safety Stock LEVEL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="40" height="28" backcolor="#9999FF" uuid="29fe7aa4-cc10-4e71-83c7-c2243c780604"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Evogria" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="224" y="0" width="73" height="28" backcolor="#9999FF" uuid="2470952c-2a45-467a-b3a4-96a1ff7b8192"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Evogria" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[TYPE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="40" y="0" width="184" height="28" backcolor="#9999FF" uuid="d6c33a29-d88a-41f4-8b70-d2302a6c1b81"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Evogria" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Ingredient]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="406" y="0" width="71" height="28" backcolor="#9999FF" uuid="4fc30b40-2ef0-439d-8198-76c5198099c2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Evogria" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Quantity]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="31" splitType="Stretch">
+			<textField>
+				<reportElement x="40" y="0" width="184" height="30" uuid="687e325c-d8bd-4545-bc3a-62837305a679"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{INGREDIENTNAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="40" height="30" uuid="d96aba0e-7ad8-40eb-838e-76acdae4ff1f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ID}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="224" y="0" width="73" height="30" uuid="54a6a77d-63a4-4a03-9525-ee782fec0287"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{INGREDIENTTYPE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="477" y="0" width="76" height="30" uuid="49f4727b-8c54-4198-99ae-dc71e309a85a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{KDATEUPDATED}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="297" y="0" width="109" height="30" uuid="1b9f8fa3-34b8-4592-8dd0-4d08132546e0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{KSAFETYSTOCKLEVEL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="406" y="0" width="71" height="30" uuid="5409eac2-9d60-437f-bd67-bef8039d80a8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{KQTY}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="23" splitType="Stretch"/>
+	</columnFooter>
+	<summary>
+		<band height="21" splitType="Stretch">
+			<textField evaluationTime="Report">
+				<reportElement x="513" y="0" width="40" height="20" uuid="c840823c-bb40-4dcd-9bea-de09ab3d3bf2"/>
+				<textElement>
+					<font fontName="Agency FB" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="433" y="0" width="80" height="20" uuid="1a7a4a41-44b0-4992-aebd-f060b309f243"/>
+				<textElement textAlignment="Right">
+					<font fontName="Agency FB" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="177" height="20" uuid="c0ee7524-c4d3-4e83-8389-61d5abe64b3b"/>
+				<textElement>
+					<font fontName="Agency FB" size="14"/>
+				</textElement>
+				<text><![CDATA[Property of Island Furniture]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

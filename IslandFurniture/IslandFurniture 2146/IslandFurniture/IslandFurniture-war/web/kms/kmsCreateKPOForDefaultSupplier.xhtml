@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <h:head>
+        <title>KMS Staff Workspace</title>
+        <f:event listener="#{loginManagedBean.checkLoginKMSStaff}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+
+    <h:body>
+
+            <p:growl id="messages"/>
+            <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="kmsWorkspace.xhtml">
+                <ui:define name="kmsWorkspaceMenu"> 
+                </ui:define>            
+            </ui:composition>   
+
+            <p:breadCrumb>
+                <p:menuitem value="Home" url="kmsWelcome.xhtml" />
+                <p:menuitem value="Manage Purchase Orders" url="kmsViewAllPO.xhtml?i=6" />
+                <p:menuitem value="Create Purchase Order" url="#" />
+            </p:breadCrumb>
+
+            <p:menubar>
+                <p:menuitem value="View Purchase Orders" url="kmsViewAllPO.xhtml?i=4" icon="ui-icon-search"/>
+            </p:menubar>
+
+            <p:panel id="panelCreateKPOToDefaultSupplier" >
+                <p:outputLabel>A Default Supplier exists for the selected Ingredient, #{kpoManagedBean.selectedIngredientForKPO.ingredientName};
+                    <br />Purchase Order will be sent to Default Supplier, #{kpoManagedBean.selectedIngredientForKPO.kdefaultSupplier.ksupplierName}
+                </p:outputLabel>
+                <p:separator/><br/>
+
+                <h:form id="formCreateKPOToDefaultSupplier" >
+                    <p:growl id="messages" showDetail="true" autoUpdate="true"/> 
+                    <p:panelGrid style="width:600px;">
+                        <p:row><p:column colspan="2"><p:outputLabel style="font-weight: bold; color: #FF9933;">Purchase Order Details:</p:outputLabel></p:column></p:row>
+
+                        <p:row>
+                            <p:column><p:outputLabel>Supplier ID:</p:outputLabel></p:column>
+                            <p:column><p:outputLabel>#{kpoManagedBean.selectedIngredientForKPO.kdefaultSupplier.ksupplierId}</p:outputLabel></p:column>  
+                        </p:row> 
+
+                        <p:row>
+                            <p:column><p:outputLabel>Supplier Name:</p:outputLabel></p:column>
+                            <p:column><p:outputLabel value="#{kpoManagedBean.selectedIngredientForKPO.kdefaultSupplier.ksupplierName}"/></p:column> 
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel>Ingredient Name:</p:outputLabel>
+                            </p:column>
+                            <p:column>     
+                                <p:outputLabel>#{kpoManagedBean.selectedIngredientForKPO.ingredientName}</p:outputLabel>               
+                            </p:column>  
+                        </p:row>
+
+                        <p:row>
+                            <p:column><p:outputLabel>Ingredient Type:</p:outputLabel></p:column>
+                            <p:column><p:outputLabel>#{kpoManagedBean.selectedIngredientForKPO.ingredientType}</p:outputLabel></p:column>  
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="kunitPrice">Unit Price</p:outputLabel>
+                            </p:column>
+                            <p:column>     
+                                <p:outputLabel id="kunitPrice" value="#{kpoManagedBean.selectedIngredientForKPO.defaultSupplierUnitPrice}">
+                                    <f:convertNumber currencySymbol="$" type="currency"/>
+                                </p:outputLabel>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel>Quantity:</p:outputLabel>
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="kqty" value="#{kpoManagedBean.quantityForKPO}" required="true" binding="#{kpoManagedBean.quantityForKPOInput}">
+                                    <p:ajax event="blur" listener="#{kpoManagedBean.getCalculatedTotalPrice}" update="message messages" />
+                                </p:inputText>
+                                <p:message for="kqty" id="message" showSummary="true" showDetail="false"/>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column><p:outputLabel>Scheduled Delivery Date:</p:outputLabel></p:column>
+                            <p:column>  
+                                <p:calendar value="#{kpoManagedBean.scheduledDeliveryDate}" required="true" pattern="dd/MM/yyyy" requiredMessage="Please enter a Scheduled Delivery Date">
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </p:calendar>               
+                            </p:column>  
+                        </p:row>
+
+                    </p:panelGrid>
+                    <p:commandButton value="Create Purchase Order" icon="ui-icon-check" actionListener="#{kpoManagedBean.createPOForDefaultSup}" ajax="true"/>
+
+                </h:form>
+            </p:panel>
+
+            <br /><br />
+            <br />
+            <p:separator></p:separator>
+    </h:body>
+
+</html>
+

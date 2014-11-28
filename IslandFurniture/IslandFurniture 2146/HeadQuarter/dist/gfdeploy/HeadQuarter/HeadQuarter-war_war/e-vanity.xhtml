@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<f:view beforePhase="#{eCommerceManagedBean.beforePhaseListener}">
+    <h:head>
+        <title>Vanity Set</title>        
+
+       
+    </h:head>
+    <h:body>
+        <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="ecommerceTemplate.xhtml">
+        </ui:composition>
+<style>
+    .ui-carousel .ui-carousel-header{
+        height:35px;
+    }
+   
+    .ui-carousel .ui-carousel-footer{
+        height:35px;
+    }
+
+</style>
+        
+        <h:form id="form1">
+            <p:carousel numVisible="2" value="#{eCommerceManagedBean.vanityList}" headerText="Vanity Sets" var="vanity" itemStyleClass="VanityItem" itemStyle="height:500px;width:1000px;" style="width: 1000px; margin-bottom:10%;margin-top:1%">
+        <h:panelGrid columns="2" style="width:100%" cellpadding="5" columnClasses="label,value">
+           
+            <f:facet name="header">
+                <h:commandLink   actionListener="#{eCommerceManagedBean.nextpageVanity}" action="#{eCommerceManagedBean.nextpage1}">
+                    <f:param name ="Id" value="#{vanity.id}" />
+                    <p:graphicImage value="img/#{vanity.path}" style="width:500px;height:300px"/> 
+             </h:commandLink>
+            </f:facet>
+          
+            <h:outputText value="Id:" style="color:black; font-family:serif ;font-size: large"/>
+            <h:outputText value="#{vanity.id}" />
+ 
+            <h:outputText value="Name:" style="color:black; font-family:serif ;font-size: large" />
+            <h:outputText value="#{vanity.productName}" />
+ 
+            <h:outputText value="Color:" style="color:black; font-family:serif ;font-size: large"/>
+            <h:outputText value="#{vanity.color}" style="color:#{vanity.color}"/>
+            
+            <h:outputText value="Price:" style="color:black; font-family:serif ;font-size: large" />
+             <h:outputText value="$#{vanity.price}" />
+ 
+            
+        </h:panelGrid>
+ 
+        <f:facet name="footer">
+            In total there are #{eCommerceManagedBean.vanityList.size()} Vanity type(s).
+        </f:facet>
+    </p:carousel>
+ 
+    
+ 
+   
+ 
+    
+</h:form>
+        
+ 
+
+    </h:body>   
+</f:view>
+</html>
+

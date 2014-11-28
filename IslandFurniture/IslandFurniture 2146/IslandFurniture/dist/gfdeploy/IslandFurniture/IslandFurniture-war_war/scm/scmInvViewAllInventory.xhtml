@@ -1,0 +1,185 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <h:head>
+        <title>SCM INVENTORY Workspace</title>
+        <f:event listener="#{loginManagedBean.checkLoginSCMInventoryManagementStaff}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+
+    <h:body> 
+        <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="scmInvWorkspace.xhtml">
+            <ui:define name="invWorkspaceMenu"> 
+            </ui:define>            
+        </ui:composition>  
+        
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="scmInvWelcome.xhtml" />
+            <p:menuitem value="Manage Inventory" url="#" />
+        </p:breadCrumb>
+
+        <h:form id="formInventoryMenu">
+            <p:menubar>
+                <p:submenu label="Generate Inventory Report" icon="ui-icon-script">
+                    <p:menuitem  ajax="false" value="Parts Inventory" actionListener="#{reportManagedBean.partsPDF}" />
+                    <p:menuitem  ajax="false" value="Furniture Inventory" actionListener="#{reportManagedBean.furniturePDF}" />
+                    <p:menuitem  ajax="false" value="Retail Products Inventory" actionListener="#{reportManagedBean.retailProductsPDF}" />
+                </p:submenu>
+            </p:menubar>
+        </h:form>
+
+        <h:form id="formInventorySummary">
+            <p:accordionPanel activeIndex="null" multiple="true" >            
+                <p:tab title="View Parts Inventory" >   
+                    <h:panelGrid >
+                        <p:dataTable id="PartsTable" var="part" value="#{inventoryManagedBean.inventoryPartList}" paginator="true" rows="10" emptyMessage="No parts found." widgetVar="partsTable" filteredValue="#{inventoryManagedBean.filteredPartInventory}" rowKey="#{part.id}">
+                            <p:row><p:column headerText="Parts" style="alignment-adjust: middle"/></p:row> 
+                            <p:column headerText="Inventory ID"   style="width:80px" sortBy="#{part.id}" >
+                                <h:outputText value="#{part.id}" />
+                            </p:column>
+                            <p:column headerText="Description" style="width: 500px" sortBy="#{part.partName}" filterBy="#{part.partName}" filterMatchMode="contains"  > 
+                                <h:outputText value="#{part.partName}" />   
+                            </p:column>
+                            <p:column headerText="Quantity"  style="width:80px"> 
+                                <h:outputText value="#{part.inventory.quantity}" />
+                            </p:column>
+                            <p:column headerText="Last Updated" style="width: 150px">  
+                                <h:outputText value="#{part.inventory.dateUpdated}"><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText>
+                            </p:column>
+                            <p:column style="width:32px;text-align: center">
+                                <p:commandButton  update="" oncomplete="PF('inventoryDialog').show()" icon="ui-icon-search" title="View">
+                                    <f:setPropertyActionListener value="#{part}" target="#{inventoryManagedBean.selectedPartInventory}" />
+                                </p:commandButton>  
+                            </p:column>
+                        </p:dataTable>  
+                    </h:panelGrid>
+
+                    <p:dialog header="Parts Inventory Details" widgetVar="inventoryDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                        <p:outputPanel id="inventoryPartsDetail" style="text-align:center" layout="center">
+                            <p:panelGrid style="alignment-adjust: central" columns="2" rendered="#{not empty inventoryManagedBean.selectedPartInventory}" columnClasses="label,value">
+                                <h:outputLabel style="alignment-adjust: central" value="Inventory Id:" />
+                                <h:outputLabel style="alignment-adjust: central" value="#{inventoryManagedBean.selectedPartInventory.id}" />
+                                <h:outputLabel style="alignment-adjust: central" value="Part Name:" />  
+                                <h:outputLabel style="alignment-adjust: central" value="#{inventoryManagedBean.selectedPartInventory.partName}" />
+                                <h:outputLabel style="alignment-adjust: central" value="Inventory Level: " />
+                                <h:outputLabel style="alignment-adjust: central" value="#{inventoryManagedBean.selectedPartInventory.inventory.quantity}" />
+                            </p:panelGrid>
+                            <br/><h:outputText value="New Inventory Level: " />
+                            <h:inputText style="width:100px"  value="#{inventoryManagedBean.inventoryQuantity}" />
+                            <br></br><br/>
+                            <p:commandButton value="Update" icon="ui-icon-refresh" actionListener="#{inventoryManagedBean.updateInventoryPart}" update=""  oncomplete="PF('inventoryDialog').hide()" />
+                            <p:commandButton value="Cancel" icon="ui-icon-close" onclick="PF('inventoryDialog').hide()"/>
+                        </p:outputPanel>
+                        <br/>
+                    </p:dialog>
+                </p:tab>   
+
+
+                <p:tab title="View Furniture Inventory">
+                    <h:panelGrid >
+                        <p:dataTable id="FurnitureTable" var="furniture" value="#{inventoryManagedBean.inventoryFurnitureList}" paginator="true" rows="10" emptyMessage="No furniture found." widgetVar="furnitureTable" filteredValue="#{inventoryManagedBean.filteredFurnitureInventory}" rowKey="#{furniture.id}">
+                            <p:row><p:column headerText="Furniture" style="alignment-adjust: middle"/></p:row> 
+                            <p:column headerText="Inventory ID" sortBy="#{furniture.id}" style="width:80px">
+                                <h:outputText value="#{furniture.id}" />
+                            </p:column>
+                            <p:column headerText="Description"  style="width: 500px" sortBy="#{furniture.furnitureName}" filterBy="#{furniture.furnitureName}" filterMatchMode="contains"  > 
+                                <h:outputText value="#{furniture.furnitureName}" />
+                            </p:column>
+                            <p:column headerText="Quantity"  style="width:80px"> 
+                                <h:outputText value="#{furniture.inventory.quantity}" />
+                            </p:column>
+                            <p:column headerText="Last Updated"  style="width: 150px">
+                                <h:outputText value="#{furniture.inventory.dateUpdated}" ><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText>
+                            </p:column>
+                            <p:column style="width:32px;text-align: center">
+                                <p:commandButton  update="" oncomplete="PF('inventoryFurnitureDialog').show()" icon="ui-icon-search" title="View">
+                                    <f:setPropertyActionListener value="#{furniture}" target="#{inventoryManagedBean.selectedFurnitureInventory}" />
+                                </p:commandButton>  
+                            </p:column>
+                        </p:dataTable>
+                    </h:panelGrid>
+
+                    <p:dialog header="Furniture Inventory Details" widgetVar="inventoryFurnitureDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                        <p:outputPanel id="inventoryFurnitureDetail" style="text-align:center;">
+                            <p:panelGrid columns="2" rendered="#{not empty inventoryManagedBean.selectedFurnitureInventory}" columnClasses="label,value">
+                                <h:outputLabel value="Inventory Id:" />
+                                <h:outputLabel value="#{inventoryManagedBean.selectedFurnitureInventory.id}" />
+                                <h:outputLabel value="Furniture Name:" />
+                                <h:outputLabel value="#{inventoryManagedBean.selectedFurnitureInventory.furnitureName}" />
+                                <h:outputLabel value="Inventory Level:" />
+                                <h:outputLabel value="#{inventoryManagedBean.selectedFurnitureInventory.inventory.quantity}" />
+                            </p:panelGrid>
+                            <br/><h:outputText value="New Inventory Level: " />
+                            <h:inputText style="width:100px"  value="#{inventoryManagedBean.inventoryQuantity}" />
+                            <br></br><br/>
+                            <p:commandButton value="Update" icon="ui-icon-refresh" actionListener="#{inventoryManagedBean.updateInventoryFurniture}" update=""  oncomplete="PF('inventoryFurnitureDialog').hide()" />
+                            <p:commandButton value="Cancel" icon="ui-icon-close" onclick="PF('inventoryFurnitureDialog').hide()"/>
+                        </p:outputPanel>
+                        <br/>
+                    </p:dialog>
+                </p:tab>
+
+
+                <!--  TO ADD IN RETAIL PRODUCTS -->
+                <p:tab title="View Retail Product Inventory">
+                    <h:panelGrid >
+                        <p:dataTable id="RetailProductsTable" var="furniture" value="#{inventoryManagedBean.inventoryFurnitureList}" paginator="true" rows="10" emptyMessage="No retail products found." widgetVar="furnitureTable" filteredValue="#{inventoryManagedBean.filteredFurnitureInventory}" rowKey="#{furniture.id}">
+                            <p:row>
+                                <p:column headerText="Parts" style="alignment-adjust: middle"/>
+                            </p:row> 
+                            <p:column headerText="Inventory ID" sortBy="#{furniture.id}" style="width:80px">
+                                <h:outputText value="#{furniture.id}" />
+                            </p:column>
+                            <p:column headerText="Description" sortBy="#{furniture.furnitureName}" filterBy="#{furniture.furnitureName}" filterMatchMode="contains"   style="width: 500px"> 
+                                <h:outputText value="#{furniture.furnitureName}" />
+                            </p:column>
+                            <p:column headerText="Quantity"  style="width:80px"> 
+                                <h:outputText value="#{furniture.inventory.quantity}" />
+                            </p:column>
+                            <p:column headerText="Lasted Updated"  style="width: 150px">
+                                <h:outputText value="#{furniture.inventory.dateUpdated}" ><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText>
+                            </p:column>
+                            <p:column style="width:32px;text-align: center">
+                                <p:commandButton  update="" oncomplete="PF('inventoryRPDialog').show()" icon="ui-icon-search" title="View">
+                                    <f:setPropertyActionListener value="#{furniture}" target="#{inventoryManagedBean.selectedFurnitureInventory}" />
+                                </p:commandButton>  
+                            </p:column>
+                        </p:dataTable>
+                    </h:panelGrid>
+
+                    <p:dialog header="Retail Products Inventory Details" widgetVar="inventoryRPDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                        <p:outputPanel id="inventoryRPDetail" style="text-align:center;">
+                            <p:panelGrid columns="2" rendered="#{not empty inventoryManagedBean.selectedFurnitureInventory}" columnClasses="label,value">
+                                <h:outputLabel value="Inventory Id:" />
+                                <h:outputLabel value="#{inventoryManagedBean.selectedFurnitureInventory.id}" />
+                                <h:outputLabel value="Furniture Name:" />
+                                <h:outputLabel value="#{inventoryManagedBean.selectedFurnitureInventory.furnitureName}" />
+                                <h:outputLabel value="Inventory Level:" />
+                                <h:outputLabel value="#{inventoryManagedBean.selectedFurnitureInventory.inventory.quantity}" />
+                            </p:panelGrid>
+                            <br/><h:outputText value="New Inventory Level: " />
+                            <h:inputText style="width:100px"  value="#{inventoryManagedBean.inventoryQuantity}" />
+                            <br></br><br/>
+                            <p:commandButton value="Update" icon="ui-icon-refresh" actionListener="#{inventoryManagedBean.updateInventoryFurniture}" update=""  oncomplete="PF('inventoryRPDialog').hide()" />
+                            <p:commandButton value="Cancel" icon="ui-icon-close" onclick="PF('inventoryRPDialog').hide()"/>
+                        </p:outputPanel>
+                        <br/>
+                    </p:dialog>
+                </p:tab>
+
+            </p:accordionPanel>
+        </h:form>
+
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>
+
+</html>
+

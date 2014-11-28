@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SupplierPurchaseOrder" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isSummaryWithPageHeaderAndFooter="true" uuid="be9e6ac1-5833-4de0-9172-d68bdc4eabf1">
+	<property name="ireport.zoom" value="1.2100000000000002"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT
+*
+FROM
+     `Part` p INNER JOIN `purchaseorder` purchaseorder ON p.`ID` = purchaseorder.`PART_ID`
+     INNER JOIN `purchaserequisition` purchaserequisition ON p.`ID` = purchaserequisition.`PART_ID`
+     INNER JOIN `quotationdetail` quotationdetail ON p.`ID` = quotationdetail.`PART_ID`
+     AND purchaserequisition.`PURCHASEREQID` = quotationdetail.`PURCHASEREQ_PURCHASEREQID`
+     INNER JOIN `supplier` supplier ON quotationdetail.`SUPPLIER_SUPPLIERID` = supplier.`SUPPLIERID`
+     AND supplier.`SUPPLIERID` = purchaseorder.`SUPPLIER_SUPPLIERID`]]>
+	</queryString>
+	<field name="ID" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ISDELETED" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="LEADTIME" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="LOTSIZE" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PARTNAME" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="CONTRACT_CONTRACTID" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="INVENTORY_INVENTORYID" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PURCHASEORDERID" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="DELIVERYSTATUS" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="GOODSISSUEDDATE" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="GOODSRECEIPTDATE" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="GOODSTYPE" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="NEGOCONDITION" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PURCHASEORDERDATE" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PURCHASEORDERSTATUS" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="QTY" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="REPLENISHMENTTYPE" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="SCHEDULEDDELIVERYDATE" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TOTALPRICE" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="UNITPRICE" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PART_ID" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="SUPPLIER_SUPPLIERID" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PURCHASEREQID" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="CREATEDBY" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PURCHASEREQDATE" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PURCHASEREQSTATUS" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="QUOTATIONDETAILID" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="LASTUPDATED" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="QUOTATIONDETAILSTATUS" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="QUOTATIONENDINGDATE" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="QUOTEDDATE" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="QUOTEDNEGOCONDITION" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="QUOTEDSCHEDULEDDELIVERYDATE" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="QUOTEDSENTDATE" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="QUOTEDTOTALPRICE" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="QUOTEDUNITPRICE" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PURCHASEREQ_PURCHASEREQID" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="SUPPLIERID" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="CONTACTPERSONNAME" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="FAXNUM" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="MOBILENUM" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="SUPPLIERADDRESS" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="SUPPLIERDELETESTATUS" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="SUPPLIEREMAILADDR" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="SUPPLIERNAME" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TELEPHONENUM" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="SUPPLIERACCT_SUPPLIERACCTID" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<title>
+		<band height="79" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="555" height="79" uuid="747a0237-5357-4c29-8e5c-9d9f92cee5fe"/>
+				<imageExpression><![CDATA["C:\\Users\\ZiGui\\Desktop\\IslandFurniture\\IslandFurniture-war\\web\\scmSupplierPortal\\internal_banner_supplierportal.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="23" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="184" height="23" uuid="a2c9b3ab-9268-4927-9300-66c5956628c4"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Purchase Order Details]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="192" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="20" uuid="a4bf3496-9c88-4071-bfa5-78acee3db299"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Purchase Order ID:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="100" y="0" width="134" height="20" uuid="3c00db2f-a5ef-4baa-8481-b4c3ff2be706"/>
+				<textFieldExpression><![CDATA[$F{PURCHASEORDERID}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="20" width="100" height="20" uuid="f779073d-7894-42df-a8fa-db43d998bb38"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Part Name:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="100" y="20" width="100" height="20" uuid="0fe7e179-ebca-4836-a45c-ca8d1ba18a7d"/>
+				<textFieldExpression><![CDATA[$F{PARTNAME}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="80" width="100" height="20" uuid="548f61e7-c40c-4b8a-aeef-64a430b8cdbb"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Quantity:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="355" y="0" width="100" height="20" uuid="7ffc40c7-e71f-4a52-88d2-a2f7a016ca35"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Quotation ID]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="455" y="0" width="100" height="20" uuid="992cb946-2ac9-4baa-b05d-aecef41f78a4"/>
+				<textFieldExpression><![CDATA[$F{QUOTATIONDETAILID}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="455" y="20" width="100" height="20" uuid="71cea2da-bd04-4d4d-9699-284fbb815cd7"/>
+				<textFieldExpression><![CDATA[$F{QUOTEDSENTDATE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="100" width="100" height="20" uuid="31071818-a442-4156-8506-2b7b9adebe30"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Price ($):]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="135" width="145" height="20" uuid="1479fa59-36b2-4f47-8423-cf01da598a27"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Scheduled Delivery Date:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="100" y="60" width="100" height="20" uuid="383fd72c-1b52-442f-b284-89b325dad3e3"/>
+				<textFieldExpression><![CDATA[$F{UNITPRICE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="80" width="100" height="20" uuid="3c34e78f-2107-4ba9-93fa-083f918db721"/>
+				<textFieldExpression><![CDATA[$F{QTY}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="100" width="100" height="20" uuid="47c200bf-213d-4006-bd5e-5081e552a1bc"/>
+				<textFieldExpression><![CDATA[$F{TOTALPRICE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="145" y="135" width="167" height="20" uuid="f5d0a539-f325-480b-95bf-104efaf6ad58"/>
+				<textFieldExpression><![CDATA[$F{SCHEDULEDDELIVERYDATE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="145" y="155" width="167" height="36" uuid="a06d3141-43e7-4b3b-837e-477877012cee"/>
+				<textFieldExpression><![CDATA[$F{NEGOCONDITION}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="155" width="145" height="20" uuid="af978d5f-4fe1-4b66-8fa7-c3e960e56336"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Terms & Conditions:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="355" y="155" width="100" height="20" uuid="849d9741-001b-45bb-87a2-bedcf1471dac"/>
+				<text><![CDATA[Received On:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="455" y="155" width="100" height="20" uuid="6d832a7c-0f17-4c93-aa55-7d4835cb47ff"/>
+				<textFieldExpression><![CDATA[$F{GOODSRECEIPTDATE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="355" y="135" width="100" height="20" uuid="fe31da87-3e66-4dd9-b97d-4aa65ec64527"/>
+				<text><![CDATA[Delivery Status]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="455" y="135" width="100" height="20" uuid="f61b1e1b-ad96-40af-b8ac-2650e4ee50c4"/>
+				<textFieldExpression><![CDATA[$F{DELIVERYSTATUS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="455" y="40" width="100" height="20" uuid="16726ebe-70d3-46d4-ad79-ed3bb6300a1c"/>
+				<textFieldExpression><![CDATA[$F{SUPPLIERNAME}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="355" y="40" width="100" height="20" uuid="0765bb48-8165-49c5-b2d2-4ea8e945abc0"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Submitted By:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="355" y="20" width="100" height="20" uuid="6ba12e5a-adaa-4eb8-9b70-7a4d6f356116"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Created On:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="60" width="100" height="20" uuid="6131cb1f-ea6e-4989-be19-b0e230a4de50"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Unit Price ($):]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="191" width="555" height="1" uuid="32560c75-cbd1-41e9-a9c6-7ef3a5f56348"/>
+			</line>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="27" splitType="Stretch">
+			<textField pattern="EEE, d MMM yyyy HH:mm:ss Z">
+				<reportElement x="455" y="0" width="100" height="20" uuid="f5f4859f-6707-4fc6-82b9-8cc8b6d14cd0"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="155" height="20" uuid="26cd6f02-c929-4739-b35f-24542e7b4d3e"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Property of Island Furniture]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

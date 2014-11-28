@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <h:head>
+        <title>SCM Procurement Staff Workspace</title>
+        <f:event listener="#{loginManagedBean.checkLoginSCMProcurementStaff}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+
+    <h:body> 
+        <h:form id="formMainChooseFilter">
+            <p:growl id="messages"/>
+            <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="scmProStaffWorkspace.xhtml">
+                <ui:define name="scmProStaffWorkspaceMenu"/> 
+            </ui:composition>   
+
+            <p:breadCrumb>
+                <p:menuitem value="Home" url="scmProStaffWelcome.xhtml" />
+                <p:menuitem value="View Purchase Requisitions for Scheduled Replenishment" url="scmProStaffViewPurchaseReq.xhtml?i=1" />
+                <p:menuitem value="Rank Suppliers Based on Criteria" url="scmProStaffChooseFilterForSupplier.xhtml" />
+                <p:menuitem value="No Filter" url="#" />
+            </p:breadCrumb>
+
+            <p:panel >
+                <p:growl autoUpdate="true" showDetail="true"/>
+                <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Select criteria for ranking:" />
+                            <p:selectOneButton value="#{poManagedBean.selectedFilterForSupplier}">
+                                <f:selectItem itemLabel="Best Past Deal Price" itemValue="Best Past Deal Price"/>
+                                <f:selectItem itemLabel="Quantity Purchased" itemValue="Quantity Purchased" />
+                                <f:selectItem itemLabel="Best Delivery Performance" itemValue="Best Delivery Performance" />
+                                <f:selectItem itemLabel="No Ranking Criteria" itemValue="No Filter" />
+                            </p:selectOneButton>
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="Submit" icon="ui-icon-check" action="#{poManagedBean.displayFilteredPO}"/>
+                        </p:column>
+                    </p:row>
+                </h:panelGrid>
+            </p:panel>
+
+            <p:panel id="header" header="View Default Suppliers Based on Part Selected">
+                <p:growl autoUpdate="true" showDetail="true"/>
+
+                <p:dataTable id="filteredSupNoFilterTable" var="supplierWithPart" value="#{poManagedBean.supplierWithPartList}" emptyMessage="No supplier found." widgetVar="filteredSupNoFiltersTable" selection="#{poManagedBean.selectedsupplierWithPartList}" rowKey="#{supplierWithPart.supplier.supplierId}">
+                    <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+                    <p:column headerText="Supplier ID"><h:outputText value="#{supplierWithPart.supplier.supplierId}" /></p:column>
+                    <p:column headerText="Supplier Name"><h:outputText value="#{supplierWithPart.supplier.supplierName}" /></p:column>
+                    <p:column headerText="Part Name"><h:outputText value="#{supplierWithPart.part.partName}" /></p:column>
+
+                    <f:facet name="footer">
+                        <p:commandButton value="Back" icon="ui-icon-carat-1-w" update="filteredSupNoFilterTable :formMainChooseFilter:header" action="#{poManagedBean.clearSelectedSupplierList}"/>
+                        <p:commandButton process="filteredSupNoFilterTable" value="View All Selected Suppliers" icon="ui-icon-search" update=":formMainChooseFilter:multiSupplierDetail" oncomplete="PF('multiSupplierDialog').show()" action="#{poManagedBean.getAllSelectedSupplier}"/>
+                    </f:facet>
+                </p:dataTable>
+            </p:panel>
+
+            <p:dialog header="Selected Suppliers" widgetVar="multiSupplierDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" width="500">
+                <p:outputPanel id="multiSupplierDetail" style="text-align:center;">
+                    <p:outputLabel>You have selected the following Suppliers:</p:outputLabel>
+                    <p:separator/>
+                    <ui:repeat value="#{poManagedBean.allSelectedSupplierList}" var="supplier">
+                        <h:outputText value="Supplier Id: #{supplier.supplierId}" style="display:left"/><br/>
+                        <h:outputText value="Supplier Name: #{supplier.supplierName}" style="display:left"/><br/>
+                        <br/>
+                    </ui:repeat>
+                    <p:separator/>
+                    <h:outputText value="Evaluate Suppliers?" />
+                    <br />
+                    <p:commandButton value="Yes" icon="ui-icon-check" actionListener="#{poManagedBean.redirectEvaluateSupplier}" oncomplete="PF('multiSupplierDialog').hide()">
+                    </p:commandButton>
+                    <p:commandButton value="No" icon="ui-icon-close" onclick="PF('multiSupplierDialog').hide()"/>
+                    <br/>
+                </p:outputPanel>
+            </p:dialog>
+        </h:form>
+
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>
+
+</html>

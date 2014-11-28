@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>SCM Workspace</title>
+        <f:event listener="#{loginManagedBean.checkLoginSCM}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+    <h:body>
+
+        <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="scmAdminWorkspace.xhtml">
+            <ui:define name="scmWorkspaceMenu"/>         
+        </ui:composition>  
+
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="scmAdminWelcome.xhtml" />
+            <p:menuitem value="Manage Contract" url="scmAdminViewAllContracts.xhtml?i=2" />
+            <p:menuitem value="Edit Contract" url="#" />
+        </p:breadCrumb>
+
+        <p:menubar>
+            <p:menuitem value="View Contracts" url="scmAdminViewAllContracts.xhtml?i=2" icon="ui-icon-search"/>
+            <p:menuitem value="Add Contracts" url="scmAdminAddContract.xhtml?i=2" icon="ui-icon-search"/>
+            <p:menuitem value="Edit Contract" url="#" icon="ui-icon-plus"/>
+        </p:menubar>
+
+        <h:form id="formEditContract" >
+            <p:growl id="messages" showDetail="true"/>
+            <p:panel id="panelEditContract" header="Contract Details">
+                <p:ajaxStatus style="width:16px;height:16px;">
+                    <f:facet name="start"><h:graphicImage value="/images/spinner.gif" /></f:facet>
+                    <f:facet name="complete"><h:outputText value="" /></f:facet>
+                </p:ajaxStatus>
+
+                <p:panelGrid>
+                    <p:row>
+                        <p:column><p:outputLabel style="font-weight: bold">Contract ID</p:outputLabel></p:column>
+                        <p:column>     <p:outputLabel>#{contractManagedBean.contractToEdit.contractId}</p:outputLabel>               </p:column>  
+                    </p:row>         
+
+                    <p:row>
+                        <p:column><p:outputLabel value="Start Date:"/>  </p:column>
+                        <p:column><p:outputLabel value="#{contractManagedBean.contractToEdit.startDate}"><f:convertDateTime pattern="dd/MM/yyyy" /></p:outputLabel></p:column>  
+                    </p:row>         
+
+                    <p:row>
+                        <p:column><p:outputLabel for="endDate" value="End Date:"/>    </p:column>
+                        <p:column><p:calendar id="endDate" value="#{contractManagedBean.contractToEdit.endDate}" label="End Date" required="true" pattern="dd/MM/yyyy"><f:convertDateTime pattern="dd/MM/yyyy" /></p:calendar></p:column>  
+                    </p:row>                                
+
+                    <p:row>
+                        <p:column><p:outputLabel value="Supplier:"  /></p:column>
+                        <p:column><p:outputLabel value="#{contractManagedBean.contractToEdit.supplier.supplierName}"/></p:column>                                   
+                    </p:row>
+
+                    <p:row>
+                        <p:column><p:outputLabel value="Part: " />  </p:column>
+                        <p:column><p:outputLabel value="#{contractManagedBean.contractToEdit.part.partName}"  /></p:column>                                   
+                    </p:row>
+
+                    <p:row>
+                        <p:column><p:outputLabel value="Unit Price: " /></p:column>
+                        <p:column><h:outputText value="#{contractManagedBean.contractToEdit.unitPrice}"><f:convertNumber type="currency" currencySymbol="$"/></h:outputText></p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column><p:outputLabel value="Remark: " />  </p:column>
+                        <p:column>
+                            <p:inputTextarea id="remark" rows="5" cols="30" counter="display" maxlength="200" counterTemplate="{0} characters remaining." autoResize="false" required="true" value="#{contractManagedBean.contractToEdit.remark}" requiredMessage="Please key in a remark."/>
+                            <h:outputText id="display" style="float: right;"/>
+                        </p:column>                                   
+                    </p:row>
+                </p:panelGrid>
+
+                <p:commandButton value="Save Changes" icon="ui-icon-check" update="panelEditContract, messages" actionListener="#{contractManagedBean.editContract}" ajax="true"/>
+            </p:panel>
+        </h:form>
+
+
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>
+
+</html>
+

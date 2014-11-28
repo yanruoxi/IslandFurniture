@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Pull MPS from HQ</title>
+        <f:event listener="#{loginManagedBean.checkLoginMRP}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+    <h:body>
+        <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="mrpWorkspace.xhtml">
+        </ui:composition>
+
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="#" />
+            <p:menuitem value="Pull MPS From HQ" url="pullMPS.xhtml" icon="ui-icon-wrench"/>
+        </p:breadCrumb>
+
+   <p:menubar>
+            <p:menuitem value="View MPS" url="viewMPS.xhtml" icon="ui-icon-home"/>
+
+            <p:menuitem value="Pull MPS From HQ" url="pullMPS.xhtml" icon="ui-icon-wrench"/>
+
+
+        </p:menubar>  
+
+        <h:form id="formMainAddPartToSupplier">
+
+            <p:tab >
+                <p:panel header="Choose product to set default factory">
+                    <p:growl autoUpdate="true" showDetail="true"/>
+                    <h:panelGrid id="gridAddPartToSupplier" cellpadding="5">
+
+
+
+
+                        <p:outputLabel for="chooseSupplier" value="Choose Product:"  />
+                        <p:selectOneMenu id="chooseSupplier" value="#{pullMPSManagedBean.selectedFurniture}" converter="furnitureConverter" effect="fade" filter="true" filterMatchMode="contains">
+                            <f:selectItems value="#{pullMPSManagedBean.furnitureList}" var="furniture" itemLabel="#{furniture.furnitureName}" itemValue="#{furniture}" />
+                        </p:selectOneMenu>
+
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="status" style="font-weight: bold" value="Select Year:" />
+                            </p:column>
+                            <p:column>
+                                <p:selectOneMenu  label="Year" id="status" required="true" requiredMessage="Year is required." value="#{pullMPSManagedBean.year}">
+
+                                    <f:selectItem itemLabel="2015" itemValue="2015" />
+                                    <f:selectItem itemLabel="2014" itemValue="2014" />      
+                                    <f:selectItem itemLabel="2013" itemValue="2013" />  
+
+                                </p:selectOneMenu>
+                            </p:column>                            
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="month" style="font-weight: bold" value="Select Month:" />
+                            </p:column>
+                            <p:column>
+                                <p:selectOneMenu  label="Month" id="month" required="true" requiredMessage="Month is required." value="#{pullMPSManagedBean.month}">
+
+                                    <f:selectItem itemLabel="Jan" itemValue="01" />
+                                    <f:selectItem itemLabel="Feb" itemValue="02" />      
+                                    <f:selectItem itemLabel="Mar" itemValue="03" />  
+                                    <f:selectItem itemLabel="Apr" itemValue="04" />
+                                    <f:selectItem itemLabel="May" itemValue="05" /> 
+                                    <f:selectItem itemLabel="Jun" itemValue="06" /> 
+                                    <f:selectItem itemLabel="Jul" itemValue="07" />  
+                                    <f:selectItem itemLabel="Aug" itemValue="08" />
+                                    <f:selectItem itemLabel="Sep" itemValue="09" />      
+                                    <f:selectItem itemLabel="Oct" itemValue="10" />  
+                                    <f:selectItem itemLabel="Nov" itemValue="11" />
+                                    <f:selectItem itemLabel="Dec" itemValue="12" />     
+
+
+                                </p:selectOneMenu>
+                            </p:column>                            
+                        </p:row>
+
+
+                        <p:separator />
+                        <p:commandButton value="Pull MPS From Headquarter" update="gridAddPartToSupplier" actionListener="#{pullMPSManagedBean.pullMPSHQ()}"/>    
+
+
+                    </h:panelGrid>
+
+                </p:panel>
+            </p:tab>
+
+
+        </h:form>
+
+
+
+
+
+    </h:body>
+</html>

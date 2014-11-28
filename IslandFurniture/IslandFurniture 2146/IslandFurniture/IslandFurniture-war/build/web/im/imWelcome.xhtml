@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>IM Welcome</title>
+        <f:event listener="#{loginManagedBean.checkLoginIMWarehouseStaff(cse)}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+    <h:body>
+
+        <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="imWorkspace.xhtml">
+            <ui:define name="imWorkspace"/>
+        </ui:composition>  
+
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="#" />
+        </p:breadCrumb>
+
+        <h:form>
+            <p:growl id="messages" showDetail="true" />
+            <p:idleMonitor timeout="3000">
+                <p:ajax event="idle" listener="#{idleMonitorView.onIdle}" update="messages" />
+                <p:ajax event="active" listener="#{idleMonitorView.onActive}" update="messages" />
+            </p:idleMonitor>
+        </h:form>
+
+        <p:panel >
+            <h:panelGrid columns="2" cellpadding="10">
+                    <h:outputText value="Welcome #{welcomeMessage.currentUser.userName}. You are logged in as #{welcomeMessage.currentUser.accountType} at #{welcomeMessage.company.companyName} in #{welcomeMessage.company.country}"  />
+            </h:panelGrid>
+        </p:panel>
+
+
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>
+
+</html>
+

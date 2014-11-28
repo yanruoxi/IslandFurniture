@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Admin - Manage Account</title>
+        <f:event listener="#{loginManagedBean.checkLoginAdmin}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+    <h:body>
+
+        <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="adminWorkSpace.xhtml">
+            <ui:define name="AdminWorkSpaceMenu"> 
+            </ui:define>            
+        </ui:composition>       
+
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="scmWelcome.xhtml"/>
+            <p:menuitem value="Manage Account" url="#"/>
+        </p:breadCrumb>
+
+
+        <h:form id="formManageAccount" >                    
+            <p:growl id="msgs" showDetail="true" />                        
+            <p:accordionPanel id="panelManageAccount" >
+                <p:tab title="Search Account">
+                    <p:ajaxStatus >
+                        <f:facet name="start"><h:graphicImage value="/images/spinner.gif" /></f:facet>
+                        <f:facet name="complete"><h:outputText value="" /></f:facet>
+                    </p:ajaxStatus>
+                    <p:messages />        
+
+                    <p:panelGrid><p:row>
+                            <p:column><p:outputLabel for="userName" style="font-weight: bold" value="Enter User Name: " /></p:column>
+                            <p:column><p:inputText label="User Name"  id="userName" value="#{accountManagedBean.userName}"></p:inputText></p:column>                                  
+                        </p:row></p:panelGrid>
+                    <p:commandButton id="btn" value="Search User" update=":formManageAccount:viewUser" actionListener="#{accountManagedBean.searchUser}" ajax="true" />
+                    <p:commandButton id="btnViewAllUser" value="View All User" update=":formManageAccount:viewUser" actionListener="#{accountManagedBean.viewAllUser}" ajax="true" />
+                </p:tab>
+            </p:accordionPanel>
+
+            <p:panel id="viewUser" >
+                <p:dataTable var="systemUser" value="#{accountManagedBean.systemUserList}"  emptyMessage="No such user">
+                    <p:column style="width: 100px" headerText="User Name" ><h:outputText value="#{systemUser.userName}  " /></p:column>   
+                    <p:column headerText="Account Type" ><h:outputText value="#{systemUser.accountType}  " />  <p:commandButton id="btn2" value="Change" actionListener="#{accountManagedBean.setActiveUser(systemUser.userName)}" oncomplete="PF('dlg1').show();"  ajax="true"/></p:column>   
+                    <p:column style="width: 175px"  headerText="Account Status" ><h:outputText value="#{systemUser.status}  " /><p:commandButton value="Reset" actionListener="#{accountManagedBean.setActiveUser(systemUser.userName)}" oncomplete="PF('dlg2').show();"  ajax="true"/></p:column>  
+                    <p:column headerText="Employee Name" ><h:outputText value="#{systemUser.employeeName}  " /><p:commandButton id="btn3" value="Change" actionListener="#{accountManagedBean.setActiveUser(systemUser.userName)}" oncomplete="PF('dlg3').show();"  ajax="true"/></p:column> 
+
+                    <p:column headerText="Email" >
+                        <h:outputText value="#{systemUser.email}  " />  
+                        <p:commandButton id="btn4" value="Change" actionListener="#{accountManagedBean.setActiveUser(systemUser.userName)}" oncomplete="PF('dlg4').show();"  ajax="true">
+                        </p:commandButton>
+                    </p:column> 
+
+                    <p:column style="width: 100px" headerText="Date of Birth" >  
+                        <h:outputText value="#{systemUser.dateOfBirth}  " />
+                        <p:commandButton id="btn5" value="Change" actionListener="#{accountManagedBean.setActiveUser(systemUser.userName)}" oncomplete="PF('dlg5').show();"  ajax="true">
+                        </p:commandButton>
+                    </p:column> 
+
+                    <p:column style="width: 100px" headerText="Reset Password" ><p:commandButton id="btn6" value="Change" actionListener="#{accountManagedBean.setActiveUser(systemUser.userName)}" oncomplete="PF('dlg6').show();"  ajax="true"/></p:column> 
+
+                    <p:column style="width: 100px" headerText="Delete" >
+                        <p:commandButton id="btn1" value="Delete " update=":formManageAccount:viewUser , :formManageAccount:msgs" actionListener="#{accountManagedBean.deleteUser(systemUser.userName)}" ajax="true" >
+                            <p:confirm header="Confirmation" message="Are you sure you want to delete this account?" icon="ui-icon-alert" />
+                        </p:commandButton>
+
+                        <p:confirmDialog global="true" >
+                            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                        </p:confirmDialog>
+                    </p:column>  
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+
+        <p:dialog header="Reset Password" widgetVar="dlg6" minHeight="40">                     
+            <h:form id="resetPassword">
+                <p:growl id="msgs" showDetail="true" /> 
+                <p:commandButton value="Reset and Send Password to the User" update=":formManageAccount:msgs, :formManageAccount:viewUser" actionListener="#{accountManagedBean.resetPassword()}" ajax="true" >
+                </p:commandButton>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog header="Reset Date of birth" widgetVar="dlg5" minHeight="40">                     
+            <h:form id="resetdob">
+                <p:growl id="msgs" showDetail="true" /> 
+                <p:row>
+                    <p:column><p:outputLabel for="dateOfBirth" style="font-weight: bold" value="Date of Birth(DD/MM/YYY):" /></p:column>
+                    <p:column><p:inputText required="true" label="DOB" requiredMessage="Date of birth is required." id="dateOfBirth" value="#{accountManagedBean.dateOfBirth}"/></p:column>               
+                </p:row>
+                <p:commandButton value="Save" update=":formManageAccount:msgs, :formManageAccount:viewUser" actionListener="#{accountManagedBean.resetDateOfBirth()}" ajax="true"/>           
+            </h:form>
+        </p:dialog>
+
+        <p:dialog header="Reset Email" widgetVar="dlg4" minHeight="40">                     
+            <h:form id="resetEmail">
+                <p:growl id="msgs" showDetail="true" /> 
+                <p:row>
+                    <p:column><p:outputLabel for="email" style="font-weight: bold" value="Email:" /></p:column>
+                    <p:column><p:inputText required="true" label="Email" requiredMessage="Email is required." id="email" value="#{accountManagedBean.email}"><f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" /></p:inputText></p:column>               
+                </p:row>
+                <p:commandButton value="Save" update=":formManageAccount:msgs, :formManageAccount:viewUser" actionListener="#{accountManagedBean.resetEmail()}" ajax="true" />
+            </h:form>
+        </p:dialog>
+
+        <p:dialog header="Reset Employee Name" widgetVar="dlg3" minHeight="40">                     
+            <h:form id="resetEmployeeName">
+                <p:growl id="msgs" showDetail="true" /> 
+
+                <p:row>
+                    <p:column><p:outputLabel for="employeeName" style="font-weight: bold" value="EmployeeName:" /></p:column>
+                    <p:column><p:inputText required="true" label="Employee Name" requiredMessage="Employee Name is required." id="employeeName" value="#{accountManagedBean.employeeName}"/></p:column>               
+                </p:row>
+
+                <p:commandButton value="Save" oncomplete="PF('dlg3').hide()" update=":formManageAccount:msgs, :formManageAccount:viewUser" actionListener="#{accountManagedBean.resetEmployeename()}" ajax="true" >
+                </p:commandButton>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog header="Reset Account Status" widgetVar="dlg2" minHeight="40">                     
+            <h:form id="resetAccountStatus">
+                <p:growl id="msgs" showDetail="true" /> 
+
+                <p:row>
+                    <p:column>
+                        <p:outputLabel for="accountStatus" style="font-weight: bold" value="Account Status:" />
+                    </p:column>
+                    <p:column>
+                        <p:selectOneMenu  label="Account Status" id="accountStatus" value="#{accountManagedBean.accountStatus}">
+                            <f:selectItem itemLabel="Select One" itemValue="" />
+                            <f:selectItem itemLabel="active" itemValue="active" />
+                            <f:selectItem itemLabel="blocked" itemValue="blocked" />                                       
+                        </p:selectOneMenu>
+                    </p:column>                            
+                </p:row>
+                <br/><br/>
+                <p:commandButton value="Save" oncomplete="PF('dlg2').hide()" update=":formManageAccount:msgs, :formManageAccount:viewUser" actionListener="#{accountManagedBean.resetAccountSatus()}" ajax="true" />            </h:form>
+        </p:dialog>
+
+        <p:dialog header="Configure Access Right" widgetVar="dlg1" minHeight="40">
+            <h:form id="resetAccessRight">
+                <p:growl id="msgs" showDetail="true" />
+                <p:row>
+                    <p:column><p:outputLabel for="accountType" style="font-weight: bold" value="Account Type:" /></p:column>
+                    <p:column>
+                        <p:selectOneMenu  label="Account Type" id="accountType" value="#{accountManagedBean.accountType}">
+                            <f:selectItem itemLabel="Select One" itemValue="" />
+                            <f:selectItem itemLabel="Admin" itemValue="Admin" />
+                            <f:selectItem itemLabel="MRP Staff" itemValue="MRP Staff" />
+                            <f:selectItem itemLabel="SCM Staff" itemValue="SCM Staff" />
+                        </p:selectOneMenu>
+                    </p:column>                            
+                </p:row>
+                <p:commandButton value="Save" oncomplete="PF('dlg1').hide()" update=":formManageAccount:msgs, :formManageAccount:viewUser" actionListener="#{accountManagedBean.resetAccountType()}" ajax="true" >
+                </p:commandButton>
+            </h:form>
+        </p:dialog>
+
+
+
+    </h:body>
+
+</html>

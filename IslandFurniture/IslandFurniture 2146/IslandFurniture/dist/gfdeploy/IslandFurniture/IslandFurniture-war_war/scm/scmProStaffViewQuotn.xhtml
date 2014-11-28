@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>SCM Procurement Staff Workspace</title>
+        <f:event listener="#{loginManagedBean.checkLoginSCMProcurementStaff}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+
+    <h:body> 
+        <h:form id="formMainQ">
+            <p:growl id="messages" showDetail="true"/>
+            <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="scmProStaffWorkspace.xhtml">
+                <ui:define name="scmProStaffWorkspaceMenu">
+                </ui:define>            
+            </ui:composition>
+
+            <p:breadCrumb>
+                <p:menuitem value="Home" url="scmProStaffWelcome.xhtml" />
+                <p:menuitem value="Manage Quotations" url="#" />
+                <p:menuitem value="View Quotations" url="#" />
+
+            </p:breadCrumb>
+
+            <p:growl autoUpdate="true" showDetail="true" id="msgs"/>
+
+            <p:panel id="psViewQ">
+                <p:dataTable id="psQTable" var="q" value="#{quotnDetailPSManagedBean.quotnDetailForProStaffList}" paginator="true" rows="10" emptyMessage="No Quotation found." widgetVar="psQTable" filteredValue="#{quotnDetailPSManagedBean.filteredQuotnDetailForProStaffList}" rowKey="#{q.quotationDetailId}">
+                    <p:column headerText="Quotation ID">
+                        <h:outputText value="#{q.quotationDetailId}" />
+                    </p:column>
+
+                    <p:column headerText="Quotation Sent Date" sortBy="#{q.quotedSentDate}"> 
+                        <h:outputText value="#{q.quotedSentDate}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Part Name" filterBy="#{q.part.partName}" filterMatchMode="contains">
+                        <h:outputText value="#{q.part.partName}" />
+                    </p:column>
+
+                    <p:column headerText="Quantity">
+                        <h:outputText value="#{q.qty}" />
+                    </p:column>
+
+                    <p:column headerText="Unit Price" sortBy="#{q.quotedUnitPrice}">
+                        <h:outputText value="#{q.quotedUnitPrice}">
+                            <f:convertNumber currencySymbol="$" type="currency"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Total Price" sortBy="#{q.quotedTotalPrice}">
+                        <h:outputText value="#{q.quotedTotalPrice}">
+                            <f:convertNumber currencySymbol="$" type="currency"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Quotation Status"> 
+                        <h:outputText value="#{q.quotationDetailStatus}" />
+                    </p:column>
+
+                    <p:column headerText="View/ Create PO" style="text-align: center;">
+                        <p:commandButton update=":formMainQ:qDetail" oncomplete="PF('qDialog').show()" icon="ui-icon-search" title="View">
+                            <f:setPropertyActionListener value="#{q}" target="#{quotnDetailPSManagedBean.selectedQuotationForProStaff}" />
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+
+            <p:dialog header="Quotation Info" widgetVar="qDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" style="text-align:center;">
+                <p:outputPanel id="qDetail" style="text-align:center;">
+                    <p:panelGrid columns="2" rendered="#{not empty quotnDetailPSManagedBean.selectedQuotationForProStaff}" columnClasses="label,value">
+                        <h:outputText value="Quotation Id:"/>
+                        <h:outputText value="#{quotnDetailPSManagedBean.selectedQuotationForProStaff.quotationDetailId}" />
+
+                        <h:outputText value="Part Name:" />
+                        <h:outputText value="#{quotnDetailPSManagedBean.selectedQuotationForProStaff.part.partName}" />
+
+                        <h:outputText value="Quantity:" />
+                        <h:outputText value="#{quotnDetailPSManagedBean.selectedQuotationForProStaff.qty}" />
+
+                        <h:outputText value="Supplier Name:" />
+                        <h:outputText value="#{quotnDetailPSManagedBean.selectedQuotationForProStaff.supplier.supplierName}" />
+
+                        <h:outputText value="Quotation Status:" />
+                        <h:outputText value="#{quotnDetailPSManagedBean.selectedQuotationForProStaff.quotationDetailStatus}" />
+
+                        <h:outputText value="Quoted Unit Price:" />
+                        <h:outputText value="#{quotnDetailPSManagedBean.selectedQuotationForProStaff.quotedUnitPrice}">
+                            <f:convertNumber type="currency" currencySymbol="$"/>
+                        </h:outputText>
+
+                        <h:outputText value="Quoted Total Price:" />
+                        <h:outputText value="#{quotnDetailPSManagedBean.selectedQuotationForProStaff.quotedTotalPrice}">
+                            <f:convertNumber type="currency" currencySymbol="$"/>
+                        </h:outputText>
+
+                        <h:outputText value="Quotation Ending Date:" />
+                        <h:outputText value="#{quotnDetailPSManagedBean.selectedQuotationForProStaff.quotationEndingDate}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="Scheduled Delivery Date:" />
+                        <h:outputText value="#{quotnDetailPSManagedBean.selectedQuotationForProStaff.quotedScheduledDeliveryDate}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="Negotiation Condition:" />
+                        <h:outputText value="#{quotnDetailPSManagedBean.selectedQuotationForProStaff.quotedNegoCondition}" />
+
+                        <h:outputText value="Quotation Created Date:" />
+                        <h:outputText value="#{quotnDetailPSManagedBean.selectedQuotationForProStaff.quotedDate}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="Last Updated:" />
+                        <h:outputText value="#{quotnDetailPSManagedBean.selectedQuotationForProStaff.lastUpdated}" />
+                        
+                        <h:outputText value="Sent From Purchase Req ID:" />
+                        <h:outputText value="#{quotnDetailPSManagedBean.selectedQuotationForProStaff.purchaseReq.purchaseReqId}" />
+
+                        <h:outputText value="Purchase Req Status:" />
+                        <h:outputText value="#{quotnDetailPSManagedBean.selectedQuotationForProStaff.purchaseReq.purchaseReqStatus}" />
+                    </p:panelGrid>
+                </p:outputPanel>
+
+                <br />
+                <h:outputText value="Send Purchase Order?" />
+                <br />
+                <p:commandButton value="Yes" icon="ui-icon-check" actionListener="#{poManagedBean.createPOForNonContractSup}" oncomplete="PF('qDialog').hide()" ajax="true" update=":formMainQ:psQTable :formMainQ:qDetail">
+                </p:commandButton>
+                <p:commandButton value="No" icon="ui-icon-close" onclick="PF('qDialog').hide()"/>
+                <br/>
+
+            </p:dialog>
+
+        </h:form>
+
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>
+
+</html>

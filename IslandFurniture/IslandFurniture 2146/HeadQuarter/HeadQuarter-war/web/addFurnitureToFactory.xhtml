@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Add Furniture to Store</title>
+        <f:event listener="#{loginManagedBean.checkLoginHQ}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+
+    <h:body> 
+        <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="template.xhtml">
+
+        </ui:composition>          
+
+        <h:form id="formMainAddPartToSupplier">
+              
+    
+            <p:menubar>
+                <p:menuitem value="Create Factory" url="createFactory.xhtml" icon="ui-icon-plus"/>
+                <p:menuitem value="Manage Factory" url="manageFactory.xhtml" icon="ui-icon-plus"/>
+                <p:menuitem value="Add Product to Factory" url="addFurnitureToFactory.xhtml" icon="ui-icon-plus"/>
+
+            </p:menubar> 
+
+            <p:tab >
+                <p:panel header="Add Furniture to Factory">
+                    <p:growl autoUpdate="true" showDetail="true"/>
+                    <h:panelGrid id="gridAddPartToSupplier" cellpadding="5">
+                        <p:outputLabel for="chooseSupplier" value="Choose Factory:"  />
+                        <p:selectOneMenu id="chooseSupplier" value="#{factoryProductManagedBean.selectedFactory}" converter="factoryConverter" effect="fade" filter="true" filterMatchMode="contains">
+                            <f:selectItems value="#{factoryProductManagedBean.factories}" var="factory" itemLabel="#{factory.factoryName}" itemValue="#{factory}" />
+                        </p:selectOneMenu>
+
+
+                        <h:outputLabel for="partMenu" value="Choose Products to Add:" />
+                        <p:selectCheckboxMenu id="partMenu" value="#{factoryProductManagedBean.selectedProducts}" label="Products" filter="true" filterMatchMode="startsWith" panelStyle="width:300px">
+                            <f:selectItems value="#{factoryProductManagedBean.productsNameList}" />
+                        </p:selectCheckboxMenu>
+
+                        <p:separator />
+                        
+                        <p:commandButton value="Add Product To Factory" update="gridAddPartToSupplier" actionListener="#{factoryProductManagedBean.addProductToFactory()}"/>    
+
+                    </h:panelGrid>
+
+                </p:panel>
+            </p:tab>
+
+
+        </h:form>
+
+
+    </h:body>
+</html>

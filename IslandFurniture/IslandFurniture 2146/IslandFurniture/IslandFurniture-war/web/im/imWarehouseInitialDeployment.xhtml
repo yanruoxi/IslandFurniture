@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Initial Deployment</title>
+        <!--        <f:event listener="{warehouseManagedBean.checkStore}" type="preRenderView" />-->
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+
+    <h:body>
+        <h:form id="formMain">
+            <center><img src="img/internal_banner_im.png"/></center> 
+
+            <p:growl id="msgs" showDetail="true" />
+
+
+            <p:panel id="panel" header="Initial Warehouse Deployment Process">
+                <p:ajaxStatus >
+                    <f:facet name="start">
+                        <h:graphicImage value="/images/spinner.gif" />
+                    </f:facet>
+                    <f:facet name="complete">
+                        <h:outputText value="" />   
+                    </f:facet>
+                </p:ajaxStatus>
+                <p:messages />
+                <p:panelGrid>
+
+                    <!--                    <p:row>
+                                            <p:column><p:outputLabel style="font-weight: bold" value="Store Name: " /></p:column>
+                                            <p:column><p:outputLabel value="#{warehouseManagedBean.store.storeName}"/></p:column>
+                                        </p:row>
+                                        <p:row>
+                                            <p:column><p:outputLabel style="font-weight: bold" value="Store Type " /></p:column>
+                                            <p:column><p:outputLabel value="#{warehouseManagedBean.store.storeContact}"/></p:column>
+                                        </p:row>
+                                        <p:row>
+                                            <p:column><p:outputLabel style="font-weight: bold" value="Store Address " /></p:column>
+                                            <p:column><p:outputLabel value="#{warehouseManagedBean.store.storeAddress}"/></p:column>
+                                        </p:row>-->
+
+                    <p:row>
+                        <p:column><p:outputLabel for="warehouseName" style="font-weight: bold" value="Select Warehouse Name: " /></p:column>
+                        <p:column>
+                            <p:selectOneMenu id="warehouseName" value="#{warehouseManagedBean.name}" label="warehouseName" required="true">
+                                <f:selectItems value="Sentosa" />
+                                <f:selectItems value="East Coast" />
+                                <f:selectItems value="Palawan" />
+
+                            </p:selectOneMenu>
+                        </p:column>
+
+
+                    </p:row>
+                    <p:row>
+                        <p:column><p:outputLabel for="warehouseAddress" style="font-weight: bold" value="Warehouse Address " /></p:column>
+                        <p:column><p:inputText required="true" label="warehouseAddress" requiredMessage="Location is required." id="warehouseAddress" value="#{warehouseManagedBean.warehouseAddress}"/></p:column>
+                    </p:row>
+
+                </p:panelGrid>
+                <p:commandButton id="btn" value="Initialize" update="panel, msgs" actionListener="#{warehouseManagedBean.initializeWarehouse}" ajax="true" />
+            </p:panel>
+
+
+        </h:form>
+
+    </h:body>
+</html>

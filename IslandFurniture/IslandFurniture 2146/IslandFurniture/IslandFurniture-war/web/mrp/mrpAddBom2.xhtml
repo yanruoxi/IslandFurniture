@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>BOM added page </title>
+        <f:event listener="#{loginManagedBean.checkLoginMRP}" type="preRenderView" />
+    </h:head>
+    
+    <h:body>
+        
+        <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="mrpWorkspace.xhtml"/>
+
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="mrpWelcome.xhtml"/>
+            <p:menuitem value="Manage BOM" url="#"/>
+            <p:menuitem value="Add BOM" url="#"/>
+        </p:breadCrumb>
+
+        <p:menubar>
+            <p:menuitem value="View BOM" url="mrpManageBOM.xhtml?i=3" icon="ui-icon-search"/>
+            <p:menuitem value="Add BOM" url="mrpAddBom2.xhtml?i=3" icon="ui-icon-plus" />              
+        </p:menubar>
+        
+        
+        <h1 style="font-family: Trebuchet MS;"> Create BOM</h1> 
+       
+
+
+        <h:form id="form3">
+            <p:growl id="msgs3" showDetail="true" />
+
+            <h:panelGrid columns="2" cellpadding="5">
+                <p:row>
+                    <p:column>
+                        <p:outputLabel value="Furniture:" for="acSimple" />
+                        <p:autoComplete id="acSimple" value="#{bomManagedBean.furnitureName}" completeMethod="#{bomManagedBean.completeText}" forceSelection="true" />
+                    </p:column>
+                </p:row> 
+                <p:row>
+                    <p:column>   
+                        <p:outputLabel value="Part:" for="acSimple1" />
+                        <p:autoComplete id="acSimple1" value="#{bomManagedBean.partName}" completeMethod="#{bomManagedBean.completeText1}" forceSelection="true" />
+                    </p:column>
+                    <p:column>
+                        <p:outputLabel for="quantity " style="font-weight: bolder" value="Quantity: "/>
+
+                    </p:column>
+                    <p:column>
+                        <p:inputText required="true" label="Quantity" requiredMessage="integer quantity is required." id="quantity" value="#{bomManagedBean.quantity}" >
+                            <f:validateLength minimum="1" maximum="200"/>
+                        </p:inputText>      
+                    </p:column>
+                </p:row> 
+                <p:row>
+                    <p:column>
+                        <!-- later delete this button -->
+                       
+                        
+                        <p:commandButton id="btn2" value="Add BOM" update="form3 :formBomTable:viewBom" actionListener="#{bomManagedBean.addBom1}" ajax="true"/>
+                    
+                     
+                    </p:column>
+                </p:row>
+            </h:panelGrid>
+           
+
+             </h:form>
+            
+            <h:form id="formBomTable">
+
+
+                <p:panel id="viewBom">
+                    <p:dataTable var="bom" value="#{bomManagedBean.bomList}" emptyMessage="No BOM for such furniture. Please provide a legal furniture name." >
+                        <p:column headerText="Furniture">
+                            <h:outputText value="#{bom.furniture.furnitureName}"/>
+                        </p:column>
+
+                        <p:column headerText="Part">
+                            <h:outputText value="#{bom.part.partName}"/>
+                        </p:column>
+
+
+                        <p:column headerText="Quantity">
+                            <h:outputText value="#{bom.quantity}"/>
+
+                        </p:column>
+
+                        
+
+                    </p:dataTable>
+                </p:panel> 
+
+            </h:form>
+
+
+
+
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>
+
+</html>
+

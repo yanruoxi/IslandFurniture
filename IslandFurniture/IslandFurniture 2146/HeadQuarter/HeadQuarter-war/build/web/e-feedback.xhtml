@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view beforePhase="#{eCommerceManagedBean.beforePhaseListener}">
+
+        <h:head>
+            <title>Customer Feedback</title>        
+
+        </h:head>
+        <h:body>
+            <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="ecommerceTemplate.xhtml">
+            </ui:composition>
+
+            <h:form id="messages">  
+                <p:growl id="msgs" showDetail="true" />
+
+
+                <p:panel id="panel" header="Feedback" >
+                    <p:ajaxStatus style="width:16px;height:16px;">
+                        <f:facet name="start">
+                            <h:graphicImage value="/images/spinner.gif" />
+                        </f:facet>
+                        <f:facet name="complete">
+                            <h:outputText value="" />
+                        </f:facet>
+
+                    </p:ajaxStatus>
+                    <p:messages/>
+
+                    <p:panelGrid>
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="userName" style="font-weight: bold" value="Name: " />
+                            </p:column>
+                            <p:column>
+                                <p:inputText required="false" label="User Name" requiredMessage="User Name is required." id="userName" value="#{eCommerceManagedBean.feedbackName}">
+
+                                </p:inputText>
+                            </p:column>
+                        </p:row>
+                        <br />
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="userEmail" style="font-weight:bold" value="Email: "/>
+                            </p:column>
+                            <p:column>
+                                <p:inputText required="false" label="User Email" id="userEmail" value="#{eCommerceManagedBean.feedbackEmail}">
+                                </p:inputText>
+                            </p:column>
+                        </p:row>
+                        <br />
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="userFeedback" style="font-weight:bold" value="Feedback:" />
+                            </p:column>
+                            <p:column>
+                                <p:inputTextarea id="userFeedback" rows="5" cols="30" counter="display" maxlength="100" value="#{eCommerceManagedBean.feedbackComponent}" counterTemplate="{0} characters remaining." autoResize="false" />
+                                <br/>
+                                <h:outputText id="display" />   
+                            </p:column>
+
+
+                        </p:row>
+
+                        <p:row>
+                            <p:column colspan="3">
+
+                                <p:commandButton id="btn" value="Submit" style=" background: orange; color: white" actionListener="#{eCommerceManagedBean.feedbackSubmission}" update="panel"/>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+
+                </p:panel>
+            </h:form>
+
+
+
+
+            <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="footerTemplate.xhtml">
+            </ui:composition>
+
+        </h:body>   
+    </f:view>
+
+</html>
+

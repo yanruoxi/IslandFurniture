@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>manage Part</title>
+        <f:event listener="#{loginManagedBean.checkLoginHQ}" type="preRenderView" />
+    </h:head>
+    <h:body>
+
+        <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="template.xhtml">
+            
+        </ui:composition>          
+
+
+        <p:tab title="Manage Part">
+
+            <h:form id="formManagePart" style="width:1200px;">                    
+                <p:growl id="msgs" showDetail="true" />                        
+                <p:panel id="panelManagePart" header="Search Part">
+                    <p:ajaxStatus style="width:16px;height:16px;">
+                        <f:facet name="start">
+                            <h:graphicImage value="/images/spinner.gif" />
+                        </f:facet>
+                        <f:facet name="complete">
+                            <h:outputText value="" />
+                        </f:facet>
+                    </p:ajaxStatus>
+                    <p:messages />        
+
+                    <p:panelGrid>   
+                          <p:row>
+                                    <p:column>
+                                        <p:outputLabel for="partName" style="font-weight: bold" value="Part Name: " />
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText  label="Part Name"  id="partName" value="#{partManagedBean.partName}">
+                                           
+                                        </p:inputText>
+                                    </p:column>                                   
+                                </p:row>                         
+                    </p:panelGrid>
+                    <p:commandButton id="btn" value="Search Part" update="viewPart msgs @parent" actionListener="#{partManagedBean.searchPart()}" ajax="true" />
+                    <p:commandButton id="btnViewAllPart" value="View All Part" update="viewPart msgs @parent" actionListener="#{partManagedBean.viewAllPart()}" ajax="true" />
+                </p:panel>
+
+                <p:panel id="viewPart" >
+                    <p:dataTable var="part" value="#{partManagedBean.partList}"  emptyMessage="No such part">
+                        <p:column headerText="Part Name" >
+                            <h:outputText value="#{part.partName}" />
+                        </p:column>   
+
+                        
+                        <p:column headerText="Delete" >
+                            <p:commandButton id="btn1" value="Delete Part" update=":formManagePart:viewPart , :formManagePart:msgs" actionListener="#{partManagedBean.deletePart(part.partName)}" ajax="true" >
+                                <p:confirm header="Confirmation" message="Are you sure you want to delete this part?" icon="ui-icon-alert" />
+                            </p:commandButton>
+
+                            <p:confirmDialog global="true" >
+                                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                            </p:confirmDialog>
+                        </p:column>  
+                        
+                         <p:column headerText="Change Name" >
+                             <p:commandButton id="btnChangName" value="Change" actionListener="#{partManagedBean.setActivePartName(part.partName)}" oncomplete="PF('dlg1').show();"  ajax="true">
+                            </p:commandButton>
+                        </p:column>  
+
+                       
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+            
+            <p:dialog header="Change Part Name" widgetVar="dlg1" minHeight="40">
+                    <h:form id="changePartName">
+                            <p:growl id="msgs" showDetail="true" /> 
+
+                            <p:row>
+                                    <p:column>
+                                        <p:outputLabel for="partName" style="font-weight: bold" value="Part Name: " />
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText required="true" label="Part Name" requiredMessage="Part Name is required." id="partName" value="#{partManagedBean.partName}">
+                                           
+                                        </p:inputText>
+                                    </p:column>                                   
+                                </p:row>
+
+                            <p:commandButton value="Save" update=":formManagePart:viewPart , :formManagePart:msgs" actionListener="#{partManagedBean.resetPartName()}" ajax="true" >
+                            </p:commandButton>
+                    </h:form>
+                </p:dialog>
+            
+            
+            
+        </p:tab>
+    </h:body>
+</html>

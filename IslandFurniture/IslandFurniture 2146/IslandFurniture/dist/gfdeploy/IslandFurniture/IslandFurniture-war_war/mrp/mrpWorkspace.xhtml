@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>MRP Workspace</title>
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+
+    <h:body>
+        <center><img src="internal_banner_mrp.png"/></center>
+        <center style="font-family: Trebuchet MS;"><h3>Welcome #{welcomeMessage.currentUser.userName}. You are logged in as #{welcomeMessage.currentUser.accountType} at #{welcomeMessage.company.companyName} in #{welcomeMessage.company.country}</h3></center>
+
+        <p:tabMenu activeIndex="#{param.i}">
+            <p:menuitem value="Welcome" url="mrpWelcome.xhtml"  icon="ui-icon-home"><f:param name="i" value="0" /></p:menuitem>
+            <p:menuitem value="Manage Furniture" url="mrpManageFurniture.xhtml?i=1"><f:param name="i" value="1"></f:param></p:menuitem>
+            <p:menuitem value="Manage Part" url="mrpManagePart.xhtml?i=2"><f:param name="i" value="2"></f:param></p:menuitem>
+            <p:menuitem value="Manage BOM" url="mrpManageBOM.xhtml?i=3"><f:param name="i" value="3"></f:param></p:menuitem>
+            <p:menuitem value="Manage Profile" url="mrpManageProfile.xhtml?i=4"  icon="ui-icon-wrench"><f:param name="i" value="4"></f:param></p:menuitem>
+            <p:menuitem value="View MPS" url="viewMPS.xhtml?i=5"  icon="ui-icon-wrench"><f:param name="i" value="5"></f:param></p:menuitem>
+            <p:menuitem value="Generate Weekly Plan" url="viewWeeklyPlan.xhtml?i=6"  icon="ui-icon-wrench"><f:param name="i" value="6"></f:param></p:menuitem>
+                        <p:menuitem value="Manage MRP" url="ManageMRP.xhtml?i=7"  icon="ui-icon-wrench"><f:param name="i" value="7"></f:param></p:menuitem>
+            <p:menuitem value="Logout" url="mrpLogout.xhtml?i=8"  icon="ui-icon-unlocked"><f:param name="i" value="8"></f:param></p:menuitem>            
+        </p:tabMenu>
+
+        <br/>
+        <br/>      
+
+    </h:body>
+</html>
+
+
+

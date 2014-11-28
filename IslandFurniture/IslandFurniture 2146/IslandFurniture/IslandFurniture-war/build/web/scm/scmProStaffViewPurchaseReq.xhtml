@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>SCM Procurement Staff Workspace</title>
+        <f:event listener="#{loginManagedBean.checkLoginSCMProcurementStaff}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+
+    <h:body> 
+        <h:form id="formMainViewPurchaseReq">
+            <p:growl id="messages"/>
+            <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="scmProStaffWorkspace.xhtml">
+                <ui:define name="scmProStaffWorkspaceMenu"> 
+                </ui:define>            
+            </ui:composition>   
+
+            <p:breadCrumb>
+                <p:menuitem value="Home" url="scmProStaffWelcome.xhtml" />
+                <p:menuitem value="Manage Purchase Requisitions" url="#" />
+                <p:menuitem value="View Purchase Requisitions" url="#" />
+            </p:breadCrumb>
+
+            <p:panel>
+                <p:growl autoUpdate="true" showDetail="true"/>
+
+
+                <p:dataTable  id="purchaseReqTable" var="purchaseReq" value="#{purchaseReqManagedBean.purchaseReqs}" paginator="true" rows="20" emptyMessage="No purchase requisitions found." widgetVar="purchaseReqsTable">
+                    <p:column headerText="Purchase Requisition ID"><h:outputText value="#{purchaseReq.purchaseReqId}" /></p:column>
+                    <p:column headerText="Purchase Requisition Date" sortBy="#{purchaseReq.purchaseReqDate}"> <h:outputText value="#{purchaseReq.purchaseReqDate}" /></p:column>
+                    <p:column headerText="Part Name"><h:outputText value="#{purchaseReq.part.partName}" /></p:column>
+                    <p:column headerText="Quantity"><h:outputText value="#{purchaseReq.qty}" /></p:column>
+                    <p:column headerText="Created By"><h:outputText value="#{purchaseReq.createdBy}" /></p:column>
+                    <p:column headerText="Status" filterBy="#{purchaseReq.purchaseReqStatus}" filterMatchMode="exact">
+                        <f:facet name="filter">
+                            <p:selectOneMenu onchange="PF('purchaseReqsTable').filter()">
+                                <f:selectItem itemLabel="Select One" itemValue="#{null}" noSelectionOption="true" />
+                                <f:selectItems value="#{purchaseReqManagedBean.purchaseReqStatusList}" />
+                            </p:selectOneMenu>
+                        </f:facet>
+                        <h:outputText value="#{purchaseReq.purchaseReqStatus}" />
+                    </p:column>
+
+                    <p:column headerText="Replenishment Type" filterBy="#{purchaseReq.replenishmentType}" filterMatchMode="exact"> 
+                        <f:facet name="filter">
+                            <p:selectOneMenu onchange="PF('purchaseReqsTable').filter()">
+                                <f:selectItem itemLabel="Select One" itemValue="#{null}" noSelectionOption="true" />
+                                <f:selectItems value="#{purchaseReqManagedBean.replenishmentTypeList}" />
+                            </p:selectOneMenu>
+                        </f:facet>
+                        <h:outputText value="#{purchaseReq.replenishmentType}" />
+                    </p:column>
+
+                    <p:column headerText="Create PO/ Submit RFQ" width="300" style="text-align: center;"> 
+                        <p:commandButton id="createPO" value="Create Purchase Order/ Submit Request for Quotation" actionListener="#{purchaseReqManagedBean.setSelectedPurchaseReqForSending(purchaseReq)}" action="#{purchaseReqManagedBean.redirectSendPurchaseReq}" ajax="true" update=":formMainViewPurchaseReq:purchaseReqTable"/>
+                    </p:column>
+                </p:dataTable>
+
+            </p:panel>
+        </h:form>
+
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>
+
+</html>

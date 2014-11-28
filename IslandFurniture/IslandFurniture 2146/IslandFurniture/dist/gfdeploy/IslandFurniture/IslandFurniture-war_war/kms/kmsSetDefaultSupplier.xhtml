@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>KMS Workspace</title>
+        <f:event listener="#{loginManagedBean.checkLoginKMSStaff}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+
+    <h:body> 
+        <h:form>
+            <p:growl id="messages" autoUpdate="true" showDetail="true"/>
+
+            <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="kmsWorkspace.xhtml">
+                <ui:define name="kmsWorkspaceMenu"> 
+                </ui:define>            
+            </ui:composition> 
+
+            <p:breadCrumb>
+                <p:menuitem value="Home" url="kmsWelcome.xhtml" />
+                <p:menuitem value="Manage Ingredient" url="kmsViewAllIngredient.xhtml?i=2" />
+                <p:menuitem value="Set Default Supplier" url="#" />
+            </p:breadCrumb>
+
+            <p:menubar>
+                <p:menuitem value="View Ingredients" url="kmsViewAllIngredient.xhtml?i=2" icon="ui-icon-search"/>
+                <p:menuitem value="Add Ingredient" url="kmsAddIngredient.xhtml?i=2" icon="ui-icon-plus"/>
+                <p:menuitem value="Set Default Supplier" url="#" icon="ui-icon-plus"/>
+            </p:menubar>
+
+            <p:panel header="Set Default Supplier for Ingredient">
+                <h:panelGrid id="gridIngredientSetDefaultSupplier" columns="2" cellpadding="5">
+                    <p:outputLabel for="chooseSupplier" value="Choose Supplier:"  />
+                    <p:selectOneMenu id="chooseSupplier" value="#{kitchenSupplierManagedBean.selectedKitchenSupplierForIngredient}" converter="kitchenSupplierConverter" effect="fade" filter="true" filterMatchMode="startsWith" required="true">
+                        <f:selectItem itemLabel="Select Supplier" noSelectionOption="true"/>
+                        <f:selectItems value="#{kitchenSupplierManagedBean.suppliers}" var="supplier" itemLabel="#{supplier.ksupplierName}" itemValue="#{supplier}" />
+                        <p:ajax update="chooseIngredient" listener="#{kitchenSupplierManagedBean.getIngredientNamesForSelectedSupplierList}" />
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="chooseIngredient" value="Choose Ingredient: " />  
+                    <p:selectOneMenu id="chooseIngredient" value="#{ingredientManagedBean.ingredientName}">
+                        <f:selectItems value="#{kitchenSupplierManagedBean.ingredientNamesForSelectedSupplier}" />
+                    </p:selectOneMenu>
+                    
+                    <p:outputLabel for="unitPrice" value="Unit Price For Ingredient: " />  
+                    <p:inputText id="unitPrice" value="#{ingredientManagedBean.unitPrice}" required="true" requiredMessage="Please enter only numbers">
+                        <f:convertNumber type="currency" currencySymbol="$" />
+                    </p:inputText>
+
+                </h:panelGrid>
+                <p:commandButton value="Set Default Supplier" update="gridIngredientSetDefaultSupplier" icon="ui-icon-check" validateClient="true" actionListener="#{ingredientManagedBean.setDefaultSupplier}"/>
+            </p:panel>
+        </h:form>
+
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>
+
+</html>
+

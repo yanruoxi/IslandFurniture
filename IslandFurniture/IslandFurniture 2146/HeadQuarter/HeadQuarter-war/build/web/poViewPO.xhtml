@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Choose Product</title>
+        <f:event listener="#{loginManagedBean.checkLoginHQ}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+
+    <h:body> 
+        <h:form id="formMainAddPartToSupplier">
+
+            <center><img src="img/internal_banner_globalhq.png"/></center>
+            <center style="font-family: Trebuchet MS;"><h3>   Welcome #{welcomeMessage.currentUser.userName}. You are logged in as #{welcomeMessage.currentUser.accountType} at the Global Headquarter</h3></center>
+
+
+
+
+            <p:menubar>
+                <p:menuitem value="Welcome" url="headquarterWelcome.xhtml" icon="ui-icon-home"/>
+
+                <p:menuitem value="Manage Factory" url="manageFactory.xhtml" icon="ui-icon-wrench"/>
+
+                <p:menuitem value="Manage Store" url="manageStore.xhtml" icon="ui-icon-wrench"/>          
+                <p:menuitem value="Manage Salesforecast" url="manageSalesForecast.xhtml" icon="ui-icon-wrench"/>     
+
+                <p:menuitem value="Logout" url="headquarterLogout.xhtml" icon="ui-icon-unlocked"/>
+            </p:menubar>        
+
+
+
+            <br/>
+            <br/>      
+
+
+
+            <p:tab >
+                <p:panel header="View Production Order Details">
+                    <p:growl autoUpdate="true" showDetail="true"/>
+                    <h:panelGrid id="gridAddPartToSupplier" cellpadding="5">
+                        
+                        <h5>Production Order Details: </h5>
+
+                        <p:row>
+                            <p:column><p:outputLabel style="font-weight: bold"  >Store: </p:outputLabel></p:column>
+                            <p:column><p:outputLabel>#{viewSalesBean.productionOrder.store.storeName}</p:outputLabel></p:column>  
+                        </p:row><br/>
+
+                        <p:row>
+                            <p:column><p:outputLabel style="font-weight: bold"  >Product: </p:outputLabel></p:column>
+                            <p:column><p:outputLabel>#{viewSalesBean.productionOrder.product.productName}</p:outputLabel></p:column>  
+                        </p:row><br/>
+                        
+                         <p:row>
+                            <p:column><p:outputLabel style="font-weight: bold"  >Factory: </p:outputLabel></p:column>
+                            <p:column><p:outputLabel>#{viewSalesBean.productionOrder.factory.factoryName}</p:outputLabel></p:column>  
+                        </p:row><br/>
+
+                        <p:row>
+                            <p:column><p:outputLabel style="font-weight: bold"  >Amount: </p:outputLabel></p:column>
+                            <p:column><p:outputLabel>#{viewSalesBean.productionOrder.quantity}</p:outputLabel></p:column>  
+                        </p:row><br/>
+                        
+                           <p:row>
+                            <p:column><p:outputLabel style="font-weight: bold"  >Year: </p:outputLabel></p:column>
+                            <p:column><p:outputLabel>#{viewSalesBean.productionOrder.year}</p:outputLabel></p:column>  
+                        </p:row><br/>
+                        
+                        <p:row>
+                            <p:column><p:outputLabel style="font-weight: bold"  >Month: </p:outputLabel></p:column>
+                            <p:column><p:outputLabel>#{viewSalesBean.productionOrder.month}</p:outputLabel></p:column>  
+                        </p:row><br/>
+                        
+                     
+                        <p:separator />
+                        <p:commandButton value="Back" update="gridAddPartToSupplier" actionListener="#{viewSalesBean.redirectManageSalesForcast()}"/>    
+
+                    </h:panelGrid>
+
+                </p:panel>
+            </p:tab>
+
+
+        </h:form>
+
+
+    </h:body>
+</html>

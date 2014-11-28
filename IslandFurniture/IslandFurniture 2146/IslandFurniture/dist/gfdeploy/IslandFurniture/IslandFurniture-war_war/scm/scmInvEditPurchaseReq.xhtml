@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>SCM Workspace</title>
+        <f:event listener="#{loginManagedBean.checkLoginSCMInventoryManagementStaff(cse)}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+    <h:body>
+
+        <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="scmInvWorkspace.xhtml">
+            <ui:define name="scmCInvWorkspaceMenu"> 
+            </ui:define>     
+        </ui:composition>
+
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="scmInvWelcome.xhtml" />
+            <p:menuitem value="Manage Purchase Requisitions" url="scmInvViewAllPurchaseReq.xhtml" />
+            <p:menuitem value="Edit Purchase Requisitions" url="#" />
+        </p:breadCrumb>
+
+        <p:menubar>
+            <p:menuitem value="View Purchase Requisitions" url="scmInvViewAllPurchaseReq.xhtml?i=2" icon="ui-icon-search"/>
+            <p:menuitem value="Add Purchase Requisition" url="scmInvAddPurchaseRequisition.xhtml?i=2" icon="ui-icon-plus"/>
+        </p:menubar>
+
+                    <h:form id="formEditPurchseReq" >
+                        <p:growl id="messages" showDetail="true"/>
+                        <p:panel id="panelEditPurchaseReq" header="Purchase Requisition Details">
+                            <p:ajaxStatus >
+                                <f:facet name="start">
+                                    <h:graphicImage value="/images/spinner.gif" />
+                                </f:facet>
+                                <f:facet name="complete">
+                                    <h:outputText value="" />
+                                </f:facet>
+                            </p:ajaxStatus>
+
+                            <p:panelGrid>
+                                <p:row>
+                                    <p:column>
+                                        <p:outputLabel style="font-weight: bold">Purchase Requisition ID</p:outputLabel>
+                                    </p:column>
+                                    <p:column>     
+                                        <p:outputLabel>#{purchaseReqManagedBean.selectedPurchaseReq.purchaseReqId}</p:outputLabel>               
+                                    </p:column>  
+                                </p:row>         
+
+                                <p:row>
+                                    <p:column>
+                                        <p:outputLabel value="Purchase Requisition Date:"/>  
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel value="#{purchaseReqManagedBean.selectedPurchaseReq.purchaseReqDate}">
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        </p:outputLabel>
+                                    </p:column>  
+                                </p:row>  
+
+                                <p:row>
+                                    <p:column>
+                                        <p:outputLabel value="Created By: " />  
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel value="#{purchaseReqManagedBean.selectedPurchaseReq.createdBy}"  />
+                                    </p:column>                                   
+                                </p:row>
+
+                                <p:row>
+                                    <p:column>
+                                        <p:outputLabel value="Replenishment Type: " />  
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel value="#{purchaseReqManagedBean.selectedPurchaseReq.replenishmentType}"  />
+                                    </p:column>                                   
+                                </p:row>
+
+                                <p:row>
+                                    <p:column>
+                                        <p:outputLabel value="Part Name: " />  
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel value="#{purchaseReqManagedBean.selectedPurchaseReq.part.partName}"  />
+                                    </p:column>                                   
+                                </p:row>
+
+                                <p:row>
+                                    <p:column>
+                                        <p:outputLabel value="Quantity: " />
+                                    </p:column>
+                                    <p:column>
+                                        <p:spinner id="qty" value="#{purchaseReqManagedBean.selectedPurchaseReq.qty}" min="0" stepFactor="#{purchaseReqManagedBean.selectedPurchaseReq.part.lotSize}" size="10"/>
+                                    </p:column>
+                                </p:row>
+                            </p:panelGrid>
+
+                            <p:commandButton value="Save Changes" icon="ui-icon-check" update="panelEditPurchaseReq, messages" actionListener="#{purchaseReqManagedBean.editPurchaseReq}" ajax="true"/>
+                        </p:panel>
+                    </h:form>
+
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>
+
+</html>
+

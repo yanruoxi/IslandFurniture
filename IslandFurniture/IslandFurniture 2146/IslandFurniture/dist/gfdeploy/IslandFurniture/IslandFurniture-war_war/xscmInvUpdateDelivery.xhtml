@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <h:head>
+        <title>SCM Procurement Staff Workspace</title>
+        <f:event listener="#{loginManagedBean.checkLoginSCMInventoryManagementStaff(cse)}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+
+    <h:body>
+        <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="scmProStaffWorkspace.xhtml">
+            <ui:define name="scmProStaffWorkspaceMenu"/>
+        </ui:composition>
+
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="scmProStaffWelcome.xhtml" />
+            <p:menuitem value="View Purchase Orders" url="scmProStaffViewPO..xhtml" />
+            <p:menuitem value="Shipping Order Details" url="#" />
+        </p:breadCrumb>
+
+
+        <p:panel id="panelUpdateDelivery">
+            <h:panelGrid columns="2" cellpadding="10">
+                <h:form id="formUpdateDelivery" >
+                    <p:growl id="messages" showDetail="true"/>
+
+                    <p:ajaxStatus>
+                        <f:facet name="start"><h:graphicImage value="/images/spinner.gif" /></f:facet>
+                        <f:facet name="complete"><h:outputText value="" /></f:facet>
+                    </p:ajaxStatus>
+
+                    <p:outputLabel style="font-size: larger"><b>Shipping Order Details</b></p:outputLabel><br/><br/>
+                    <p:panelGrid style="font-size: large">
+                        <p:row>
+                            <p:column><p:outputLabel style="font-weight: bold ">Shipping Order ID: </p:outputLabel></p:column>
+                            <p:column><p:outputLabel>#{poManagedBean.selectedSO.shippingOrderId}</p:outputLabel><br/></p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column><p:outputLabel style="font-weight: bold">Scheduled Delivery Date: </p:outputLabel></p:column>
+                            <p:column><p:outputLabel style="font-style: italic; color: #FF6666;">#{poManagedBean.selectedPurchaseOrder.scheduledDeliveryDate}</p:outputLabel><br/></p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column><p:outputLabel style="font-weight: bold">Shipped Out Date: </p:outputLabel></p:column>
+                            <p:column><p:outputLabel>#{poManagedBean.selectedSO.shippedOutDate}</p:outputLabel></p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column><p:outputLabel style="font-weight: bold">Delivery Status: </p:outputLabel></p:column>
+                            <p:column>  
+                                <p:selectOneMenu value="deliveryStatus" >
+                                    <f:selectItem itemLabel="Select One" itemValue="#{poManagedBean.deliveryStatus}" />
+                                    <f:selectItem itemValue="Delayed" itemLabel="Delayed" />
+                                    <f:selectItem itemValue="Delivered On time" itemLabel="Delivered On Time" />
+                                    <f:selectItem itemValue="Not Delivered" itemLabel="Not Delivered" />
+                                </p:selectOneMenu>
+                            </p:column>
+                        </p:row>
+
+                    </p:panelGrid>
+
+
+                    <br/><br/>
+                    <p:outputLabel style="font-size: large"><b><u>Additional Details</u></b></p:outputLabel><br/><br/>
+                    <p:outputLabel style="font-weight:  ">Purchase Order ID: </p:outputLabel><p:outputLabel>#{poManagedBean.selectedPurchaseOrder.purchaseOrderId}</p:outputLabel><br/>
+                    <p:outputLabel style="font-weight:  ">Part Name: </p:outputLabel><p:outputLabel>#{poManagedBean.selectedPurchaseOrder.part.partName}</p:outputLabel><br/>
+                    <p:outputLabel style="font-weight:  ">Unit Price: </p:outputLabel><p:outputLabel>#{poManagedBean.selectedPurchaseOrder.unitPrice}</p:outputLabel><br/>
+                    <p:outputLabel style="font-weight:  ">Quantity: </p:outputLabel><p:outputLabel>#{poManagedBean.selectedPurchaseOrder.qty}</p:outputLabel><br/>
+                    <p:outputLabel style="font-weight:  ">Total Price: </p:outputLabel><p:outputLabel>#{poManagedBean.selectedPurchaseOrder.totalPrice}</p:outputLabel><br/>
+                    <p:outputLabel style="font-weight:  ">Negotiation Condition: </p:outputLabel><p:outputLabel>#{poManagedBean.selectedPurchaseOrder.negoCondition}</p:outputLabel><br/>
+                    <br /><p:outputLabel style="font-weight: ">Purchase Order Created on: </p:outputLabel><p:outputLabel><i>#{poManagedBean.selectedPurchaseOrder.purchaseOrderDate}</i></p:outputLabel>
+
+                </h:form>
+            </h:panelGrid>
+
+            <br/><p:separator/>
+            <p:commandButton icon=" ui-icon-arrowreturn-1-w"  value="Back" onclick="window.history.back();"/>
+            <p:commandButton value="Update" icon="ui-icon-pencil" update="" actionListener="#{poManagedBean.updateDelivery}" ajax="true"/>
+            <p:commandButton value="Download" icon="ui-icon-arrowstop-1-s" actionListener="#{reportManagedBean.poPDF}" ajax="true"/>
+        </p:panel>
+
+
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>
+
+</html>
+

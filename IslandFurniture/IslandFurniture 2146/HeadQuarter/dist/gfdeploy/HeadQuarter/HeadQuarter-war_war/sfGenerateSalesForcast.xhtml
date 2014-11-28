@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Choose Product</title>
+        <f:event listener="#{loginManagedBean.checkLoginHQ}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+
+    <h:body> 
+        <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="template.xhtml">
+
+        </ui:composition>          
+
+        <h:form id="formMainAddPartToSupplier">
+
+            <p:tab >
+                <p:panel header="Choose product to create Sales Forcast">
+                    <p:growl autoUpdate="true" showDetail="true"/>
+                    <h:panelGrid id="gridAddPartToSupplier" cellpadding="5">
+
+                        <p:row>
+                            <p:column><p:outputLabel style="font-weight: bold"  >Chosen Store: </p:outputLabel></p:column>
+                            <p:column><p:outputLabel>#{salesForcastManagedBean.selectedStore.storeName}</p:outputLabel></p:column>  
+                        </p:row><br/>
+
+                        <p:row>
+                            <p:column><p:outputLabel style="font-weight: bold"  >Chosen Product: </p:outputLabel></p:column>
+                            <p:column><p:outputLabel>#{salesForcastManagedBean.selectedProduct.productName}</p:outputLabel></p:column>  
+                        </p:row><br/>
+
+                        <p:row>
+                            <p:column><p:outputLabel style="font-weight: bold"  >Year To Generate Forecast: </p:outputLabel></p:column>
+                            <p:column><p:outputLabel>#{salesForcastManagedBean.year}</p:outputLabel></p:column>  
+                        </p:row><br/>
+
+                        <p:row>
+                            <p:column><p:outputLabel style="font-weight: bold"  >Month To Generate Forecast: </p:outputLabel></p:column>
+                            <p:column><p:outputLabel>#{salesForcastManagedBean.month}</p:outputLabel></p:column>  
+                        </p:row><br/>
+
+                        <p:row>
+                            <p:column><p:outputLabel style="font-weight: bold"  >Past Year Sales Amount: </p:outputLabel></p:column>
+                            <p:column><p:outputLabel>#{salesForcastManagedBean.totalPast}</p:outputLabel></p:column>  
+                        </p:row><br/>
+
+                        <p:row>
+                            <p:column><p:outputLabel style="font-weight: bold"  >Forecast Sales Amount: </p:outputLabel></p:column>
+                            <p:column><p:outputLabel>#{salesForcastManagedBean.totalForcast}</p:outputLabel></p:column>  
+                        </p:row><br/>
+
+
+
+                        <p:separator />
+                        <p:commandButton value="Back" update="gridAddPartToSupplier" actionListener="#{salesForcastManagedBean.redirectSelectedMonthYear()}"/>    
+
+                        <p:commandButton id="btn1" value="Save Sales Forecast" update="gridAddPartToSupplier" actionListener="#{salesForcastManagedBean.saveSalesForcast()}" ajax="true" >
+                            <p:confirm header="Confirmation" message="Are you sure you want to save the sales forecast?" icon="ui-icon-alert" />
+                        </p:commandButton>
+
+                        <p:confirmDialog global="true" >
+                            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                        </p:confirmDialog>
+                    </h:panelGrid>
+
+                </p:panel>
+            </p:tab>
+
+
+        </h:form>
+
+
+    </h:body>
+</html>

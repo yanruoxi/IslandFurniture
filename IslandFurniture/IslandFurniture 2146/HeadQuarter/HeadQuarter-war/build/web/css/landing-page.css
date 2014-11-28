@@ -1,0 +1,31 @@
+.header-wrapper {
+	padding: 10px 0;
+	min-height:10%; 
+	height: auto;
+        color:#000000;
+}
+
+.header-search {
+	padding: 10px 5px;
+}
+
+.header-search input[type=button] {
+	margin-top: 2px;
+}
+
+.header-select {
+	padding-top: 5px;
+}
+
+.header-link {
+	padding:0;
+	margin-top: 10px;
+	font-size: 12px;
+}
+
+.logo img{
+	display: inline-block;
+	width: 96%;
+	height: auto;
+	
+}

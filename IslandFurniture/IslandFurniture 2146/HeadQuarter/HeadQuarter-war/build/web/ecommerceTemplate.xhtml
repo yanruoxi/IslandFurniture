@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+
+
+        <title>ISLAND FURNITURE</title>
+        <!-- these are links for css and Javascript files normally import them at the end of the page can improve loading speed, so i leave it there for you to play with -->
+
+    </h:head>
+
+    <h:body>
+        <style>
+            .ui-menubar {
+                width: auto;
+                position:relative;
+                margin-bottom: 0px;
+            }
+
+            .ui-button .ui-button-text {
+                display: block;
+                line-height: 0.4;
+            }
+            a:-webkit-any-link {
+          color: -webkit-link;
+          text-decoration:blink;
+          text-decoration-skip:ink;
+              cursor:auto;
+            }
+             a:link {text-decoration: none; color: brown;}
+            a:visited {text-decoration: none; color: brown;}
+            a:hover {text-decoration: underline; color: red;}
+            
+            .ui-menu .ui-menuitem-text {
+float: left;
+font-family: cursive;
+}
+            
+            
+        </style>
+
+        <h:form>
+            <br />
+            <p:row>
+                <p:column>
+                    <img src="img/logo_edited.png" alt="Island Furniture" style="position:relative" height="15%" width="15%" />
+                </p:column>
+                <p:column style="text-align:">
+                    <p:inputText value="#{eCommerceManagedBean.furniture}"  label="search" style="width: 8%; margin-left: 100px; margin-top: 0px; margin-bottom: 20px; position: absolute; top: 30px ;right: 120px; "/>
+
+                    <p:commandButton actionListener="#{eCommerceManagedBean.searchfunction}" action="#{eCommerceManagedBean.navigate}" style="height:32px;right:20px; line-height: 0.4;text-align: center; margin-left: 230px; position: absolute; top: 30px; font-family: cursive" 
+                                     value="#{bundle['nav.search']}" ajax="false"/>
+                </p:column>
+                <p:column>
+                    <p:commandLink rendered="#{eCommerceManagedBean.showCommandLink0}" action="customerRegister" value="#{bundle['nav.register']}" ajax="false" style=" margin-left: 100px;margin-right: 10px;font-family: cursive;text-decoration-color: blue;text-decoration-line:overline; position: absolute; top: 30px; left: 500px"/>
+                </p:column>
+                <p:column>
+                    <h:outputText  value="#{bundle['nav.greeting']} #{eCommerceManagedBean.userGender} #{eCommerceManagedBean.userName}" style="margin-left:400px; margin-right:20px;font-family: cursive "/> 
+                    <p:commandLink rendered="#{eCommerceManagedBean.showCommandLink0}" action="customerLogin" value="#{bundle['nav.login']}" ajax="false" style="margin-left:10px;margin-right: 10px; text-align: right;font-family: cursive; position: absolute; top: 30px; left: 700px"/>
+                    
+                </p:column>
+                <p:commandLink rendered="#{eCommerceManagedBean.showCommandLink}" ajax="false" style="margin-left:20px; margin-right: 20px"  action="my-shoppingcart" value="#{bundle['nav.shopping']}" />
+                <p:commandLink rendered="#{eCommerceManagedBean.showCommandLink}" style ="margin-left:20px; margin-right:20px" actionListener="#{eCommerceManagedBean.viewCustomerList}" action="customerInfo" value="#{bundle['nav.myprofile']}" ajax ="false"/>
+                <p:commandLink rendered="#{eCommerceManagedBean.showCommandLink}" style ="margin-left:20px;margin-right: 20px" actionListener="#{eCommerceManagedBean.customerLogout}" action="home" value="#{bundle['nav.logout']}" ajax="false"/>
+                          
+            </p:row>
+
+
+            <p:menubar style="font-family: cursive" >
+                <p:menuitem value="#{bundle['nav.main']}" url="home.xhtml"  icon="ui-icon-home"></p:menuitem>
+                <p:menuitem value="#{bundle['nav.allpdt']}" url="e-AllProduct.xhtml" icon="ui-icon-info"></p:menuitem>
+
+                <p:menuitem value="#{bundle['nav.promotions']}" url="e-promotion.xhtml"></p:menuitem>
+                <p:submenu label="#{bundle['nav.livingroom']}">
+
+                    <p:menuitem value="#{bundle['nav.sofa']}" url="e-sofa.xhtml"/>
+                    <p:separator />
+                    <p:menuitem value="#{bundle['nav.armchairs']}" url="e-armchair.xhtml"/>
+                    <p:separator />
+                    <p:menuitem value="#{bundle['nav.tvtable']}" url="e-TV-Media.xhtml"/> 
+                </p:submenu>
+
+                <p:submenu label="#{bundle['nav.bathRoom']}">
+                    <p:menuitem value="#{bundle['nav.bathtubs']}" url="e-bathtubs.xhtml"></p:menuitem> 
+                    <p:separator />
+                    <p:menuitem value="#{bundle['nav.showers']}" url="e-showers.xhtml"></p:menuitem>
+                    <p:separator />
+                    <p:menuitem value="#{bundle['nav.vanity']}" url="e-vanity.xhtml"></p:menuitem>
+                </p:submenu>
+                <p:submenu label="#{bundle['nav.bedroom']}">
+                    <p:menuitem value="#{bundle['nav.bedframes']}" url="e-bedFrame.xhtml"></p:menuitem>
+                    <p:separator />
+                    <p:menuitem value="#{bundle['nav.lighting']}" url ="e-bedroomLighting.xhtml"></p:menuitem>
+                    <p:separator />
+                    <p:menuitem value="#{bundle['nav.wardrobes']}" url ="e-bedFrame.xhtml"></p:menuitem>
+                </p:submenu>
+                <p:submenu label="#{bundle['nav.kitchen']}">
+                    <p:menuitem value="#{bundle['nav.cabinets']}" url="e-cabinet.xhtml"></p:menuitem>
+                    <p:separator />
+                    <p:menuitem value="#{bundle['nav.worktops']}" url="e-worktop.xhtml"></p:menuitem>
+                    <p:separator />
+                    <p:menuitem value="#{bundle['nav.sinks']}" url="e-tapsink.xhtml"></p:menuitem>
+                </p:submenu>
+                <p:submenu label="#{bundle['nav.departments']}" styleClass="position:right">
+                    <p:menuitem value="#{bundle['nav.livingroom']}" url="e-livingroom.xhtml"></p:menuitem>
+                    <p:menuitem value="#{bundle['nav.bathRoom']}" url="e-bathroom.xhtml"></p:menuitem>
+                    <p:menuitem value="#{bundle['nav.bedroom']}" url="e-livingroom.xhtml"></p:menuitem>
+                    <p:menuitem value="#{bundle['nav.kitchen']}" url="e-kitchen.xhtml"></p:menuitem>
+                    <p:menuitem value="#{bundle['nav.decoration']}" url="e-decoration.xhtml"></p:menuitem>
+
+                </p:submenu>
+                
+                   <p:menuitem value="#{bundle['nav.feedback']}" url="e-feedback.xhtml"  icon="ui-icon-heart"></p:menuitem>
+                    
+                    
+           
+            </p:menubar>
+        </h:form>
+    </h:body>
+
+</html>

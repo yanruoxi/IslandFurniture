@@ -1,0 +1,177 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Edit furniture</title>
+         <f:event listener="#{loginManagedBean.checkLoggedIn}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+    <h:body>
+        <h1> Edit * Add * Delete Furniture</h1> 
+        <p:button outcome="mrpManageFurniture" value="Back to Furniture Management page" icon="ui-icon-star">
+            <f:param name="h" value="10"/>
+        </p:button>
+
+        <h:form id="formMain">
+            <p:panel id="panel1" header="Edit furniture">
+                <p:ajaxStatus style="width:16px;height:16px">
+                    <f:facet name="start">
+                        <h:graphicImage library="image" name="spinner.gif"></h:graphicImage>
+                    </f:facet>
+                    <f:facet name="complete">
+                        <h:outputText value="" />
+
+                    </f:facet>
+
+                </p:ajaxStatus>
+                <p:messages/>
+
+                <p:panelGrid>
+
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="furnitureName" style="font-weight:lighter" value="Original Furniture Name: "/>
+
+                        </p:column>
+                        <p:column>
+                            <p:inputText required="true" label="Original Furniture Name" requiredMessage="a legal FurnitureName is required." id="furnitureName" value="#{furManageBean.furnitureName}">
+                                <f:validateLength minimum="1" maximum="200"/>
+                            </p:inputText>      
+                        </p:column>
+                        <p:column>
+                            <p:message for="furnitureName"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                    <p:column>
+                        
+                      
+                        
+                        <p:outputLabel for="newFurnitureName" style="font-weight: bold" value="New Furniture Name"/>
+                       
+                    </p:column>
+                    <p:column>
+                        <p:inputText required="true" label="New Furniture Name" requiredMessage="New Name is required." id="newFurnitureName" value="#{furManageBean.newFurnitureName}">
+                        <f:validateLength minimum="1" />
+                        </p:inputText>
+                    </p:column>
+                        <p:column>
+                            <p:message for="newFurnitureName"/>
+                        </p:column>
+                    
+                        
+                    </p:row>
+                </p:panelGrid>
+                <p:commandButton id="btn" value="Edit new Furniture" update="panel1"  actionListener="#{furManageBean.editFurniture}" ajax="true"/>
+
+
+
+            </p:panel>
+            
+            
+            
+            
+            
+        </h:form>
+
+
+        
+        <h:form id="formMain2">
+            <p:panel id="panel" header="Add new furniture">
+                <p:ajaxStatus style="width:16px;height:16px">
+                    <f:facet name="start">
+                        <h:graphicImage library="image" name="spinner.gif"></h:graphicImage>
+                    </f:facet>
+                    <f:facet name="complete">
+                        <h:outputText value="" />
+
+                    </f:facet>
+
+                </p:ajaxStatus>
+                <p:messages/>
+
+                <p:panelGrid>
+
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="furnitureName2" style="font-weight: bolder" value="Furniture Name: "/>
+
+                        </p:column>
+                        <p:column>
+                            <p:inputText required="true" label="Furniture Name" requiredMessage="a legal FurnitureName is required." id="furnitureName2" value="#{furManageBean.furnitureName}">
+                                <f:validateLength minimum="1" maximum="200"/>
+                            </p:inputText>      
+                        </p:column>
+                        <p:column>
+                            <p:message for="furnitureName2"/>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+                <p:commandButton id="btn2" value="Save new Furniture" update="panel" actionListener="#{furManageBean.saveNewFurniture}" ajax="true"/>
+               
+
+
+
+            </p:panel>
+            
+             
+            
+        </h:form>
+        
+        
+        
+        <h:form id="formMain3">
+            <p:panel id="panel3" header="Delete furniture">
+                <p:ajaxStatus style="width:16px;height:16px">
+                    <f:facet name="start">
+                        <h:graphicImage library="image" name="spinner.gif"></h:graphicImage>
+                    </f:facet>
+                    <f:facet name="complete">
+                        <h:outputText value="" />
+
+                    </f:facet>
+
+                </p:ajaxStatus>
+                <p:messages/>
+
+                <p:panelGrid>
+
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="furnitureName1" style="font-weight: bolder" value="Furniture Name: "/>
+
+                        </p:column>
+                        <p:column>
+                            <p:inputText required="true" label="Furniture Name" requiredMessage="a legal FurnitureName is required." id="furnitureName1" value="#{furManageBean.furnitureName}">
+                                <f:validateLength minimum="1" maximum="200"/>
+                            </p:inputText>      
+                        </p:column>
+                        <p:column>
+                            <p:message for="furnitureName1"/>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+                <p:commandButton id="btn3" value="Delete Furniture" update="panel3" actionListener="#{furManageBean.deleteFurniture}" ajax="true"/>
+               
+
+
+
+            </p:panel>
+            
+             
+            
+        </h:form>
+        
+        
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>
+
+</html>

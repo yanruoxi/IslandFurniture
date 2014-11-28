@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>SCM Workspace</title>
+        <f:event listener="#{loginManagedBean.checkLoginKMSStaff(cse)}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+
+    <h:body>    
+
+        <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="kmsWorkspace.xhtml"/>
+
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="kmsWelcome.xhtml"/>
+            <p:menuitem value="Manage Suppliers" url="kmsViewAllSuppliers.xhtml?i=1"/>
+            <p:menuitem value="Add Ingredient To Supplier" url="#"/>
+        </p:breadCrumb>
+
+        <p:menubar>
+            <p:menuitem value="View Suppliers" url="kmsViewAllSuppliers.xhtml?i=1" icon="ui-icon-search"/>
+            <p:menuitem value="Add Supplier" url="kmsAddSupplier.xhtml?i=1" icon="ui-icon-plus"/>
+            <p:menuitem value="Add Ingredient to Supplier" url="kmsAddIngredientToSupplier.xhtml?i=1" icon="ui-icon-plus"/>
+            <p:menuitem value="Edit Supplier" url="kmsEditSupplier.xhtml?i=1" icon="ui-icon-pencil"/>
+        </p:menubar>
+
+        <h:form id="formMainAddIngredientToSupplier">
+            <p:panel header="Add Ingredient to Supplier">   
+                <p:growl autoUpdate="true" showDetail="true"/>
+                <h:panelGrid id="gridAddIngredientToSupplier" cellpadding="5">
+                    <p:outputLabel for="chooseSupplier" value="Choose Supplier:"  />
+                    <p:selectOneMenu id="chooseSupplier" value="#{kitchenSupplierManagedBean.selectedSupplier}" converter="kitchenSupplierConverter" effect="fade" filter="true" filterMatchMode="contains">
+                        <f:selectItem itemLabel="Select" itemValue="#{null}" noSelectionOption="true" />    
+                        <f:selectItems value="#{kitchenSupplierManagedBean.suppliers}" var="KitchenSupplier" itemLabel="#{KitchenSupplier.ksupplierName}" itemValue="#{KitchenSupplier}"/>
+                    </p:selectOneMenu>
+
+                    <h:outputLabel for="ingredientMenu" value="Choose Ingredient(s) to Add:" />
+                    <p:selectCheckboxMenu id="ingredientMenu" value="#{kitchenSupplierManagedBean.selectedIngredient}" label="Ingredient" filter="true" filterMatchMode="startsWith" panelStyle="width:300px" required="true">
+                        <f:selectItems value="#{kitchenSupplierManagedBean.ingredients}" />
+                    </p:selectCheckboxMenu>
+                </h:panelGrid>  
+
+                <p:separator />
+                <p:commandButton value="Add Ingredient to Supplier" update="gridAddIngredientToSupplier" actionListener="#{kitchenSupplierManagedBean.addIngredientToSupplier}"/>    
+            </p:panel>
+        </h:form>
+
+
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>
+
+</html>
+

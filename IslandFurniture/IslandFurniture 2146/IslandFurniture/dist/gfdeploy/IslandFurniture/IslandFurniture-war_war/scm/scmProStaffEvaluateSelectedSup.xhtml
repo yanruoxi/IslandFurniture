@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <h:head>
+        <title>SCM Procurement Staff Workspace</title>
+        <f:event listener="#{loginManagedBean.checkLoginSCMProcurementStaff}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+
+    <h:body> 
+        <h:form id="formMainEvalSup">
+            <p:growl id="messages" autoUpdate="true" showDetail="true"/>
+            <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="scmProStaffWorkspace.xhtml">
+                <ui:define name="scmProStaffWorkspaceMenu"> 
+                </ui:define>            
+            </ui:composition>   
+            
+            
+            <p:breadCrumb>
+                <p:menuitem value="Home" url="scmProStaffWelcome.xhtml" />
+                <p:menuitem value="View Purchase Requisitions for Scheduled Replenishment" url="scmProStaffViewPurchaseReq.xhtml?i=1" />
+                <p:menuitem value="Rank Suppliers" url="scmProStaffChooseFilterForSupplier.xhtml" />
+                <p:menuitem value="Evaluate Suppliers" url="#" />
+            </p:breadCrumb>
+
+            <p:panel >
+                <br/>
+                <p:tab title="Submit Request for Quotation">
+                    <p:selectCheckboxMenu id="menu" value="#{poManagedBean.selectedEvalSupNameList}" label="Select Suppliers" style="width:300px;">
+                        <f:selectItems value="#{poManagedBean.evalSupNameList}" />
+                    </p:selectCheckboxMenu>
+                    <p:spacer width="15"/>
+                    <p:commandButton value="Submit Request for Quotation" icon="ui-icon-document" update=":formMainEvalSup:multiSupplierDetail" oncomplete="PF('multiSupplierDialog').show()" />
+                </p:tab>
+            </p:panel>
+
+            <p:panel id="header" style="font-style: italic;" header="Evaluate Suppliers Based on Past Puchase Orders">
+                <p:dataTable id="evalSupTable" var="po" value="#{poManagedBean.evaluateSupplierList}" emptyMessage="No supplier found." widgetVar="evalSupsTable" rowKey="#{po.supplier.supplierId}">
+                    <p:column headerText="Supplier ID"><h:outputText value="#{po.supplier.supplierId}" /></p:column>
+                    <p:column headerText="Supplier Name"><h:outputText value="#{po.supplier.supplierName}" /></p:column>
+                    <p:column headerText="Part Name"><h:outputText value="#{po.part.partName}" /></p:column>
+                    <p:column headerText="Quantity"><h:outputText value="#{po.qty}" /></p:column>
+                    <p:column headerText="Unit Price"><h:outputText value="#{po.unitPrice}"><f:convertNumber type="currency" currencySymbol="$"/></h:outputText></p:column>
+                    <p:column headerText="Negotiation Condition"><h:outputText value="#{po.negoCondition}" /></p:column>
+                    <p:column headerText="Delivery Status"><h:outputText value="#{po.deliveryStatus}" /></p:column>
+                </p:dataTable>
+            </p:panel>
+
+            <p:dialog header="Selected Suppliers" widgetVar="multiSupplierDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" width="500">
+                <p:outputPanel id="multiSupplierDetail" style="text-align:center;">
+                    <p:outputLabel>Suppliers selected for Request for Quotation:</p:outputLabel>
+                    <p:separator/>
+                    <ui:repeat value="#{poManagedBean.selectedEvalSupNameList}" var="supplier">
+                        <h:outputText value="Supplier Name: #{supplier}" style="display:left"/><br/>
+                        <br/>
+                    </ui:repeat>
+                    <p:separator/>
+                    <h:outputText value="Confirm?" />
+                    <br />
+                    <p:commandButton value="Yes" icon="ui-icon-check" actionListener="#{quotnDetailManagedBean.sendSupReqForQuotation}" oncomplete="PF('multiSupplierDialog').hide()">
+                    </p:commandButton>
+                    <p:commandButton value="No" icon="ui-icon-close" onclick="PF('multiSupplierDialog').hide()"/>
+                    <br/>
+                </p:outputPanel>
+            </p:dialog>
+        </h:form>
+
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>
+
+</html>

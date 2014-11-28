@@ -1,0 +1,291 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package entity;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+
+/**
+ *@author wangyan
+ *
+ */
+@Entity(name="Furniture")
+public class Furniture implements Serializable {
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    private String furnitureName;
+    @OneToMany(cascade={CascadeType.PERSIST},mappedBy="furniture")
+    private Collection<BOM> bom=new ArrayList<BOM>();
+    @OneToMany(cascade={CascadeType.PERSIST},mappedBy="furniture")
+    private Collection<AdHocOrder> order=new ArrayList<AdHocOrder>();
+    @OneToMany(cascade={CascadeType.PERSIST},mappedBy="furniture")
+    private Collection<SalesPlan> plan=new ArrayList<SalesPlan>();
+@OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "furniture")
+    private List<SingleTransactionItem> singleTransactionItemList = new ArrayList<>();
+   
+
+
+
+    @OneToOne
+    private Inventory inventory;
+    private String isDeleted="no";
+    private String type;
+    private String category;
+    private String color;
+     //private String materialName;
+    private Integer backQuantity = 0;
+    private Integer frontQuantity = 0;
+    private Integer safetyStock = 0;
+    private String position="";
+    @Column(length = 10000)
+    private String materialPosition="";
+    //Product size
+    private Double lengths;
+    private Double width;
+    private Double height;
+
+    private Integer POSquantity;
+
+
+    private String productDescription;   
+    @Column(precision = 19,scale =4)
+    private BigDecimal price;
+    private String pomotion="N";
+     @ManyToOne
+    private Warehouse warehouse = new Warehouse();
+
+    @ManyToOne
+    private Front front = new Front();
+    
+    public Furniture(){
+     //constructor   
+    }
+    
+    public void create(String funitureName){
+        this.setFurnitureName(funitureName);
+    }
+    
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+    public String getFurnitureName() {
+        return furnitureName;
+    }
+    public void setFurnitureName(String furnitureName) {
+        this.furnitureName = furnitureName;
+    }
+
+    public Inventory getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
+    }
+
+    
+    public Collection<BOM> getBom() {
+        return bom;
+    }
+
+    public void setBom(Collection<BOM> bom) {
+        this.bom = bom;
+    }
+
+    public Collection<AdHocOrder> getOrder() {
+        return order;
+    }
+
+    public void setOrder(Collection<AdHocOrder> order) {
+        this.order = order;
+    }
+
+    public Collection<SalesPlan> getPlan() {
+        return plan;
+    }
+   
+
+    public void setPlan(Collection<SalesPlan> plan) {
+        this.plan = plan;
+    }
+
+    public String getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(String isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public Double getLengths() {
+        return lengths;
+    }
+
+    public void setLengths(Double lengths) {
+        this.lengths = lengths;
+    }
+
+    public Double getWidth() {
+        return width;
+    }
+
+    public void setWidth(Double width) {
+        this.width = width;
+    }
+
+    public Double getHeight() {
+        return height;
+    }
+
+    public void setHeight(Double height) {
+        this.height = height;
+    }
+
+    public String getProductDescription() {
+        return productDescription;
+    }
+
+    public void setProductDescription(String productDescription) {
+        this.productDescription = productDescription;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public String getPomotion() {
+        return pomotion;
+    }
+
+    public void setPomotion(String pomotion) {
+        this.pomotion = pomotion;
+    }
+/*
+    public String getMaterialName() {
+        return materialName;
+    }
+
+    public void setMaterialName(String materialName) {
+        this.materialName = materialName;
+    }
+*/
+    public Integer getBackQuantity() {
+        return backQuantity;
+    }
+
+    public void setBackQuantity(Integer backQuantity) {
+        this.backQuantity = backQuantity;
+    }
+
+    public Integer getFrontQuantity() {
+        return frontQuantity;
+    }
+
+    public void setFrontQuantity(Integer frontQuantity) {
+        this.frontQuantity = frontQuantity;
+    }
+
+    public Integer getSafetyStock() {
+        return safetyStock;
+    }
+
+    public void setSafetyStock(Integer safetyStock) {
+        this.safetyStock = safetyStock;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
+    public String getMaterialPosition() {
+        return materialPosition;
+    }
+
+    public void setMaterialPosition(String materialPosition) {
+        this.materialPosition = materialPosition;
+    }
+
+    public Warehouse getWarehouse() {
+        return warehouse;
+    }
+
+    public void setWarehouse(Warehouse warehouse) {
+        this.warehouse = warehouse;
+    }
+
+    public Front getFront() {
+        return front;
+    }
+
+    public void setFront(Front front) {
+        this.front = front;
+    }
+       /**
+     * @return the POSquantity
+     */
+    public Integer getPOSquantity() {
+        return POSquantity;
+    }
+
+    /**
+     * @param POSquantity the POSquantity to set
+     */
+    public void setPOSquantity(Integer POSquantity) {
+        this.POSquantity = POSquantity;
+    }
+    
+}

@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <h:head>
+        <title>SCM INVENTORY Workspace</title>
+        <f:event listener="#{loginManagedBean.checkLoginSCMInventoryManagementStaff(cse)}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+
+    <h:body> 
+        <h:form id="formMainPO">
+            <p:growl id="messages"/>
+            <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="imWorkspace.xhtml">
+            </ui:composition>   
+
+            <p:breadCrumb>
+                <p:menuitem value="Home" url="scmInvWelcome.xhtml" />
+                <p:menuitem value="View Purchase Orders" url="#" />
+            </p:breadCrumb>
+
+
+            <p:panel id="viewPOs">
+                <p:growl autoUpdate="true" showDetail="true" id="msgs"/>
+
+                <p:dataTable id="poTable" var="po" value="#{poManagedBean.invPurchaseOrders}" paginator="true" rows="20" emptyMessage="No purchase orders found." widgetVar="poTable" filteredValue="#{poManagedBean.filteredPurchaseOrders}" rowKey="#{po.purchaseOrderId}">
+                    <p:column headerText="Purchase Order ID"><h:outputText value="#{po.purchaseOrderId}" /></p:column>
+                    <p:column headerText="Purchase Order Date" sortBy="#{po.purchaseOrderDate}"><h:outputText value="#{po.purchaseOrderDate}"><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText></p:column>
+                    <p:column headerText="Goods Issued Date Out Date" sortBy="#{po.goodsIssuedDate}"><h:outputText value="#{po.goodsIssuedDate}"><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText></p:column>
+                    <p:column headerText="Goods Receipt Date" sortBy="#{po.goodsReceiptDate}"><h:outputText value="#{po.goodsReceiptDate}"><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText></p:column>
+
+                    <p:column headerText="Shipped Out Date" sortBy="#{po.scheduledDeliveryDate}"><h:outputText value="#{po.scheduledDeliveryDate}"><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText></p:column>
+                    <p:column headerText="Part Name" filterBy="#{po.part.partName}" filterMatchMode="contains"> <h:outputText value="#{po.part.partName}" /></p:column>
+
+                    <p:column headerText="Order Status" filterBy="#{po.purchaseOrderStatus}" filterMatchMode="exact"> 
+                        <f:facet name="filter">
+                            <p:selectOneMenu onchange="PF('poTable').filter()">
+                                <f:selectItem itemLabel="Select One" itemValue="#{null}" noSelectionOption="true" />
+                                <f:selectItems value="#{poManagedBean.invStatusList}" />
+                            </p:selectOneMenu>
+                        </f:facet>
+                        <h:outputText value="#{po.purchaseOrderStatus}" />
+                    </p:column>
+                    <p:column headerText="Shipped Out Date" sortBy="#{po.scheduledDeliveryDate}"><h:outputText value="#{po.scheduledDeliveryDate}"><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText></p:column>
+
+                    <p:column headerText="Delivery Status" sortBy="#{po.deliveryStatus}"> <h:outputText value="#{po.deliveryStatus}" /></p:column>
+
+
+
+                    <p:column style="width:32px;text-align: center">
+                        <p:commandButton update=":formMainPO:poDetail" oncomplete="PF('poDialog').show()" icon="ui-icon-search" title="View">
+                            <f:setPropertyActionListener value="#{po}" target="#{poManagedBean.selectedPurchaseOrder}" />
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+
+            <p:dialog header="Purchase Order Info" widgetVar="poDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" style="text-align: center;">
+                <p:outputPanel id="poDetail" style="text-align:center;">
+                    <p:panelGrid columns="2" rendered="#{not empty poManagedBean.selectedPurchaseOrder}" columnClasses="label,value">
+                        <h:outputText value="Purchase Order Id:"/><h:outputText value="#{poManagedBean.selectedPurchaseOrder.purchaseOrderId}" />
+                        <h:outputText value="Supplier Name:" /><h:outputText value="#{poManagedBean.selectedPurchaseOrder.supplier.supplierName}" />
+                        <h:outputText value="Part Name:" /><h:outputText value="#{poManagedBean.selectedPurchaseOrder.part.partName}" />
+                        <h:outputText value="Quantity:" /><h:outputText value="#{poManagedBean.selectedPurchaseOrder.qty}"/>
+                        <h:outputText value="Replenishment Type:" /><h:outputText value="#{poManagedBean.selectedPurchaseOrder.replenishmentType}" />
+                        <h:outputText value="Update Purchase Order Status:" /><h:outputText value="#{poManagedBean.selectedPurchaseOrder.purchaseOrderStatus}" />
+                        <p:selectOneButton value="#{poManagedBean.deliveryStatus}">
+                            <f:selectItem itemLabel="None" itemValue="#{null}" />
+                            <f:selectItem itemLabel="Deliveryed On Time" itemValue="Deliveryed On Time" />
+                            <f:selectItem itemLabel="Delayed" itemValue="Delayed" />
+                            <f:selectItem itemLabel="Not Delivered" itemValue="Not Delivered" />
+                        </p:selectOneButton>
+                    </p:panelGrid>
+
+                    <p:commandButton value="Update Status" update=":formMainPO:viewPOs" icon="ui-icon-check" actionListener="#{poManagedBean.updateInvPO}" oncomplete="PF('poDialog').hide()"/>
+                </p:outputPanel>
+
+            </p:dialog>
+
+        </h:form>
+
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>
+
+</html>

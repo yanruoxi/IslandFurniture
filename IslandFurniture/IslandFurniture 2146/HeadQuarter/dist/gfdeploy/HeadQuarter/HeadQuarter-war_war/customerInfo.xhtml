@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view beforePhase="#{eCommerceManagedBean.beforePhaseListener}">
+        <h:head>
+            <title>CustomerInfo</title>        
+
+            <link href="default.css" rel="stylesheet" type="text/css" /> 
+        </h:head>
+
+        <h:body>
+            <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="ecommerceTemplate.xhtml">
+
+        </ui:composition>
+
+            <p:breadCrumb>
+                <p:menuitem value="Home" url="home.xhtml"/>
+                <p:menuitem value="Manage Furniture Goods" url="#"/>
+            </p:breadCrumb>
+
+
+            <h:form id="productTable">
+
+                <p:growl id="msg" showDetail="true"/> 
+
+                <p:panel id="viewProduct">
+
+                    <p:dataTable id="productList" var="customer" value="#{eCommerceManagedBean.customerList}" editable="true"  style="margin-bottom:20px" emptyMessage="No results" >
+
+                        <f:facet name="header">
+                            My Information 
+                        </f:facet>
+                        <p:ajax event="rowEdit" listener="#{eCommerceManagedBean.onRowEditCustomer}" update=":productTable:msg :productTable:productList" />
+                        <p:ajax event="rowEditCancel" listener="#{eCommerceManagedBean.onRowCancelCustomer}" update=":productTable:msg :productTable:productList" />
+
+                        <p:column headerText="ID">
+                          
+                                    <h:outputText value="#{customer.id}" />
+                             
+                        </p:column>
+
+                        <p:column headerText="Name">
+                            
+                                    <h:outputText value="#{customer.customerName}" />
+                               
+                        </p:column>
+                        <p:column headerText="Email">
+                           
+                                    <h:outputText value="#{customer.email}" />
+                                
+                        </p:column>
+                        <p:column headerText="Address">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText value="#{customer.addressLine1}" />
+                                </f:facet>  
+                                <f:facet name="input">
+                                    <p:inputText  value="#{customer.addressLine1}" />
+                                </f:facet> 
+                            </p:cellEditor>
+                        </p:column>
+                         <p:column headerText="Ponits">
+                            
+                                    <h:outputText value="#{customer.loyalty.pointsAvailable}" />
+                                
+                        </p:column>
+                        <p:column headerText="Password">
+                            <p:commandButton  id ="bttc" value="reset Password"  oncomplete="PF('dlg1').show();" ajax="true" />
+                        </p:column>
+                       
+                        
+                        <p:column style="width:32px">
+                            <p:rowEditor />
+                        </p:column>
+
+                    </p:dataTable>
+                </p:panel> 
+
+
+
+            </h:form>
+            
+            <p:dialog header="Configure Access Right" widgetVar="dlg1" minHeight="40">
+                
+            <h:form id="resetAccessRight">
+                <p:growl id="msgs" showDetail="true" />
+                <p:panel id="pannel">
+                      <p:ajaxStatus style="width:16px;height:16px;">
+                                <f:facet name="start">
+                                    <h:graphicImage value="/images/spinner.gif" />
+                                </f:facet>
+                                <f:facet name="complete">
+                                    <h:outputText value="" />
+                                </f:facet>
+                            </p:ajaxStatus>
+                            <p:messages />  
+                <p:panelGrid>  
+                                
+                                <p:row>
+                                    <p:column>
+                                        <p:outputLabel for="password" style="font-weight: bold" value="Old Password: " />
+                                    </p:column>
+                                    <p:column>
+                                        <p:password required="true" label="Old Password" requiredMessage="Old Password is required." id="password" value="#{eCommerceManagedBean.password}">
+                                            <f:validateLength minimum="1" maximum="19" />
+                                        </p:password>
+                                    </p:column>
+                                   
+                                </p:row>
+
+                                <p:row>
+                                    <p:column>
+                                        <p:outputLabel for="newPassword" style="font-weight: bold" value="New Password: " />
+                                    </p:column>
+                                    <p:column>
+                                        <p:password required="true" label="New Password" requiredMessage="New Password is required." id="newPassword" value="#{eCommerceManagedBean.newPassword}">
+                                            <f:validateLength minimum="1" maximum="19" />
+                                        </p:password>
+                                    </p:column>
+                                    
+                                </p:row>
+
+                                <p:row>
+                                    <p:column>
+                                        <p:outputLabel for="confirmNewPassword" style="font-weight: bold" value=" Confirm New Password: " />
+                                    </p:column>
+                                    <p:column>
+                                        <p:password required="true" label="Confirm New Password" requiredMessage="Confirm New Password is required." id="confirmNewPassword" value="#{eCommerceManagedBean.confirmNewPassword}">
+                                            <f:validateLength minimum="1" maximum="19" />
+                                        </p:password>
+                                    </p:column>
+                                  
+                                </p:row>
+
+                            </p:panelGrid>
+                <p:commandButton id="btn" value="Reset Password" update=":resetAccessRight:pannel :resetAccessRight:msgs" actionListener="#{eCommerceManagedBean.resetPassword}" ajax="true" />
+                        </p:panel>
+            </h:form>
+        </p:dialog>
+
+
+
+        </h:body>   
+    </f:view>
+</html>
+

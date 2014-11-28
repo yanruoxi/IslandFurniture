@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <h:head>
+        <title>KMS Staff Workspace</title>
+        <f:event listener="#{loginManagedBean.checkLoginKMSStaff}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+
+    <h:body> 
+        <h:form id="formMainPO">
+            <p:growl id="messages"/>
+            <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="kmsWorkspace.xhtml">
+                <ui:define name="kmsWorkspaceMenu"> 
+                </ui:define>            
+            </ui:composition>   
+
+            <p:breadCrumb>
+                <p:menuitem value="Home" url="kmsWelcome.xhtml" />
+                <p:menuitem value="Manage Purchase Orders" url="#" />
+                <p:menuitem value="View Purchase Orders" url="#" />
+            </p:breadCrumb>
+            
+            <p:menubar>
+                <p:menuitem value="View Purchase Orders" url="#" icon="ui-icon-search"/>
+                <p:menuitem value="Create Purchase Order" url="kmsCreateKPO.xhtml?i=4" icon="ui-icon-plus"/>
+            </p:menubar>
+
+
+            <p:panel id="viewPOs">
+                <p:growl autoUpdate="true" showDetail="true" id="msgs"/>
+
+                <p:dataTable id="poTable" var="po" value="#{kpoManagedBean.purchaseOrders}" paginator="true" rows="20" emptyMessage="No purchase orders found." widgetVar="poTable" filteredValue="#{kpoManagedBean.filteredPurchaseOrders}" rowKey="#{po.kpurchaseOrderId}">
+                    <p:column headerText="Purchase Order ID">
+                        <h:outputText value="#{po.kpurchaseOrderId}" />
+                    </p:column>
+                    
+                    <p:column headerText="Purchase Order Date" sortBy="#{po.kpurchaseOrderDate}">
+                        <h:outputText value="#{po.kpurchaseOrderDate}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+                    
+                    <p:column headerText="Scheduled Delivery Date" sortBy="#{po.kscheduledDeliveryDate}">
+                        <h:outputText value="#{po.kscheduledDeliveryDate}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+                    
+                    <p:column headerText="Ingredient Name" filterBy="#{po.ingredient.ingredientName}" filterMatchMode="contains"> 
+                        <h:outputText value="#{po.ingredient.ingredientName}" />
+                    </p:column>
+                    
+                    <p:column headerText="Quantity"> 
+                        <h:outputText value="#{po.kqty}" />
+                    </p:column>
+                    
+                    <p:column headerText="Supplier Name" filterBy="#{po.kitchenSupplier.ksupplierName}" filterMatchMode="contains" >
+                        <h:outputText value="#{po.kitchenSupplier.ksupplierName}" />
+                    </p:column>
+                    
+                    <p:column headerText="Total Price" sortBy="#{po.ktotalPrice}"> 
+                        <h:outputText value="#{po.ktotalPrice}" >
+                            <f:convertNumber type="currency" currencySymbol="$"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Order Status" filterBy="#{po.kpurchaseOrderStatus}" filterMatchMode="exact"> 
+                        <f:facet name="filter">
+                            <p:selectOneMenu onchange="PF('poTable').filter()">
+                                <f:selectItem itemLabel="Select One" itemValue="#{null}" noSelectionOption="true" />
+                                <f:selectItems value="#{kpoManagedBean.statusList}" />
+                            </p:selectOneMenu>
+                        </f:facet>
+                        <h:outputText value="#{po.kpurchaseOrderStatus}" />
+                    </p:column>
+
+
+                    <p:column style="width:32px;text-align: center">
+                        <p:commandButton update=":formMainPO:poDetail" oncomplete="PF('poDialog').show()" icon="ui-icon-search" title="View">
+                            <f:setPropertyActionListener value="#{po}" target="#{kpoManagedBean.selectedKitchenPurchaseOrder}" />
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+
+            <p:dialog header="Purchase Order Info" widgetVar="poDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" style="text-align: center;">
+                <p:outputPanel id="poDetail" style="text-align:center;">
+                    <p:panelGrid columns="2" rendered="#{not empty kpoManagedBean.selectedKitchenPurchaseOrder}" columnClasses="label,value">
+                        <h:outputText value="Purchase Order Id:"/><h:outputText value="#{kpoManagedBean.selectedKitchenPurchaseOrder.kpurchaseOrderId}" />
+                        <h:outputText value="Supplier Name:" /><h:outputText value="#{kpoManagedBean.selectedKitchenPurchaseOrder.kitchenSupplier.ksupplierName}" />
+                        <h:outputText value="Ingredient Name:" /><h:outputText value="#{kpoManagedBean.selectedKitchenPurchaseOrder.ingredient.ingredientName}" />
+                        <h:outputText value="Ingredient Type:" /><h:outputText value="#{kpoManagedBean.selectedKitchenPurchaseOrder.ingredient.ingredientType}" />
+                        <h:outputText value="Quantity:" /><h:outputText value="#{kpoManagedBean.selectedKitchenPurchaseOrder.kqty}" />
+                        <h:outputText value="Unit Price" /><h:outputText value="#{kpoManagedBean.selectedKitchenPurchaseOrder.kunitPrice}"><f:convertNumber type="currency" currencySymbol="$"/></h:outputText>
+                        <h:outputText value="Total Price:" /><h:outputText value="#{kpoManagedBean.selectedKitchenPurchaseOrder.ktotalPrice}"><f:convertNumber type="currency" currencySymbol="$"/></h:outputText>
+                        <h:outputText value="Scheduled Delivery Date:" /><h:outputText value="#{kpoManagedBean.selectedKitchenPurchaseOrder.kscheduledDeliveryDate}"><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText>
+                        <h:outputText value="Purchase Order Status:" /><h:outputText value="#{kpoManagedBean.selectedKitchenPurchaseOrder.kpurchaseOrderStatus}" />
+                        <h:outputText value="Delivery Status:" /><h:outputText value="#{kpoManagedBean.selectedKitchenPurchaseOrder.kdeliveryStatus}" />
+                        <h:outputText value="Best Before:" /><h:outputText value="#{kpoManagedBean.selectedKitchenPurchaseOrder.bestBefore}" ><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText>
+                    </p:panelGrid>
+                </p:outputPanel>
+
+                <br />
+                <h:outputText value="Edit Purchase Order?" />
+                <br />
+                <p:commandButton value="Yes" icon="ui-icon-check" actionListener="#{kpoManagedBean.redirectToEditPO}" oncomplete="PF('poDialog').hide()" update=":formMainPO:poDetail" ajax="true" />                
+                <p:commandButton value="No" icon="ui-icon-close" onclick="PF('poDialog').hide()"/>   
+                
+                <br />
+                <br />
+                <h:outputText value="Cancel Purchase Order?" />
+                <br />
+                <p:commandButton value="Yes" icon="ui-icon-check" actionListener="#{kpoManagedBean.deletePO}" oncomplete="PF('poDialog').hide()" update=":formMainPO:poTable" ajax="true" />
+                <p:commandButton value="No" icon="ui-icon-close" onclick="PF('poDialog').hide()"/>
+                
+                <br />
+                <br />
+                <h:outputText value="Send Purchase Order?" />
+                <br />
+                <p:commandButton value="Yes" icon="ui-icon-check" actionListener="#{kpoManagedBean.sendPO}" oncomplete="PF('poDialog').hide()" update=":formMainPO:poTable :formMainPO:poDetail" ajax="true" />                
+                <p:commandButton value="No" icon="ui-icon-close" onclick="PF('poDialog').hide()"/>  
+       
+            </p:dialog>
+
+        </h:form>
+
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>
+
+</html>

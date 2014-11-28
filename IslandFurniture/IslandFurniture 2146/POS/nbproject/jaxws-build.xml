@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?><!--
+        *** GENERATED FROM jax-ws.xml - DO NOT EDIT !                             ***
+        *** TO MODIFY wsimport options USE Web Service node -> Edit WS Attributes ***
+        *** TO CHANGE TARGETS GENERATED TO jaxws-build.xml COPY THOSE             ***
+        *** TARGETS TO ../build.xml AND MODIFY THAT FILE INSTEAD                  ***
+
+        --><project xmlns:xalan="http://xml.apache.org/xslt" xmlns:j2seproject3="http://www.netbeans.org/ns/j2se-project/3" xmlns:jaxws="http://www.netbeans.org/ns/jax-ws/1">
+    <!--
+                ===================
+                JAX-WS WSIMPORT SECTION
+                ===================
+            -->
+    <target name="wsimport-init" depends="init">
+        <mkdir dir="${build.generated.sources.dir}/jax-ws"/>
+        <taskdef name="wsimport" classname="com.sun.tools.ws.ant.WsImport">
+            <classpath path="${libs.jaxws21.classpath}"/>
+        </taskdef>
+    </target>
+    <target name="wsimport-client-CustomerPOS" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/CustomerPOS"/>
+        <property name="wsdl-CustomerPOS" location="xml-resources/web-service-references/CustomerPOS/wsdl/172.23.73.34_8080/CustomerPOS/CustomerPOS.wsdl"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/CustomerPOS" destdir="${build.generated.dir}/jax-wsCache/CustomerPOS" wsdl="${wsdl-CustomerPOS}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://172.23.73.34:8080/CustomerPOS/CustomerPOS?wsdl" xnocompile="true" xendorsed="true" package="customer">
+            <depends file="${wsdl-CustomerPOS}"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/CustomerPOS"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/CustomerPOS">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="wsimport-client-clean-CustomerPOS" depends="-init-project">
+        <delete dir="${build.generated.dir}/jax-wsCache/CustomerPOS"/>
+        <delete dir="${build.generated.sources.dir}/jax-ws/customer"/>
+    </target>
+    <target name="wsimport-client-LoginPOS" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/LoginPOS"/>
+        <property name="wsdl-LoginPOS" location="xml-resources/web-service-references/LoginPOS/wsdl/172.23.159.18_8080/LoginPOS/LoginPOS.wsdl"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/LoginPOS" destdir="${build.generated.dir}/jax-wsCache/LoginPOS" wsdl="${wsdl-LoginPOS}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://172.23.159.18:8080/LoginPOS/LoginPOS?wsdl" xnocompile="true" xendorsed="true" package="Login">
+            <depends file="${wsdl-LoginPOS}"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/LoginPOS"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/LoginPOS">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="wsimport-client-clean-LoginPOS" depends="-init-project">
+        <delete dir="${build.generated.dir}/jax-wsCache/LoginPOS"/>
+        <delete dir="${build.generated.sources.dir}/jax-ws/Login"/>
+    </target>
+    <target name="wsimport-client-GetStoreInfoPOS" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/GetStoreInfoPOS"/>
+        <property name="wsdl-GetStoreInfoPOS" location="xml-resources/web-service-references/GetStoreInfoPOS/wsdl/172.23.159.18_8080/GetStoreInfoPOS/GetStoreInfoPOS.wsdl"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/GetStoreInfoPOS" destdir="${build.generated.dir}/jax-wsCache/GetStoreInfoPOS" wsdl="${wsdl-GetStoreInfoPOS}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://172.23.159.18:8080/GetStoreInfoPOS/GetStoreInfoPOS?wsdl" xnocompile="true" xendorsed="true" package="storeInfo">
+            <depends file="${wsdl-GetStoreInfoPOS}"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/GetStoreInfoPOS"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/GetStoreInfoPOS">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="wsimport-client-clean-GetStoreInfoPOS" depends="-init-project">
+        <delete dir="${build.generated.dir}/jax-wsCache/GetStoreInfoPOS"/>
+        <delete dir="${build.generated.sources.dir}/jax-ws/storeInfo"/>
+    </target>
+    <target name="wsimport-client-FurnitureForPOS" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/FurnitureForPOS"/>
+        <property name="wsdl-FurnitureForPOS" location="xml-resources/web-service-references/FurnitureForPOS/wsdl/172.23.159.18_8080/FurnitureForPOS/FurnitureForPOS.wsdl"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/FurnitureForPOS" destdir="${build.generated.dir}/jax-wsCache/FurnitureForPOS" wsdl="${wsdl-FurnitureForPOS}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://172.23.159.18:8080/FurnitureForPOS/FurnitureForPOS?wsdl" xnocompile="true" xendorsed="true" package="furniture">
+            <depends file="${wsdl-FurnitureForPOS}"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/FurnitureForPOS"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/FurnitureForPOS">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="wsimport-client-clean-FurnitureForPOS" depends="-init-project">
+        <delete dir="${build.generated.dir}/jax-wsCache/FurnitureForPOS"/>
+        <delete dir="${build.generated.sources.dir}/jax-ws/furniture"/>
+    </target>
+    <target name="wsimport-client-StoreTransactionOrder" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/StoreTransactionOrder"/>
+        <property name="wsdl-StoreTransactionOrder" location="xml-resources/web-service-references/StoreTransactionOrder/wsdl/172.23.159.18_8080/StoreTransactionOrder/StoreTransactionOrder.wsdl"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/StoreTransactionOrder" destdir="${build.generated.dir}/jax-wsCache/StoreTransactionOrder" wsdl="${wsdl-StoreTransactionOrder}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://172.23.159.18:8080/StoreTransactionOrder/StoreTransactionOrder?wsdl" xnocompile="true" xendorsed="true" package="storeTO">
+            <depends file="${wsdl-StoreTransactionOrder}"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/StoreTransactionOrder"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/StoreTransactionOrder">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="wsimport-client-clean-StoreTransactionOrder" depends="-init-project">
+        <delete dir="${build.generated.dir}/jax-wsCache/StoreTransactionOrder"/>
+        <delete dir="${build.generated.sources.dir}/jax-ws/storeTO"/>
+    </target>
+    <target name="wsimport-client-HQTransactionOrderNonMember" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/HQTransactionOrderNonMember"/>
+        <property name="wsdl-HQTransactionOrderNonMember" location="xml-resources/web-service-references/HQTransactionOrderNonMember/wsdl/172.23.73.34_8080/HQTransactionOrderNonMember/HQTransactionOrderNonMember.wsdl"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/HQTransactionOrderNonMember" destdir="${build.generated.dir}/jax-wsCache/HQTransactionOrderNonMember" wsdl="${wsdl-HQTransactionOrderNonMember}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://172.23.73.34:8080/HQTransactionOrderNonMember/HQTransactionOrderNonMember?wsdl" xnocompile="true" xendorsed="true" package="hqNonMember">
+            <depends file="${wsdl-HQTransactionOrderNonMember}"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/HQTransactionOrderNonMember"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/HQTransactionOrderNonMember">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="wsimport-client-clean-HQTransactionOrderNonMember" depends="-init-project">
+        <delete dir="${build.generated.dir}/jax-wsCache/HQTransactionOrderNonMember"/>
+        <delete dir="${build.generated.sources.dir}/jax-ws/hqNonMember"/>
+    </target>
+    <target name="wsimport-client-HQTransactionOrderMember" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/HQTransactionOrderMember"/>
+        <property name="wsdl-HQTransactionOrderMember" location="xml-resources/web-service-references/HQTransactionOrderMember/wsdl/172.23.73.34_8080/HQTransactionOrderMember/HQTransactionOrderMember.wsdl"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/HQTransactionOrderMember" destdir="${build.generated.dir}/jax-wsCache/HQTransactionOrderMember" wsdl="${wsdl-HQTransactionOrderMember}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://172.23.73.34:8080/HQTransactionOrderMember/HQTransactionOrderMember?wsdl" xnocompile="true" xendorsed="true" package="hqMemberTO">
+            <depends file="${wsdl-HQTransactionOrderMember}"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/HQTransactionOrderMember"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/HQTransactionOrderMember">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="wsimport-client-clean-HQTransactionOrderMember" depends="-init-project">
+        <delete dir="${build.generated.dir}/jax-wsCache/HQTransactionOrderMember"/>
+        <delete dir="${build.generated.sources.dir}/jax-ws/hqMemberTO"/>
+    </target>
+    <target name="wsimport-client-generate" depends="wsimport-client-CustomerPOS, wsimport-client-LoginPOS, wsimport-client-GetStoreInfoPOS, wsimport-client-FurnitureForPOS, wsimport-client-StoreTransactionOrder, wsimport-client-HQTransactionOrderNonMember, wsimport-client-HQTransactionOrderMember"/>
+</project>

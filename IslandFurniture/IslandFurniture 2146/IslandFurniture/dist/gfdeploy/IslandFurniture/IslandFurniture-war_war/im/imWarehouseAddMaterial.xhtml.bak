@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    
+    <h:head>
+        <title>IM Workspace</title>
+        <f:event listener="#{loginManagedBean.checkLoginIMWarehouseStaff(cse)}" type="preRenderView" />
+    </h:head>
+    
+    <h:body>
+         <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="imWorkspace.xhtml">
+            <ui:define name="imWorkspace"> 
+            </ui:define>   
+        </ui:composition>
+
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="imWelcome.xhtml"/>
+            <p:menuitem value="Add Goods to Warehouse" url="#"/>
+        </p:breadCrumb>
+        
+        
+        
+
+        <h1>Inbound to warehouse </h1> 
+
+        <h:form id="form3">
+            <p:growl id="msgs3" showDetail="true" />
+
+            <h:panelGrid columns="2" cellpadding="5">
+
+
+
+
+
+                <p:row>
+                    <p:column style="text-align:right">
+                        <p:outputLabel  style="font-weight:bolder" value="Material name:" />
+                    </p:column>
+                    <p:column style="text-align:right">
+                        <p:selectOneMenu value="#{warehouseManageBean.materialName}" style="font-weight:bolder" >
+                            <f:selectItems value="#{warehouseManageBean.materialNameList}" var="material" itemLabel="#{material}" itemValue="#{material}"/>
+                        </p:selectOneMenu>
+                    </p:column>
+                </p:row>
+                <br />
+
+                <p:row> 
+                    <p:column style="text-align: right">
+                        <p:outputLabel for="back" style="font-weight: bolder" value="Quantity: "/>
+
+                    </p:column>
+
+
+                    <p:column>
+                        <p:inputText required="true" label="backName" requiredMessage="legal Integer quantity is required." id="back" value="#{warehouseManageBean.materialQuantity}" >
+                            <f:validateLength minimum="1" maximum="200"/>
+                        </p:inputText>      
+                    </p:column>
+
+                </p:row> 
+                <p:row>
+
+                    <b/>
+                    <p:column>
+
+
+
+                        <p:commandButton id="btn2" value="Save" update="form3 :formBomTable:viewBom" actionListener="#{warehouseManageBean.addwarehousematerial}" ajax="false"/>
+
+
+                    </p:column>
+                </p:row>
+            </h:panelGrid>
+
+
+        </h:form>
+
+        <h:form id="formBomTable">
+            <p:growl id="msgbb" showDetail ="true"/>
+
+            <p:panel id="viewBom">
+
+
+
+
+                <p:dataTable  id="fblist" var="fb" value="#{warehouseManageBean.materialList}" emptyMessage="Empty table" editable="true"   >
+                    <p:ajax event="rowEdit" listener="#{warehouseManageBean.onRowEdit1}" update=":formBomTable:msgbb :formBomTable:fblist"  />
+                    <p:ajax event="rowEditCancel" listener="#{warehouseManageBean.onRowEditCancel1}" update=":formBomTable:msgbb :formBomTable:fblist" />
+
+
+
+                    <p:column headerText="Material Name"   sortBy="#{fb.materialName}">
+
+
+
+                        <h:outputText value="#{fb.materialName}"/>
+                    </p:column>
+                    <p:column headerText="Quantity"    sortBy="#{fb.backQuantity}">
+                        <p:cellEditor>
+                            <f:facet name="output">
+
+                                <h:outputText value="#{fb.backQuantity}"/>
+
+                            </f:facet>
+
+                            <f:facet name="input">
+
+                                <p:inputText value="#{fb.backQuantity}" style="width:100%" label="quantity">
+
+                                </p:inputText>
+
+                            </f:facet> 
+                        </p:cellEditor>
+
+
+                    </p:column>
+
+                    <p:column style="width:32px">
+                        <p:rowEditor />
+                    </p:column>
+
+
+
+
+                </p:dataTable>
+
+
+
+
+
+
+
+            </p:panel> 
+
+        </h:form>
+
+
+
+
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>   
+
+</html>
+

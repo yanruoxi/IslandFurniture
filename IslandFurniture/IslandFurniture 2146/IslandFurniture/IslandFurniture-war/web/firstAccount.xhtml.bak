@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>First Account Registration</title>
+         <f:event listener="#{initialDeploymentManagedBean.checkSystemUser}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+    <h:body>
+        <h:form id="formMain">
+            <center><img src="img/internal_banner_general.png"/></center>           
+
+            <p:growl id="msgs" showDetail="true" />
+
+
+            <p:panel id="panel" header="Register First Account">
+                <p:ajaxStatus style="width:16px;height:16px;">
+                    <f:facet name="start">
+                        <h:graphicImage value="/images/spinner.gif" />
+                    </f:facet>
+                    <f:facet name="complete">
+                        <h:outputText value="" />
+                    </f:facet>
+                </p:ajaxStatus>
+                <p:messages />
+                <p:panelGrid>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="userName" style="font-weight: bold" value="User Name: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText required="true" label="User Name" requiredMessage="User Name is required." id="userName" value="#{accountManagedBean.userName}">
+                                <f:validateLength minimum="4" maximum="16" />
+                            </p:inputText>
+                        </p:column>
+
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="password" style="font-weight: bold" value="Password: " />
+                        </p:column>
+                        <p:column>
+                            <p:password required="true" label="Password" requiredMessage="Password is required." id="password" value="#{accountManagedBean.password}">
+                                <f:validateLength minimum="1" maximum="19" />
+                            </p:password>
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="accountType" style="font-weight: bold" value="Account Type:" />
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel id="accountType" value="Admin" />
+<!--                            <p:selectOneMenu required="true" label="Account Type" requiredMessage="Account Type is required." id="accountType" value="#{accountManagedBean.accountType}">
+                              
+                                <f:selectItem itemLabel="Admin" itemValue="Admin" />
+                               
+                            </p:selectOneMenu>-->
+                        </p:column>>
+                    </p:row>>
+
+                </p:panelGrid>
+                <p:commandButton id="btn" value="Register" update="panel, msgs" actionListener="#{accountManagedBean.createFirstAccount}" ajax="true" />
+            </p:panel>
+
+
+
+        </h:form>
+    </h:body>
+</html>

@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    
+    <h:head>
+        <title>IM Workspace </title>
+        <f:event listener="#{loginManagedBean.checkLoginIMWarehouseStaff(cse)}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" /> 
+    </h:head>
+
+    <h:body>
+        <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="imWorkspace.xhtml">
+            <ui:define name="imWorkspace"> 
+            </ui:define>   
+        </ui:composition>
+
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="imWelcome.xhtml"/>
+            <p:menuitem value="Add Warehouse" url="#"/>
+        </p:breadCrumb>
+
+        <h:form id="formMain">
+            <p:panel id="panel">
+                <p:ajaxStatus style="width:16px;height:16px"/>
+                <p:messages/>
+
+                <p:panelGrid>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="warehouse" style="font-weight: bolder" value="Warehouse Name: "/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText required="true"  label="warehouse"  id="warehouse" value="#{warehouseManageBean.backName}"  requiredMessage="a legal warehouse name is required.">
+                                <f:validateLength minimum="1" maximum="200"/>
+                            </p:inputText>      
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="front" style="font-weight: bolder" value="front Name: "/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText required="true"  label="front"  id="front" value="#{warehouseManageBean.frontName}"  requiredMessage="a legal front name is required.">
+                                <f:validateLength minimum="1" maximum="200"/>
+                            </p:inputText>      
+                        </p:column>
+
+                    </p:row>
+                </p:panelGrid>
+                <p:commandButton id="btn" value="Save new Store" update="panel" actionListener="#{warehouseManageBean.saveNewWarehouse}" ajax="true"/>
+
+            </p:panel>
+        </h:form>
+
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>
+
+</html>

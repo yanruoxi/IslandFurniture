@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>SCM Workspace</title>
+        <f:event listener="#{loginManagedBean.checkLoginMRP(cse)}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+
+    <h:body> 
+        <h:form id="formMainSuppliers">
+            <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="mrpWorkspace.xhtml">
+                <ui:define name="scmWorkspaceMenu"> 
+                </ui:define>            
+            </ui:composition>   
+
+            <p:tab title="Manage Account">
+                <p:panel header="View Suppliers">
+                    <p:dataTable id="supplierTable" var="supplier" value="#{supplierManagedBean.suppliers}" paginator="true" rows="5" emptyMessage="No suppliers found." widgetVar="suppliersTable" filteredValue="#{supplierManagedBean.filteredSuppliers}" rowKey="#{supplier.supplierId}">
+                        <p:column headerText="Supplier ID">
+                            <h:outputText value="#{supplier.supplierId}" />
+                        </p:column>
+
+                        <p:column headerText="Supplier Name" sortBy="#{supplier.supplierName}"  filterBy="#{supplier.supplierName}" filterMatchMode="contains" filterValue="Enter name" > 
+                            <h:outputText value="#{supplier.supplierName}" />
+                        </p:column>
+
+                        <p:column headerText="Tel No."> 
+                            <h:outputText value="#{supplier.telephoneNum}" />
+                        </p:column>
+
+                        <p:column headerText="Fax No."> 
+                            <h:outputText value="#{supplier.faxNum}" />
+                        </p:column>
+
+                        <p:column headerText="Contact Person"> 
+                            <h:outputText value="#{supplier.contactPersonName}" />
+                        </p:column>
+
+                        <p:column headerText="Mobile No." sortBy="#{supplier.mobileNum}"> 
+                            <h:outputText value="#{supplier.mobileNum}" />
+                        </p:column>
+
+                        <p:column headerText="Address" sortBy="#{supplier.supplierAddress}"> 
+                            <h:outputText value="#{supplier.supplierAddress}" />
+                        </p:column>
+
+                        <p:column headerText="Email Address"> 
+                            <h:outputText value="#{supplier.supplierEmailAddr}" />
+                        </p:column>
+
+                        <p:column style="width:32px;text-align: center">
+                            <p:commandButton update=":formMainSuppliers:supplierDetail" oncomplete="PF('supplierDialog').show()" icon="ui-icon-search" title="View">
+                                <f:setPropertyActionListener value="#{supplier}" target="#{supplierManagedBean.selectedSupplier}" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+            </p:tab>
+            
+            <p:dialog header="Supplier Info" widgetVar="supplierDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                <p:outputPanel id="supplierDetail" style="text-align:center;">
+                    <p:panelGrid  columns="2" rendered="#{not empty supplierManagedBean.selectedSupplier}" columnClasses="label,value">
+                        <h:outputText value="Supplier Id:" />
+                        <h:outputText value="#{supplierManagedBean.selectedSupplier.supplierId}" />
+
+                        <h:outputText value="Supplier Name" />
+                        <h:outputText value="#{supplierManagedBean.selectedSupplier.supplierName}" />
+                    </p:panelGrid>
+                    
+                    <br />
+                    <h:outputText value="Delete Supplier?" />
+                    <br />
+                    <p:commandButton value="Yes" icon="ui-icon-check" actionListener="#{supplierManagedBean.deleteSupplier}" oncomplete="PF('supplierDialog').hide()" update=":formMainSuppliers:supplierTable"/>
+                    <p:commandButton value="No" icon="ui-icon-close" onclick="PF('supplierDialog').hide()"/>
+                </p:outputPanel>
+                <br/>
+            </p:dialog>
+        </h:form>
+        
+        
+
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>
+
+</html>

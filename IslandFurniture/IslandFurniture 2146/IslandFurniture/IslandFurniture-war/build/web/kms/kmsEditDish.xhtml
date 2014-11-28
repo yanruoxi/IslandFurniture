@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>KMS Workspace</title>
+        <f:event listener="#{loginManagedBean.checkLoginKMSStaff(cse)}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+
+    <h:body> 
+        <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="kmsWorkspace.xhtml"/>
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="kmsWelcome.xhtml"/>
+            <p:menuitem value="Manage Dish" url="#"/>
+            <p:menuitem value="View Dish" url="#"/>
+        </p:breadCrumb>
+
+        <p:menubar>
+            <p:menuitem value="View Dish" url="#" icon="ui-icon-search"/>
+            <p:menuitem value="Add Dish" url="kmsAddDish.xhtml?i=5" icon="ui-icon-plus"/>
+            <p:menuitem value="View Method of Preparation" url="kmsViewMethod.xhtml?i=5" icon="ui-icon-search"/>
+        </p:menubar>
+
+
+        <p:panel id="panelEditDish" header="Dish Details">
+
+            <h:form enctype="multipart/form-data">
+                <p:growl id="msg" showDetail="true" />               
+                <p:fileUpload value="#{dishManagedBean.file}" mode="simple" dragDropSupport="false" sizeLimit="100000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+                <p:commandButton value="Submit" ajax="false" actionListener="#{dishManagedBean.upload}" disabled="false" update=":image"/>
+                <br />
+            </h:form>
+
+            <h:form id="formEditDish" >
+                <p:growl id="messages" showDetail="true"/>
+                <p:ajaxStatus style="width:16px;height:16px;">
+                    <f:facet name="start"><h:graphicImage value="/images/spinner.gif" /></f:facet>
+                    <f:facet name="complete"><h:outputText value="" /></f:facet>
+                </p:ajaxStatus>
+
+                <p:panelGrid>
+                    <p:row>
+                        <p:column><p:outputLabel style="font-weight: bold" value="Dish ID: " /></p:column>
+                        <p:column><p:outputLabel value="#{dishManagedBean.dishToEdit.dishId}"/></p:column>  
+                    </p:row>         
+
+                    <p:row>
+                        <p:column><p:outputLabel value="Dish Name: "/>  </p:column>
+                        <p:column><p:outputLabel value="#{dishManagedBean.dishToEdit.dishName}"/></p:column> 
+                    </p:row>     
+
+                    <p:row>
+                        <p:column><p:outputLabel value="Dish Type: "/>  </p:column>
+                        <p:column><p:outputLabel value="#{dishManagedBean.dishToEdit.dishType}"/></p:column> 
+                    </p:row>
+
+                    <p:row>
+                        <p:column><p:outputLabel for="dishDescription" value="Dish Description:"/>    </p:column>
+                        <p:column>
+                            <p:inputTextarea id="dishDescription" rows="5" cols="30" counter="displayDescription" maxlength="200" counterTemplate="{0} characters remaining." placeholder="#{dishManagedBean.dishToEdit.dishDescription}" autoResize="false" required="false" value="#{dishManagedBean.dishToEdit.dishDescription}"/>
+                            <h:outputText id="displayDescription" style="float: right;"/>
+                        </p:column>                              
+                    </p:row>
+
+                    <p:row>
+                        <p:column><p:outputLabel for="methodOfPreparation" value="Method of Preparation: "/>    </p:column>
+                        <p:column>
+                            <p:inputTextarea id="methodOfPreparation" rows="5" cols="30" counter="displayMethod" maxlength="200" counterTemplate="{0} characters remaining." placeholder="#{dishManagedBean.dishToEdit.methodOfPreparation}" autoResize="false" required="false" value="#{dishManagedBean.dishToEdit.methodOfPreparation}"/>
+                            <h:outputText id="displayMethod" style="float: right;"/>
+                        </p:column>                              
+                    </p:row>
+
+                    <p:row>
+                        <p:column><p:outputLabel value="No. of Pax:  "/>  </p:column>
+                        <p:column><p:inputText required="true" placeholder="#{dishManagedBean.dishToEdit.pax}" value="#{dishManagedBean.dishToEdit.pax}"/></p:column> 
+                    </p:row>
+
+                    <p:row>
+                        <p:column><p:outputLabel value="Price: "/>  </p:column>
+                        <p:column><p:inputText required="true" placeholder="#{dishManagedBean.dishToEdit.dishPrice}" value="#{dishManagedBean.dishToEdit.dishPrice}">
+                                <f:convertNumber currencySymbol="$" type="currency"/>
+                                <f:validateDoubleRange minimum="0.01"/>
+                            </p:inputText>
+                        </p:column> 
+                    </p:row>
+
+                </p:panelGrid>
+
+                <p:commandButton value="Save Changes" icon="ui-icon-check" update=":panelEditDish, messages" actionListener="#{dishManagedBean.editDish}" ajax="true"/>
+            </h:form>
+        </p:panel>  
+
+
+
+
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>   
+
+</html>
+

@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>SCM Workspace</title>
+        <f:event listener="#{loginManagedBean.checkLoginSCMInventoryManagementStaff(cse)}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+
+    <h:body> 
+        <h:form id="formMainAddPurchaseReqCfm">
+            <p:growl id="messages" autoUpdate="true" showDetail="true"/>
+
+            <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="scmInvWorkspace.xhtml">
+                <ui:define name="scmWorkspaceMenu"> 
+                </ui:define>            
+            </ui:composition> 
+
+            <p:breadCrumb>
+                <p:menuitem value="Home" url="scmInvWelcome.xhtml" />
+                <p:menuitem value="Manage Purchase Requisitions" url="scmInvViewAllPurchaseReq.xhtml?i=2"/>
+                <p:menuitem value="Add Purchase Requisitions" url="#" />
+                <p:menuitem value="Confirm Purchase Requisitions" url="#" />
+            </p:breadCrumb>
+
+            <p:menubar>
+                <p:menuitem value="View Purchase Requisitions" url="scmInvViewAllPurchaseReq.xhtml?i=2" icon="ui-icon-search"/>
+                <p:menuitem value="Add Purchase Requisition" url="#" icon="ui-icon-plus"/>
+            </p:menubar>
+
+            <p:tab title="Add Purchase Requisition - Confirmation">
+                <p:panel header="Add Purchase Requisition - Confirmation" style="height: auto;">
+                    <p:panel id="viewPartsForPurchaseReqCfm">
+                        <p:dataTable id="partPurchaseReqCfmTable" var="partWQuantity" value="#{purchaseReqManagedBean.partQtyList}" paginator="true" rows="5" emptyMessage="No parts found." widgetVar="partsForPurchaseReqCfmTable" rowKey="#{selectedPart.id}">
+                            <p:column headerText="Part ID">
+                                <h:outputText value="#{partWQuantity.part.id}" />
+                            </p:column>
+
+                            <p:column headerText="Part Name"> 
+                                <h:outputText value="#{partWQuantity.part.partName}" />
+                            </p:column>
+
+                            <p:column headerText="Lot Size" > 
+                                <h:outputText value="#{partWQuantity.part.lotSize}" />
+                            </p:column>
+
+                            <p:column headerText="Quantity"> 
+                                <p:spinner id="qty" value="#{partWQuantity.quantity}" min="0" stepFactor="#{partWQuantity.part.lotSize}" size="10"/>
+                            </p:column>
+
+                            <p:column headerText="Replenishment Type"> 
+                                <p:selectOneButton value="#{partWQuantity.replenishmentType}">
+                                    <f:selectItem itemLabel="Scheduled" itemValue="Scheduled" />
+                                    <f:selectItem itemLabel="Ad Hoc" itemValue="Ad Hoc" />
+                                </p:selectOneButton>
+                            </p:column>
+
+                            <f:facet name="footer">
+                                <p:button value="Back" icon="ui-icon-carat-1-w" outcome="scmInvAddPurchaseRequisition.xhtml" />
+                                <p:commandButton value="Cancel" icon="ui-icon-close" actionListener="#{purchaseReqManagedBean.cancelPurchaseReq}" update=":formMainAddPurchaseReqCfm:partPurchaseReqCfmTable qty" ajax="true"/>
+                                <p:commandButton value="Add to Purchase Requisition" icon="ui-icon-check" actionListener="#{purchaseReqManagedBean.createPurchaseReq}"  update=":formMainAddPurchaseReqCfm:partPurchaseReqCfmTable qty" ajax="true"/>
+                            </f:facet>
+
+                        </p:dataTable>
+
+                    </p:panel>
+                </p:panel>
+            </p:tab>
+        </h:form>
+    </h:body>
+</html>
+
+

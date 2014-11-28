@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>KMS Workspace</title>
+        <f:event listener="#{loginManagedBean.checkLoginKMSStaff(cse)}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+
+    <h:body> 
+        <h:form id="formMainDish">
+            <p:growl id="messages"/>
+            <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="kmsWorkspace.xhtml"/>
+
+            <p:breadCrumb>
+                <p:menuitem value="Home" url="kmsWelcome.xhtml"/>
+                <p:menuitem value="Manage Dish" url="#"/>
+                <p:menuitem value="View Dish" url="#"/>
+            </p:breadCrumb>
+
+            <p:menubar>
+                <p:menuitem value="View Dish" url="#" icon="ui-icon-search"/>
+                <p:menuitem value="Add Dish" url="kmsAddDish.xhtml?i=5" icon="ui-icon-plus"/>
+                <p:menuitem value="View Method of Preparation" url="kmsViewMethod.xhtml?i=5" icon="ui-icon-search"/>
+            </p:menubar>
+
+            <p:panel header="Dishes">
+                <p:growl autoUpdate="true" showDetail="true"/>
+
+                <p:dataTable id="dishTable" var="dish" value="#{dishManagedBean.dishes}" paginator="false" emptyMessage="No dish found." widgetVar="dishTable" filteredValue="#{dishManagedBean.filteredDish}" rowKey="#{dish.dishId}">
+                    <p:column style="width: 50px" headerText="Dish ID"><h:outputText value="#{dish.dishId}" /></p:column>
+                    <p:column  style="width: 200px" headerText="Dish Name" sortBy="#{dish.dishName}"  filterBy="#{dish.dishName}" filterFunction="#{dishManagedBean.filterByDishName}"><h:outputText value="#{dish.dishName}" /></p:column>
+
+                    <p:column  style="width: 150px" headerText="Dish Type" sortBy="#{dish.dishType}" filterBy="#{dish.dishType}" filterMatchMode="exact">
+                        <f:facet name="filter">
+                            <p:selectOneMenu onchange="PF('dishTable').filter()">
+                                <f:selectItem itemLabel="Select One" itemValue="#{null}" noSelectionOption="true" />
+                                <f:selectItems value="#{dishManagedBean.dishTypeList}" />
+                            </p:selectOneMenu>
+                        </f:facet>
+                        <h:outputText value="#{dish.dishType}" />
+                    </p:column>
+
+                    <p:column headerText="Description" sortBy="#{dish.dishDescription}"><h:outputText value="#{dish.dishDescription}" /></p:column>
+                    <p:column headerText="No. of Pax" style="width: 50px"><h:outputText value="#{dish.pax}" /></p:column>
+                    <p:column headerText="Price" style="width: 75px" sortBy="#{dish.dishPrice}"><h:outputText value="#{dish.dishPrice}" /></p:column>
+
+                    <p:column style="width:32px;text-align: center">
+                        <p:commandButton update=":formMainDish:dishDetail" oncomplete="PF('dishDialog').show()" icon="ui-icon-search" title="View">
+                            <f:setPropertyActionListener value="#{dish}" target="#{dishManagedBean.selectedDish}" />
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+
+            <p:dialog   id="dishDetail" header="Dish Info" widgetVar="dishDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                <p:growl autoUpdate="true" showDetail="true"/>
+                <h:outputText value="Image" /><h:outputText value="#{dishManagedBean.selectedDish.dishId}" />
+
+                <p:panelGrid     columns="2" rendered="#{not empty dishManagedBean.selectedDish}" columnClasses="label,value" style="width: 700px">
+                    <h:outputText value="Dish Id:" /><h:outputText value="#{dishManagedBean.selectedDish.dishId}"/>
+                    <h:outputText value="Dish Name:" /><h:outputText value="#{dishManagedBean.selectedDish.dishName}" />
+                    <h:outputText value="Description:" /><h:outputText value="#{dishManagedBean.selectedDish.dishDescription}"  />
+                    <h:outputText value="Method of Preparation:" /><h:outputText value="#{dishManagedBean.selectedDish.methodOfPreparation}" />
+                    <h:outputText value="Dish Type:" /><h:outputText value="#{dishManagedBean.selectedDish.dishType}" />
+                    <h:outputText value="No. of Pax:" /><h:outputText value="#{dishManagedBean.selectedDish.pax}" />
+                    <h:outputText value="Price($):" /><h:outputText value="#{dishManagedBean.selectedDish.dishPrice}" />
+                </p:panelGrid>
+
+
+                <br /><h:outputText value="Edit Dish?" />
+                <br /><p:commandButton value="Yes" icon="ui-icon-check" actionListener="#{dishManagedBean.redirectToEditDish}" oncomplete="PF('dishDialog').hide()" update=":formMainDish:dishTable" ajax="true"/>                    
+                <p:commandButton value="No" icon="ui-icon-close" onclick="PF('dishDialog').hide()"/>
+                <br />
+                <br /><h:outputText value="Delete Dish?" />
+                <br /><p:commandButton value="Yes" icon="ui-icon-check" actionListener="#{dishManagedBean.deleteDish}" oncomplete="PF('dishDialog').hide()" update=":formMainDish:dishTable" ajax="true">
+                    <p:confirm header="Confirmation" message="Are you sure you want to delete Dish?" icon="ui-icon-alert" />
+                </p:commandButton>
+                <p:commandButton value="No" icon="ui-icon-close" onclick="PF('dishDialog').hide()"/>
+                <p:confirmDialog global="true" >
+                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
+            </p:dialog>
+            <br/>
+
+        </h:form>
+
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>   
+
+</html>
+

@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>ACRM Workspace</title>
+        <f:event listener="#{loginManagedBean.checkLoginACRMStaff}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+    <h:body>
+
+        <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="acrmWorkspace.xhtml">
+            <ui:define name="acrmWorkSpaceMenu"> 
+            </ui:define>            
+        </ui:composition>  
+
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="acrmWelcome.xhtml" />
+            <p:menuitem value="Segment Customer by Lowest Spending" url="#" />
+        </p:breadCrumb>
+
+        <p:panel >
+            <p:growl autoUpdate="true" showDetail="true"/>
+
+            <p:dataTable id="transactionTable" var="transactionWithTotalSpending" value="#{acrmTranManagedBean.segmentCustByLowestTotalSpendingList}" paginator="true" rows="10" emptyMessage="No transactions found." widgetVar="transactionsTable" filteredValue="#{acrmTranManagedBean.filteredTransactions}" rowKey="#{transactionWithTotalSpending.tran.id}">
+                <p:column style="width: 100px" headerText="Transaction ID">
+                    <h:outputText value="#{transactionWithTotalSpending.tran.id}" />
+                </p:column>
+
+                <p:column headerText="Customer Name"> 
+                    <h:outputText value="#{transactionWithTotalSpending.tran.customer.customerName}" />
+                </p:column>
+
+                <p:column headerText="Gender" filterBy="#{transactionWithTotalSpending.tran.customer.gender}" filterMatchMode="exact"> 
+                    <f:facet name="filter">
+                        <p:selectOneMenu onchange="PF('transactionsTable').filter()">
+                            <f:selectItem itemLabel="Select All" itemValue="" />
+                            <f:selectItem itemLabel="Mr." itemValue="Mr." />
+                            <f:selectItem itemLabel="Ms." itemValue="Ms."/>
+                        </p:selectOneMenu>
+                    </f:facet>
+                    <h:outputText value="#{transactionWithTotalSpending.tran.customer.gender}" />
+                </p:column>
+
+                <p:column headerText="Country of Residence" filterBy="#{transactionWithTotalSpending.tran.customer.country}" filterMatchMode="contains"> 
+                    <h:outputText value="#{transactionWithTotalSpending.tran.customer.country}" />
+                </p:column> 
+
+                <p:column headerText="Email"> 
+                    <h:outputText value="#{transactionWithTotalSpending.tran.customer.email}" />
+                </p:column> 
+
+                <p:column headerText="Phone"> 
+                    <h:outputText value="#{transactionWithTotalSpending.tran.customer.phoneNumber}" />
+                </p:column> 
+
+                <p:column headerText="Total Spending (by order of lowest)"> 
+                    <h:outputText value="$#{transactionWithTotalSpending.totalSpending}" />
+                </p:column>
+            </p:dataTable>
+        </p:panel>
+
+
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>   
+
+</html>
+

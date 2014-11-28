@@ -1,0 +1,183 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>manage Store</title>
+        <f:event listener="#{loginManagedBean.checkLoginHQ}" type="preRenderView" />
+    </h:head>
+    <h:body>
+
+        <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="template.xhtml">
+
+        </ui:composition>          
+        <p:menubar>
+            <p:menuitem value="Create Store" url="createStore.xhtml" icon="ui-icon-search"/>
+            <p:menuitem value="Manage Store" url="manageStore.xhtml" icon="ui-icon-plus"/>
+            <p:menuitem value="Add Product to Store" url="addFurnitureToStore.xhtml" icon="ui-icon-plus"/>
+
+        </p:menubar> 
+
+        <p:tab title="Manage Store">
+
+            <h:form id="formManageStore" >                    
+                <p:growl id="msgs" showDetail="true" />                        
+                <p:panel id="panelManageStore" header="Search Store">
+                    <p:ajaxStatus style="width:16px;height:16px;">
+                        <f:facet name="start">
+                            <h:graphicImage value="/images/spinner.gif" />
+                        </f:facet>
+                        <f:facet name="complete">
+                            <h:outputText value="" />
+                        </f:facet>
+                    </p:ajaxStatus>
+                    <p:messages />        
+
+                    <p:panelGrid>   
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="storeName" style="font-weight: bold" value="Store Name: " />
+                            </p:column>
+                            <p:column>
+                                <p:inputText  label="Store Name"  id="storeName" value="#{storeManagedBean.storeName}">
+
+                                </p:inputText>
+                            </p:column>                                   
+                        </p:row>                         
+                    </p:panelGrid>
+                    <p:commandButton id="btn" value="Search Store" update="viewStore msgs @parent" actionListener="#{storeManagedBean.searchStore()}" ajax="true" />
+                    <p:commandButton id="btnViewAllStore" value="View All Store" update="viewStore msgs @parent" actionListener="#{storeManagedBean.viewAllStore()}" ajax="true" />
+                </p:panel>
+
+                <p:panel id="viewStore" >
+                    <p:dataTable var="store" value="#{storeManagedBean.storeList}"  emptyMessage="No such store">
+                        <p:column headerText="Store Name" >
+                            <h:outputText value="#{store.storeName}" />                          
+                        </p:column>   
+
+                        <p:column headerText="Country" >
+                            <h:outputText value="#{store.country}" />
+                        </p:column>  
+
+                        <p:column headerText="Address" >
+                            <h:outputText value="#{store.address}" />
+                        </p:column> 
+
+                        <p:column headerText="Postal Code" >
+                            <h:outputText value="#{store.postal}" />
+                        </p:column> 
+
+                        <p:column headerText="Phone" >
+                            <h:outputText value="#{store.phone}" />
+                        </p:column> 
+
+                        <p:column headerText="Email" >
+                            <h:outputText value="#{store.email}" />
+                        </p:column> 
+
+                      
+
+                        <p:column headerText="Delete" >
+                            <p:commandButton id="btn1" value="Delete Store" update=":formManageStore:viewStore , :formManageStore:msgs" actionListener="#{storeManagedBean.deleteStore(store.storeName)}" ajax="true" >
+                                <p:confirm header="Confirmation" message="Are you sure you want to delete this store?" icon="ui-icon-alert" />
+                            </p:commandButton>
+
+                            <p:confirmDialog global="true" >
+                                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                            </p:confirmDialog>
+                        </p:column>  
+
+                        <p:column headerText="Create Sales Forcast" >
+
+                            <p:commandButton id="btnViewSaleForcast" value="Create Sales Forcast" actionListener="#{salesForcastManagedBean.setSelectedStoreRedirect(store)}"   ajax="true">
+                            </p:commandButton>                        
+                        </p:column>
+                        
+                        <p:column headerText="Action" >
+
+                            <p:commandButton id="btnViewSetDefualt" value="View/Set Default" actionListener="#{defaultManagedBean.setSelectedStoreRedirect(store)}"   ajax="true">
+                            </p:commandButton>
+                        </p:column>
+
+                        <p:column headerText="Action" >
+
+                            <p:commandButton id="btnViewChange" value="View/Change" actionListener="#{storeManagedBean.setSelectedStoreRedirect(store)}"   ajax="true">
+                            </p:commandButton>
+                        </p:column> 
+
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+
+           
+
+          
+            <p:dialog header="Create Production Order" widgetVar="dlg5" minHeight="400">
+                <h:form id="createProductionOrder">
+                    <p:growl id="msgs" showDetail="true" /> 
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="factoryName" style="font-weight: bold" value="Select Factory:" />
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu required="true" label="Select Factory" requiredMessage="Factory is required." id="factoryName" value="#{productionOrderManagedBean.factoryName}">
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItem itemLabel="First Default Factory" itemValue="1" />
+                                <f:selectItem itemLabel="Second Default Factory" itemValue="2" />
+                            </p:selectOneMenu>
+                        </p:column>
+                    </p:row>
+                    <br/>
+
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="chooseProduct" style="font-weight: bold" value="Select Product: " />
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu id="chooseProduct" value="#{productionOrderManagedBean.furnitureName}"  effect="fade" filter="true" filterMatchMode="startsWith" required="true">
+                                <f:selectItems value="#{productionOrderManagedBean.productNameList}" />
+                            </p:selectOneMenu>
+                        </p:column>
+
+                    </p:row>
+                    <br/>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="month" style="font-weight: bold" value="Month of Production(MM-YYYY): " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText required="true" label="Month of Produciton" requiredMessage="Month of production is required." id="month" value="#{productionOrderManagedBean.month}">
+
+                            </p:inputText>
+                        </p:column>                                   
+                    </p:row>
+                    <br/>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="quantity" style="font-weight: bold" value="Quantity: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText required="true" label="Quantity" requiredMessage="Quantity is required." id="quantity" value="#{productionOrderManagedBean.quantity}">
+
+                            </p:inputText>
+                        </p:column>                                   
+                    </p:row>
+                    <br/>
+
+
+                    <p:commandButton value="Save" update=":formManageStore:viewStore , :formManageStore:msgs" actionListener="#{productionOrderManagedBean.createProductionOrder()}" ajax="true" >
+                    </p:commandButton>
+                </h:form>
+            </p:dialog>
+
+
+
+        </p:tab>
+    </h:body>
+</html>

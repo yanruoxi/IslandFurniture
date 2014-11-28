@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>MRP Workspace</title>
+
+        <f:event listener="#{loginManagedBean.checkLoginMRP(cse)}" type="preRenderView" />
+    </h:head>
+    
+    <h:body>
+        
+        <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="mrpWorkspace.xhtml"/>
+
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="mrpWelcome.xhtml"/>
+            <p:menuitem value="Manage BOM" url="#"/>
+            <p:menuitem value="Add BOM" url="#"/>
+        </p:breadCrumb>
+
+        <p:menubar>
+            <p:menuitem value="View BOM" url="mrpManageBOM.xhtml?i=3" icon="ui-icon-search"/>
+            <p:menuitem value="Add BOM" url="#" icon="ui-icon-plus" />              
+            <p:menuitem value="Add BOM2" url="mrpAddBom2.xhtml?i=3" icon="ui-icon-plus"/> 
+        </p:menubar>
+        
+        
+        <h1> Create BOM</h1> 
+      
+
+        <h:form id="formMain">
+            <p:panel id="panel" header="Check furniture for BOM">
+                <p:ajaxStatus style="width:16px;height:16px">
+                    <f:facet name="start">
+                        <h:graphicImage library="image" name="spinner.gif"></h:graphicImage>
+                    </f:facet>
+                    <f:facet name="complete">
+                        <h:outputText value="" />
+
+                    </f:facet>
+
+                </p:ajaxStatus>
+                <p:messages/>
+
+                <p:panelGrid>
+
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="furnitureName" style="font-weight: bolder" value="Furniture Name: "/>
+
+                        </p:column>
+                        <p:column>
+                            <p:inputText required="true" label="Furniture Name" requiredMessage="a legal Furniture Name is required." id="furnitureName" value="#{bomManagedBean.furnitureName}" >
+                                <f:validateLength minimum="1" maximum="200"/>
+                            </p:inputText>      
+                        </p:column>
+                        <p:column>
+  <p:commandButton id="btn1" value="Check availability" update="panel" actionListener="#{bomManagedBean.init}" ajax="true"/>
+</p:column>
+
+                    </p:row>
+
+                    </p:panelGrid>
+                     </p:panel>
+            </h:form> 
+         <h:form id="formMain2">
+            <p:panel id="panel2" header="Create BOM">
+                <p:ajaxStatus style="width:16px;height:16px">
+                    <f:facet name="start">
+                        <h:graphicImage library="image" name="spinner.gif"></h:graphicImage>
+                    </f:facet>
+                    <f:facet name="complete">
+                        <h:outputText value="" />
+
+                    </f:facet>
+
+                </p:ajaxStatus>
+                <p:messages/>
+
+                <p:panelGrid>
+<p:row>
+                        <p:column>
+                            <p:outputLabel for="furnitureName1" style="font-weight: bolder" value="Furniture Name: "/>
+
+                        </p:column>
+                        <p:column>
+                            <p:inputText required="true" label="Furniture Name" requiredMessage="a legal Furniture Name is required." id="furnitureName1" value="#{bomManagedBean.furnitureName}" >
+                                <f:validateLength minimum="1" maximum="200"/>
+                            </p:inputText>      
+                        </p:column>
+                       
+
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="partName" style="font-weight: bolder" value="Part Name: "/>
+
+                        </p:column>
+                        <p:column>
+                            <p:inputText required="true" label="Part Name" requiredMessage="a legal Part Name is required." id="partName" value="#{bomManagedBean.partName}" >
+                                <f:validateLength minimum="1" maximum="200"/>
+                            </p:inputText>      
+                        </p:column>
+                         <p:column>
+                            <p:outputLabel for="quantity " style="font-weight: bolder" value="Quantity: "/>
+
+                        </p:column>
+                        <p:column>
+                            <p:inputText required="true" label="Quantity" requiredMessage="integer quantity is required." id="quantity" value="#{bomManagedBean.quantity}" >
+                                <f:validateLength minimum="1" maximum="200"/>
+                            </p:inputText>      
+                        </p:column>
+                        <p:column>
+                            <p:commandButton id="btn2" value="save bom" update="panel2" actionListener="#{bomManagedBean.addBom}" ajax="false"/>
+</p:column>
+
+                    </p:row>
+
+                    </p:panelGrid>
+                     </p:panel>
+            </h:form> 
+
+
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>
+
+</html>
+
+

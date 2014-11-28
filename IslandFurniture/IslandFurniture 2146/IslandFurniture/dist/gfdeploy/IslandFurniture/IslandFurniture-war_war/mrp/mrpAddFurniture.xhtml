@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <f:event listener="#{loginManagedBean.checkLoginMRP(cse)}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" /> 
+    </h:head>
+
+        <h:body> 
+
+            <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="mrpWorkspace.xhtml"/>      
+
+            <p:breadCrumb>
+                <p:menuitem value="Home" url="mrpWelcome.xhtml"/>
+                <p:menuitem value="Manage Furniture" url="#"/>
+                <p:menuitem value="Add Furniture" url="#"/>
+            </p:breadCrumb>
+
+            <p:menubar>
+                <p:menuitem value="View Furniture" url="mrpManageFurniture.xhtml?i=1" icon="ui-icon-search"/>
+                <p:menuitem value="Add Furniture" url="#" icon="ui-icon-plus"/>
+                <p:menuitem value="Edit Furniture" url="mrpEditFurniture.xhtml?i=1" icon="ui-icon-pencil"/>
+            </p:menubar>
+
+                <h:form id="formMain">
+                    <p:panel id="panel" header="Add New Furniture">
+                        <p:ajaxStatus /><p:messages/>
+
+                        <p:panelGrid>
+
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel for="furnitureName" style="font-weight: bolder" value="Furniture Name: "/>
+                                </p:column>
+                                
+                                <p:column>
+                                    <p:inputText required="true" label="Furniture Name" requiredMessage="a legal FurnitureName is required." id="furnitureName" value="#{furManageBean.furnitureName}">
+                                        <f:validateLength minimum="1" maximum="200"/>
+                                    </p:inputText>      
+                                </p:column>
+                                <p:column>
+                                    <p:message for="furnitureName"/>
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid>
+                        <p:commandButton id="btn" value="Save" update="panel" actionListener="#{furManageBean.saveNewFurniture}" ajax="true"/>
+                        
+                    </p:panel>
+                </h:form>
+
+
+                <br /><br />
+                <br />
+                <p:separator></p:separator>
+            </h:body>
+
+    </html>
+

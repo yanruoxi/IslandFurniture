@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>SCM Procurement Staff Workspace</title>
+        <f:event listener="#{loginManagedBean.checkLoginSCMProcurementStaff}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+
+    <h:body> 
+        <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="scmProStaffWorkspace.xhtml">
+            <ui:define name="scmProStaffWorkspaceMenu"> 
+            </ui:define>            
+        </ui:composition>   
+
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="scmProStaffWelcome.xhtml" />
+            <p:menuitem value="Manage Purchase Requisitions" url="#" />
+            <p:menuitem value="Create Purchase Order for Approval" url="#" />
+        </p:breadCrumb>
+
+        <p:panel id="panelCreatePOToConSup" >
+            <p:outputLabel>Contract exists for the selected Part, #{purchaseReqManagedBean.selectedPurchaseReqForSending.part.partName};
+                <br />Purchase Order will be sent to Contract Supplier, #{purchaseReqManagedBean.selectedPurchaseReqForSending.part.contract.supplier.supplierName}
+            </p:outputLabel>
+            <p:separator/><br/>
+
+            <h:form id="formCreatePOToConSup" >
+                <p:growl id="messages" showDetail="true" autoUpdate="true"/> 
+                <p:panelGrid style="width:500px;">
+                    <p:row><p:column colspan="2"><p:outputLabel style="font-weight: bold; color: #FF9933;">Contract Details</p:outputLabel></p:column></p:row>
+
+                    <p:row>
+                        <p:column><p:outputLabel>Contract ID:</p:outputLabel></p:column>
+                        <p:column><p:outputLabel>#{purchaseReqManagedBean.selectedPurchaseReqForSending.part.contract.contractId}</p:outputLabel></p:column>  
+                    </p:row> 
+
+                    <p:row>
+                        <p:column><p:outputLabel>Start Date:</p:outputLabel></p:column>
+                        <p:column><p:outputLabel value="#{purchaseReqManagedBean.selectedPurchaseReqForSending.part.contract.startDate}"><f:convertDateTime pattern="dd/MM/yyyy" /></p:outputLabel></p:column> 
+                    </p:row>
+
+                    <p:row>
+                        <p:column><p:outputLabel>End Date:</p:outputLabel></p:column>
+                        <p:column><p:outputLabel value="#{purchaseReqManagedBean.selectedPurchaseReqForSending.part.contract.endDate}"><f:convertDateTime pattern="dd/MM/yyyy" /></p:outputLabel></p:column>  
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel>Part Name:</p:outputLabel>
+                        </p:column>
+                        <p:column>     
+                            <p:outputLabel>#{purchaseReqManagedBean.selectedPurchaseReqForSending.part.partName}</p:outputLabel>               
+                        </p:column>  
+                    </p:row>
+
+                    <p:row>
+                        <p:column><p:outputLabel>Contract Supplier:</p:outputLabel></p:column>
+                        <p:column><p:outputLabel>#{purchaseReqManagedBean.selectedPurchaseReqForSending.part.contract.supplier.supplierName}</p:outputLabel></p:column>  
+                    </p:row>
+
+                    <p:row>
+                        <p:column><p:outputLabel>Contract Term:</p:outputLabel></p:column>
+                        <p:column><p:outputLabel>#{purchaseReqManagedBean.selectedPurchaseReqForSending.part.contract.remark}</p:outputLabel></p:column>  
+                    </p:row>
+                </p:panelGrid>
+                <br />
+
+                <p:panelGrid style="width:500px;">
+                    <p:row><p:column colspan="2"> <p:outputLabel style="font-weight: bold; color: #FF9933;">Purchase Requisition Details</p:outputLabel></p:column></p:row>
+
+                    <p:row>
+                        <p:column><p:outputLabel>Part Name:</p:outputLabel></p:column>
+                        <p:column><p:outputLabel>#{purchaseReqManagedBean.selectedPurchaseReqForSending.part.partName}</p:outputLabel></p:column>  
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel>Date Created:</p:outputLabel>
+                        </p:column>
+                        <p:column>     
+                            <p:outputLabel value="#{purchaseReqManagedBean.selectedPurchaseReqForSending.purchaseReqDate}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </p:outputLabel>               
+                        </p:column>  
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel>Created By:</p:outputLabel>
+                        </p:column>
+                        <p:column>     
+                            <p:outputLabel>#{purchaseReqManagedBean.selectedPurchaseReqForSending.createdBy}</p:outputLabel>               
+                        </p:column> 
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel>Quantity:</p:outputLabel>
+                        </p:column>
+                        <p:column>     
+                            <p:outputLabel>#{purchaseReqManagedBean.selectedPurchaseReqForSending.qty}</p:outputLabel>               
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel>Unit Price as in Contract:</p:outputLabel>
+                        </p:column>
+                        <p:column>     
+                            <h:outputLabel value="#{purchaseReqManagedBean.selectedPurchaseReqForSending.part.contract.unitPrice}">
+                                <f:convertNumber type="currency" currencySymbol="$"/>
+                            </h:outputLabel>             
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel style="font-weight: bold; ">Calculated Total Price:</p:outputLabel>
+                        </p:column>
+                        <p:column>     
+                            <h:outputLabel style="font-weight: bold; color:#FF3333;" value="#{purchaseReqManagedBean.contractTotalPrice}">
+                                <f:convertNumber type="currency" currencySymbol="$"/>
+                            </h:outputLabel>               
+                        </p:column>  
+                    </p:row>
+
+                    <p:row>
+                        <p:column><p:outputLabel>Scheduled Delivery Date (Enter Date based on Contract Term):</p:outputLabel></p:column>
+                        <p:column>  
+                            <p:calendar value="#{poManagedBean.scheduledDeliveryDate}" required="true" pattern="dd/MM/yyyy" requiredMessage="Please enter a Scheduled Delivery Date">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </p:calendar>               
+                        </p:column>  
+                    </p:row>
+
+                </p:panelGrid>
+                <p:commandButton value="Create Purchase Order" icon="ui-icon-check" actionListener="#{poManagedBean.createPOForContractSup}" ajax="true"/>
+            </h:form>
+        </p:panel>
+
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>
+
+</html>

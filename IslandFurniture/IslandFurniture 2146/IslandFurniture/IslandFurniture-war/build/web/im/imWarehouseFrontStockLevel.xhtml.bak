@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    
+    <h:head>
+        <title>IM Workspace</title>
+        <f:event listener="#{loginManagedBean.checkLoginIMWarehouseStaff(cse)}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" /> 
+    </h:head>
+
+    <h:body>
+          <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="imWorkspace.xhtml">
+            <ui:define name="imWorkspace"> 
+            </ui:define>   
+        </ui:composition>
+
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="imWelcome.xhtml"/>
+            <p:menuitem value="Manage Front End Stock Level" url="#"/>
+        </p:breadCrumb>
+        
+        <h1> stock level checking </h1> 
+
+
+
+        <h:form id="formManageBom" >
+            <p:growl id="msgs" showDetail="true"/>
+            <p:panel id="panelManageBom" header="Search Front stock level ">
+                <p:ajaxStatus style="width:16px;height:16px">
+                    <f:facet name="start">
+                        <h:graphicImage library="image" name="spinner.gif"/>
+
+                    </f:facet>
+                    <f:facet name="complete">
+                        <h:outputText value=""/>
+                    </f:facet>
+                </p:ajaxStatus>
+                <p:messages />
+
+                <p:row>
+                    <p:column style="text-align: right">
+                        <p:outputLabel for="material1"  value="Material name: " />
+                        <p:autoComplete id="material1" value="#{warehouseManageBean.materialName}" completeMethod="#{warehouseManageBean.completeTextMaterial}" forceSelection ="true"/>
+
+                    </p:column> 
+
+
+
+                </p:row>
+                <br />
+
+                <p:row> 
+                    <p:column style="text-align: right">
+                        <p:outputLabel for="back" style="font-weight: bolder" value="Quantity         :   "/>
+
+                    </p:column>
+
+
+                    <p:column>
+                        <p:inputText required="false" label="backName" requiredMessage="legal Integer quantity is required." id="back" value="#{warehouseManageBean.materialQuantity}" >
+                            <f:validateLength minimum="0" maximum="200"/>
+                        </p:inputText>      
+                    </p:column>
+
+                </p:row> 
+                <br/>
+                <p:row>
+
+                    <p:commandButton id="btnSearchMaterial" value="Search Material" update=":formBomTable:viewBom msgs @parent " actionListener="#{warehouseManageBean.searchfrontmaterial}" ajax="false" />
+
+                    <p:commandButton id="btnViewMaterail" value="View Front Stock" update=":formBomTable:viewBom msgs @parent " actionListener="#{warehouseManageBean.viewAllFront}" ajax="false" />
+                    <p:commandButton id="btnAddMaterial" value="Add Front Stock" update=":formBomTable:viewBom msgs @parent " actionListener="#{warehouseManageBean.addfrontmaterial}" ajax="false" />
+
+                </p:row>
+
+
+            </p:panel>
+        </h:form>
+
+        <h:form id="formBomTable">
+            <p:growl id="msgBom" showDetail="true"/> 
+
+            <p:panel id="viewBom">
+
+
+                <p:dataTable id="materialList" var="material" value="#{warehouseManageBean.materialList}" editable="true"  emptyMessage="No results" >
+
+                    <f:facet name="header">
+                        Front Stock Level Table Show
+                    </f:facet>
+
+                    <p:ajax event="rowEdit" listener="#{warehouseManageBean.onRowEdit31}" update=":formBomTable:msgBom" />
+                    <p:ajax event="rowEditCancel" listener="#{warehouseManageBean.onRowEditCancel1}" update=":formBomTable:msgBom" />
+
+
+
+
+                    <p:column headerText="Material name">
+
+
+                        <h:outputText value="#{material.materialName}" />
+
+
+                    </p:column>
+                    <p:column headerText="Front material amount">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{material.frontQuantity}" />
+                            </f:facet>  
+                            <f:facet name="input">
+                                <p:inputText value="#{material.frontQuantity}" />
+                            </f:facet> 
+                        </p:cellEditor>
+
+                    </p:column>
+
+
+                    <p:column style="width:32px">
+                        <p:rowEditor />
+                    </p:column>
+
+
+
+
+
+
+
+
+
+                </p:dataTable>
+
+
+            </p:panel> 
+
+
+
+        </h:form>
+        <h:form>
+
+
+        </h:form>
+
+
+
+
+
+
+
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>   
+
+</html>
+

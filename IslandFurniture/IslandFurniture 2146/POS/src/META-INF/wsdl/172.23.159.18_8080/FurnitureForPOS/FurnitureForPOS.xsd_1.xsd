@@ -1,0 +1,249 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is Metro/2.3 (tags/2.3-7528; 2013-04-29T19:34:10+0000) JAXWS-RI/2.2.8 JAXWS/2.2 svn-revision#unknown. --><xs:schema xmlns:tns="http://service.Web/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://service.Web/">
+
+<xs:element name="getFurnitureForPOS" type="tns:getFurnitureForPOS"/>
+
+<xs:element name="getFurnitureForPOSResponse" type="tns:getFurnitureForPOSResponse"/>
+
+<xs:complexType name="getFurnitureForPOS">
+<xs:sequence>
+<xs:element name="furnitureName" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getFurnitureForPOSResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:furniture" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="furniture">
+<xs:sequence>
+<xs:element name="backQuantity" type="xs:int" minOccurs="0"/>
+<xs:element name="bom" type="tns:bom" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="category" type="xs:string" minOccurs="0"/>
+<xs:element name="color" type="xs:string" minOccurs="0"/>
+<xs:element name="front" type="tns:front" minOccurs="0"/>
+<xs:element name="frontQuantity" type="xs:int" minOccurs="0"/>
+<xs:element name="furnitureName" type="xs:string" minOccurs="0"/>
+<xs:element name="height" type="xs:double" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="inventory" type="tns:inventory" minOccurs="0"/>
+<xs:element name="isDeleted" type="xs:string" minOccurs="0"/>
+<xs:element name="lengths" type="xs:double" minOccurs="0"/>
+<xs:element name="materialPosition" type="xs:string" minOccurs="0"/>
+<xs:element name="order" type="tns:adHocOrder" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="POSquantity" type="xs:int" minOccurs="0"/>
+<xs:element name="plan" type="tns:salesPlan" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="pomotion" type="xs:string" minOccurs="0"/>
+<xs:element name="position" type="xs:string" minOccurs="0"/>
+<xs:element name="price" type="xs:decimal" minOccurs="0"/>
+<xs:element name="productDescription" type="xs:string" minOccurs="0"/>
+<xs:element name="safetyStock" type="xs:int" minOccurs="0"/>
+<xs:element name="singleTransactionItemList" type="tns:singleTransactionItem" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="type" type="xs:string" minOccurs="0"/>
+<xs:element name="warehouse" type="tns:warehouse" minOccurs="0"/>
+<xs:element name="width" type="xs:double" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="bom">
+<xs:sequence>
+<xs:element name="furniture" type="tns:furniture" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="part" type="tns:part" minOccurs="0"/>
+<xs:element name="quantity" type="xs:int" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="part">
+<xs:sequence>
+<xs:element name="bom" type="tns:bom" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="contract" type="tns:contract" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="inventory" type="tns:inventory" minOccurs="0"/>
+<xs:element name="isDeleted" type="xs:string" minOccurs="0"/>
+<xs:element name="leadTime" type="xs:int"/>
+<xs:element name="lotSize" type="xs:int" minOccurs="0"/>
+<xs:element name="partName" type="xs:string" minOccurs="0"/>
+<xs:element name="suppliers" type="tns:supplier" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="contract">
+<xs:sequence>
+<xs:element name="contractDeleteStatus" type="xs:string" minOccurs="0"/>
+<xs:element name="endDate" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="part" type="tns:part" minOccurs="0"/>
+<xs:element name="remark" type="xs:string" minOccurs="0"/>
+<xs:element name="startDate" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="supplier" type="tns:supplier" minOccurs="0"/>
+<xs:element name="unitPrice" type="xs:double" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="supplier">
+<xs:sequence>
+<xs:element name="contactPersonName" type="xs:string" minOccurs="0"/>
+<xs:element name="contracts" type="tns:contract" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="faxNum" type="xs:string" minOccurs="0"/>
+<xs:element name="mobileNum" type="xs:string" minOccurs="0"/>
+<xs:element name="parts" type="tns:part" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="supplierAcct" type="tns:supplierAcct" minOccurs="0"/>
+<xs:element name="supplierAddress" type="xs:string" minOccurs="0"/>
+<xs:element name="supplierDeleteStatus" type="xs:string" minOccurs="0"/>
+<xs:element name="supplierEmailAddr" type="xs:string" minOccurs="0"/>
+<xs:element name="supplierId" type="xs:long" minOccurs="0"/>
+<xs:element name="supplierName" type="xs:string" minOccurs="0"/>
+<xs:element name="telephoneNum" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="supplierAcct">
+<xs:sequence>
+<xs:element name="isDeleted" type="xs:boolean"/>
+<xs:element name="salt" type="xs:string" minOccurs="0"/>
+<xs:element name="status" type="xs:string" minOccurs="0"/>
+<xs:element name="supplier" type="tns:supplier" minOccurs="0"/>
+<xs:element name="supplierAcctId" type="xs:long" minOccurs="0"/>
+<xs:element name="supplierPwd" type="xs:string" minOccurs="0"/>
+<xs:element name="supplierUsername" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="inventory">
+<xs:sequence>
+<xs:element name="dateUpdated" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="furniture" type="tns:furniture" minOccurs="0"/>
+<xs:element name="inventoryId" type="xs:long" minOccurs="0"/>
+<xs:element name="part" type="tns:part" minOccurs="0"/>
+<xs:element name="quantity" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="front">
+<xs:sequence>
+<xs:element name="frontName" type="xs:string" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="materialCollection" type="tns:furniture" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="warehouse" type="tns:warehouse" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="warehouse">
+<xs:sequence>
+<xs:element name="address" type="xs:string" minOccurs="0"/>
+<xs:element name="bigArray" type="tns:furnitureArray" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="deletema" type="xs:string" minOccurs="0"/>
+<xs:element name="front" type="tns:front" minOccurs="0"/>
+<xs:element name="id" type="xs:long"/>
+<xs:element name="materialCollection" type="tns:furniture" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="RG" type="tns:furnitureArray" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="returnGoodsCollection" type="tns:returnGoods" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="SUArray" type="tns:furnitureArrayArray" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="warehouseName" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="returnGoods">
+<xs:sequence>
+<xs:element name="deletema" type="xs:string" minOccurs="0"/>
+<xs:element name="discountprice" type="xs:float"/>
+<xs:element name="goodsName" type="xs:string" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="marketPrice" type="xs:string" minOccurs="0"/>
+<xs:element name="position" type="xs:string" minOccurs="0"/>
+<xs:element name="quantity" type="xs:int" minOccurs="0"/>
+<xs:element name="returnReason" type="xs:string" minOccurs="0"/>
+<xs:element name="status" type="xs:string" minOccurs="0"/>
+<xs:element name="warehouse" type="tns:warehouse" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="adHocOrder">
+<xs:sequence>
+<xs:element name="amount" type="xs:int"/>
+<xs:element name="deadline" type="xs:string" minOccurs="0"/>
+<xs:element name="furniture" type="tns:furniture" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="plant" type="xs:string" minOccurs="0"/>
+<xs:element name="requestStore" type="xs:string" minOccurs="0"/>
+<xs:element name="status" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="salesPlan">
+<xs:sequence>
+<xs:element name="forecast" type="xs:int"/>
+<xs:element name="furniture" type="tns:furniture" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="inventory" type="xs:int"/>
+<xs:element name="mps" type="tns:mps" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="productionPlan" type="xs:int"/>
+<xs:element name="time" type="xs:string" minOccurs="0"/>
+<xs:element name="workingDays" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="mps">
+<xs:sequence>
+<xs:element name="grossRequirment" type="xs:int"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="MPSweeklyDemand" type="xs:int"/>
+<xs:element name="mrp" type="tns:mrp" minOccurs="0"/>
+<xs:element name="onHandAfter" type="xs:int"/>
+<xs:element name="onHandBefore" type="xs:int"/>
+<xs:element name="partName" type="xs:string" minOccurs="0"/>
+<xs:element name="periodDate" type="xs:string" minOccurs="0"/>
+<xs:element name="plan" type="tns:salesPlan" minOccurs="0"/>
+<xs:element name="plannedOrder" type="xs:int"/>
+<xs:element name="scheduledReceipts" type="xs:int"/>
+<xs:element name="week" type="xs:int"/>
+<xs:element name="workingDays" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="mrp">
+<xs:sequence>
+<xs:element name="grossRequirment" type="xs:int"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="mps" type="tns:mps" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="onHandAfter" type="xs:int"/>
+<xs:element name="onHandBefore" type="xs:int"/>
+<xs:element name="plannedOrder" type="xs:int"/>
+<xs:element name="schedulesReceipts" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="singleTransactionItem">
+<xs:sequence>
+<xs:element name="amount" type="xs:int" minOccurs="0"/>
+<xs:element name="furniture" type="tns:furniture" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="transactionOrder" type="tns:transactionOrder" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="transactionOrder">
+<xs:sequence>
+<xs:element name="customerPhone" type="xs:string" minOccurs="0"/>
+<xs:element name="date" type="xs:string" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="isMember" type="xs:boolean" minOccurs="0"/>
+<xs:element name="itemList" type="tns:singleTransactionItem" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="total" type="xs:decimal" minOccurs="0"/>
+<xs:element name="transactionReference" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="furnitureArray" final="#all">
+<xs:sequence>
+<xs:element name="item" type="tns:furniture" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="furnitureArrayArray" final="#all">
+<xs:sequence>
+<xs:element name="item" type="tns:furnitureArray" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>

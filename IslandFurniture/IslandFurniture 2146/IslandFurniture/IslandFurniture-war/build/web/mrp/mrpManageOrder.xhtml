@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>mrpWorkSpace</title>
+        <f:event listener="#{loginManagedBean.checkLoginMRP}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+    <h:body>
+        <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="mrpWorkspace.xhtml">
+        </ui:composition>
+        <p:tab title="Manage Account">
+
+            <h:form id="formManageAccount" style="width:1200px;">                    
+                <p:growl id="msgs" showDetail="true" />                        
+                <p:panel id="panelManageAccount" header="Search Order">
+                    <p:ajaxStatus style="width:16px;height:16px;">
+                        <f:facet name="start">
+                            <h:graphicImage value="/images/spinner.gif" />
+                        </f:facet>
+                        <f:facet name="complete">
+                            <h:outputText value="" />
+                        </f:facet>
+                    </p:ajaxStatus>
+                    <p:messages />        
+
+                    <p:panelGrid>   
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="plant" style="font-weight: bold" value="Enter Plant Name: " />
+                            </p:column>
+                            <p:column>
+                                <p:inputText label="Plant Name"  id="plant" value="#{orderManagedBean.plant}">                                    
+                                </p:inputText>
+                            </p:column>                                  
+                        </p:row>                           
+                    </p:panelGrid>
+                    <p:commandButton id="btn" value="Search Order" update="viewUser msgs @parent" actionListener="#{orderManagedBean.searchOrder}" ajax="true" />
+                    <p:commandButton id="btnViewAllOrder" value="View All Order" update="viewUser msgs @parent" actionListener="#{orderManagedBean.viewAllOrder}" ajax="true" />
+                </p:panel>
+
+                <p:panel id="viewUser" >
+                    <p:dataTable var="adhocOrder" value="#{orderManagedBean.orderList}"  emptyMessage="No such order">
+                        <p:column headerText="Plant Name" >
+                            <h:outputText value="#{adhocOrder.plant}" />
+                        </p:column>
+                        
+                        <p:column headerText="Order ID" >
+                            <h:outputText value="#{adhocOrder.id}" />
+                        </p:column>
+                        
+                        <p:column headerText="Amount" >
+                            <h:outputText value="#{adhocOrder.amount}" />
+                        </p:column>   
+
+                        <p:column headerText="Deadline" >
+                            <h:outputText value="#{adhocOrder.deadline}" />
+                        </p:column>   
+
+                        <p:column headerText="Status" >
+                            <h:outputText value="#{adhocOrder.status}" />
+                        </p:column>   
+                        
+                        <p:column headerText="Request Store" >
+                            <h:outputText value="#{adhocOrder.requestStore}" />
+                        </p:column>
+                        
+                        <p:column headerText="Furniture Name" >
+                            <h:outputText value="#{adhocOrder.furniture.furnitureName}" />
+                        </p:column>
+                        
+                         <p:column headerText="Update Order Status" >
+                             <p:commandButton value="Reset" actionListener="#{orderManagedBean.updateOrderStatus}" oncomplete="PF('dlg2').show();"  ajax="true">
+                                 <f:attribute name="orderId" value="#{adhocOrder.id}" />
+                             </p:commandButton>
+                        </p:column>  
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+            
+            <p:dialog header="Reset Account Status" widgetVar="dlg2" minHeight="40">                     
+                    <h:form id="resetAccountStatus">
+                            <p:growl id="msgs" showDetail="true" /> 
+
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel for="accountStatus" style="font-weight: bold" value="Account Status:" />
+                                </p:column>
+                                <p:column>
+                                    <p:selectOneMenu  label="Order Status" id="accountStatus" value="#{orderManagedBean.status}">
+                                        <f:selectItem itemLabel="Select One" itemValue="" />
+                                        <f:selectItem itemLabel="finished" itemValue="finished" />
+                                        <f:selectItem itemLabel="notFinished" itemValue="notFinished" />                                       
+                                    </p:selectOneMenu>
+                                </p:column>                            
+                            </p:row>
+
+                            <p:commandButton value="Save" update=":formManageAccount:msgs, :formManageAccount:viewUser" actionListener="#{orderManagedBean.resetAccountSatus()}" ajax="true" >
+                            </p:commandButton>
+                    </h:form>
+                </p:dialog>
+            
+            
+        </p:tab>
+     
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>
+
+</html>

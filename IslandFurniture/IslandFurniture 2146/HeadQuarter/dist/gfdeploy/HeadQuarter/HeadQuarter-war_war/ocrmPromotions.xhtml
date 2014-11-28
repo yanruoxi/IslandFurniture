@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>OCRM Promotion</title>
+        <f:event listener="#{loginManagedBean.checkLoginOCRM(cse)}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+    <h:body>
+        <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="ocrmWorkspace.xhtml">
+        </ui:composition>
+
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="ocrmWelcome.xhtml"/>
+            <p:menuitem value="Create New Voucher" url="#"/>
+        </p:breadCrumb>
+
+
+
+        <h:form id="formManageAccount">                    
+            <p:growl id="msgs" showDetail="true" />                        
+            <p:panel id="panelManageAccount" >
+                <p:ajaxStatus >
+                    <f:facet name="start">
+                        <h:graphicImage value="/images/spinner.gif" />
+                    </f:facet>
+                    <f:facet name="complete">
+                        <h:outputText value="" />
+                    </f:facet>
+                </p:ajaxStatus>
+                <p:messages />        
+
+                <p:panelGrid>   
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="value" style="font-weight: bold" value="Enter Product Name: " />
+                        </p:column>
+                        <p:column>
+
+                            <p:selectOneMenu id="value" value="#{promotionManagedBean.productName}">
+            
+                                <f:selectItems value="#{promotionManagedBean.productNameList}" />
+        </p:selectOneMenu>
+
+
+                          
+                        </p:column>      
+                    </p:row>        
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="point" style="font-weight: bold" value="Promotion Discount: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText label="Point"  id="point" value="#{promotionManagedBean.discount}" >                                   
+                            </p:inputText> <h:outputText style="margin-left:10px" value="&#37;"/>
+                        </p:column>                                 
+                    </p:row>
+
+                </p:panelGrid>
+                <p:commandButton id="btn" value="Submit" update=":h11:viewUser msgs @parent" actionListener="#{promotionManagedBean.createPromotion}" ajax="true" />
+            </p:panel>
+        </h:form>
+        <h:form id="h11">
+            <p:panel id="viewUser" >
+
+                <p:dataTable id="viewUsers" var="promotionProduct" value="#{promotionManagedBean.promotionProductList}"  emptyMessage="No promotion">
+
+
+                    <p:column headerText="Product Name" >
+                        <h:outputText value="#{promotionProduct.productName}" />
+                    </p:column>
+
+                    <p:column headerText="U.P" >
+                        <h:outputText value="#{promotionProduct.price}" />
+                    </p:column>
+
+                    <p:column headerText="Discount price"  >
+                        <h:outputText value="#{promotionProduct.discountPrice}" />
+                    </p:column>
+                    <p:column headerText="invalid promotion"  >
+                        <p:commandButton id="btn123"  value="invalid the promotion product" update=":h11:viewUser :formManageAccount:msgs " actionListener="#{promotionManagedBean.invalidPromotion}" ajax="true" >
+                            <f:attribute name="RGId" value="#{promotionProduct.id}"/>
+
+                            <p:confirm header="Confirmation" message="Confirm" icon="ui-icon-alert" />
+                        </p:commandButton>
+                        <p:confirmDialog global="true" >
+                            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                        </p:confirmDialog>
+                    </p:column>
+
+
+
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+
+
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>   
+
+</html>
+

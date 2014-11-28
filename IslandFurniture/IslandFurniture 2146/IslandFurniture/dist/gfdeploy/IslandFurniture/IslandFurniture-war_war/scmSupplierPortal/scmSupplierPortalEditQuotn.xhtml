@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Supplier Portal Workspace</title>
+        <f:event listener="#{supplierAcctManagedBean.checkLoggedIn}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+    <h:body>
+
+        <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="scmSupplierPortalWorkspace.xhtml">
+            <ui:define name="scmSupplierPortalWorkspace"/> 
+        </ui:composition>  
+
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="#"/>
+            <p:menuitem value="View Request for Quotations" url="#"/>
+            <p:menuitem value="Edit Quotation" url="#"/>
+        </p:breadCrumb>
+
+        <p:panel id="panelEditQtn">
+            <h:form id="formEditQtn" style="width:1000px;">
+                <p:growl id="messages" showDetail="true"/>
+                <p:ajaxStatus style="width:16px;height:16px;">
+                    <f:facet name="start">
+                        <h:graphicImage value="/images/spinner.gif" />
+                    </f:facet>
+                    <f:facet name="complete">
+                        <h:outputText value="" />
+                    </f:facet>
+                </p:ajaxStatus>
+                
+                <p:outputLabel style="font-size: 20px"><b>Quotation Details</b></p:outputLabel><br />
+
+
+                <p:panelGrid>
+                        <p:row>
+                        <p:column>
+                            <p:outputLabel style="font-weight: bold">Quotation ID:</p:outputLabel>
+                        </p:column>
+                        <p:column>     
+                            <p:outputLabel>#{quotnDetailSupplierPortalManagedBean.selectedQuotation.quotationDetailId}</p:outputLabel>               
+                        </p:column>  
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="status" value="Quotation Status:"/>    
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel id="status" value="#{quotnDetailSupplierPortalManagedBean.selectedQuotation.quotationDetailStatus}"/>
+                        </p:column>  
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="quotnSentDate" value="Quotation Requested Date:"/>    
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel id="quotnSentDate" value="#{quotnDetailSupplierPortalManagedBean.selectedQuotation.quotedSentDate}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </p:outputLabel>
+                        </p:column>  
+                    </p:row>  
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="Quantity" value="Quantity:"/>    
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel id="Quantity" value="#{quotnDetailSupplierPortalManagedBean.selectedQuotation.qty}"/>
+                        </p:column>  
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="partName" value="Part Name:"/>    
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel id="partName" value="#{quotnDetailSupplierPortalManagedBean.selectedQuotation.part.partName}"/>
+                        </p:column>  
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="quotnEndingDate" value="Quotation Ending Date:"/>   
+                        </p:column>
+                        <p:column>
+                            <p:calendar id="quotnEndingDate" value="#{quotnDetailSupplierPortalManagedBean.selectedQuotation.quotationEndingDate}" label="Quotation Ending Date" required="true" pattern="dd/MM/yyyy" />
+                        </p:column>  
+                    </p:row> 
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="quotnScheduledDeliveryDate" value="Expected Delivery Date:"/>   
+                        </p:column>
+                        <p:column>
+                            <p:calendar id="quotnScheduledDeliveryDate" value="#{quotnDetailSupplierPortalManagedBean.selectedQuotation.quotedScheduledDeliveryDate}" label="Expected Delivery Date" required="true" pattern="dd/MM/yyyy" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Quotation Unit Price($):" for="qtnUnitPrice"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="qtnUnitPrice" value="#{quotnDetailSupplierPortalManagedBean.selectedQuotation.quotedUnitPrice}" required="true" binding="#{quotnDetailSupplierPortalManagedBean.quotedUnitPriceInput}">
+                                <p:ajax event="blur" listener="#{quotnDetailSupplierPortalManagedBean.calculatedTotalPriceEdit}" update="message messages" />
+                                <f:validateDoubleRange minimum="0.01"/>
+                            </p:inputText>
+                            <p:message for="qtnUnitPrice" id="message" showSummary="true" showDetail="false"/>
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Negotiation Condition: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputTextarea id="scmSupplierPortalEditQuotn" rows="5" cols="30" counter="display" maxlength="200" counterTemplate="{0} characters remaining." autoResize="false" required="true" value="#{quotnDetailSupplierPortalManagedBean.selectedQuotation.quotedNegoCondition}" requiredMessage="Please key in a negotiation condition."/>
+                            <h:outputText id="display" style="float: right;"/>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+                <p:commandButton value="Edit Quotation" icon="ui-icon-check" update=":panelEditQtn, messages" actionListener="#{quotnDetailSupplierPortalManagedBean.editQuotn}" ajax="true"/>
+            </h:form>
+        </p:panel>
+
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>
+
+</html>
+

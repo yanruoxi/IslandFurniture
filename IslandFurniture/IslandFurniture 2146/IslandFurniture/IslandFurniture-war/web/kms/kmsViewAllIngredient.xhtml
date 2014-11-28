@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>KMS Workspace</title>
+        <f:event listener="#{loginManagedBean.checkLoginKMSStaff}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+
+    <h:body> 
+        <h:form id="formMainIngredients">
+            <p:growl id="messages"/>
+            <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="kmsWorkspace.xhtml">
+                <ui:define name="kmsWorkspaceMenu"> 
+                </ui:define>            
+            </ui:composition>   
+
+            <p:breadCrumb>
+                <p:menuitem value="Home" url="kmsWelcome.xhtml"/>
+                <p:menuitem value="Manage Ingredient" url="kmsViewAllIngredient.xhtml?i=2" />
+            </p:breadCrumb>
+
+            <p:menubar>
+                <p:menuitem value="View Ingredients" url="#" icon="ui-icon-search"/>
+                <p:menuitem value="Add Ingredient" url="kmsAddIngredient.xhtml?i=2" icon="ui-icon-plus"/>
+                <p:menuitem value="Set Default Supplier" url="kmsSetDefaultSupplier.xhtml?i=2" icon="ui-icon-plus"/>
+            </p:menubar>
+
+                <p:panel >
+                    <p:growl autoUpdate="true" showDetail="true"/>
+
+                    <p:dataTable id="ingredientTable" var="ingredient" value="#{ingredientManagedBean.ingredients}" paginator="true" rows="10" emptyMessage="No ingredient found." widgetVar="ingredientsTable" filteredValue="#{ingredientManagedBean.filteredIngredients}" rowKey="#{ingredient.id}">
+                        <p:column style="width: 100px" headerText="Ingredient ID">
+                            <h:outputText value="#{ingredient.id}" />
+                        </p:column>
+
+                        <p:column headerText="Ingredient Name" sortBy="#{ingredient.ingredientName}"  filterBy="#{ingredient.ingredientName}"> 
+                            <h:outputText value="#{ingredient.ingredientName}" />
+                        </p:column>
+
+                        <p:column headerText="Lead Time (in terms of days)"> 
+                            <h:outputText value="#{ingredient.kleadTime}" />
+                        </p:column>
+
+                        <p:column headerText="Lot Size (in terms of weight in grams)"> 
+                            <h:outputText value="#{ingredient.klotSize}" />
+                        </p:column>
+                        
+                        <p:column headerText="Ingredient Type" filterBy="#{ingredient.ingredientType}" filterMatchMode="exact"> 
+                        <f:facet name="filter">
+                            <p:selectOneMenu onchange="PF('ingredientsTable').filter()">
+                                <f:selectItem itemLabel="Select One" itemValue="#{null}" noSelectionOption="true" />
+                                <f:selectItems value="#{ingredientManagedBean.ingredientTypeList}" />
+                            </p:selectOneMenu>
+                        </f:facet>
+                        <h:outputText value="#{ingredient.ingredientType}"/>
+                        </p:column>
+
+                        <p:column style="width:32px;text-align: center">
+                            <p:commandButton update=":formMainIngredients:ingredientDetail" oncomplete="PF('ingredientDialog').show()" icon="ui-icon-search" title="View">
+                                <f:setPropertyActionListener value="#{ingredient}" target="#{ingredientManagedBean.selectedIngredient}" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+
+            <p:dialog header="Ingredient Info" widgetVar="ingredientDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                <p:outputPanel id="ingredientDetail" style="text-align:center;">
+                    <p:panelGrid  columns="2" rendered="#{not empty ingredientManagedBean.selectedIngredient}" columnClasses="label,value">
+                        <h:outputText value="Ingredient Id:" />
+                        <h:outputText value="#{ingredientManagedBean.selectedIngredient.id}" />
+
+                        <h:outputText value="Ingredient Name:" />
+                        <h:outputText value="#{ingredientManagedBean.selectedIngredient.ingredientName}" />
+
+                        <h:outputText value="Ingredient Type:" />
+                        <h:outputText value="#{ingredientManagedBean.selectedIngredient.ingredientType}" />
+
+                        <h:outputText value="Default Supplier (if any):" />
+                        <h:outputText value="#{ingredientManagedBean.selectedIngredient.kdefaultSupplier.ksupplierName}" />
+                        
+                        <h:outputText value="Unit Price for Default Supplier (if any):" />
+                        <h:outputText value="#{ingredientManagedBean.selectedIngredient.defaultSupplierUnitPrice}">
+                            <f:convertNumber currencySymbol="$" type="currency"/>
+                        </h:outputText>
+
+                        <h:outputText value="Lead Time:" />
+                        <h:outputText value="#{ingredientManagedBean.selectedIngredient.kleadTime}" />  
+                        
+                        <h:outputText value="Lot Size:" />
+                        <h:outputText value="#{ingredientManagedBean.selectedIngredient.klotSize}" />  
+                    </p:panelGrid>
+
+                    <br />
+                    <h:outputText value="Delete Ingredient?" />
+                    <br />
+                    <p:commandButton value="Yes" icon="ui-icon-check" actionListener="#{ingredientManagedBean.deleteIngredient}" oncomplete="PF('ingredientDialog').hide()" update=":formMainIngredients:ingredientTable" ajax="true"/>
+                    <p:commandButton value="No" icon="ui-icon-close" onclick="PF('ingredientDialog').hide()"/>
+
+                    <br />
+                    <br/>
+                    <h:outputText value="Edit Ingredient?" />
+                    <br />
+                    <p:commandButton value="Yes" icon="ui-icon-check" actionListener="#{ingredientManagedBean.redirectToEditIngredient}" oncomplete="PF('ingredientDialog').hide()" update=":formMainIngredients:ingredientTable" ajax="true"/>
+                    <p:commandButton value="No" icon="ui-icon-close" onclick="PF('ingredientDialog').hide()"/>
+                </p:outputPanel>
+                <br/>
+            </p:dialog>
+        </h:form>
+        
+     <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>   
+
+</html>
+

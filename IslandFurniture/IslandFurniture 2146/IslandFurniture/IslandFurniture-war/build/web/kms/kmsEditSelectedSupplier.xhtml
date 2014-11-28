@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>SCM Workspace</title>
+        <f:event listener="#{loginManagedBean.checkLoginKMSStaff(cse)}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />        
+    </h:head>
+
+    <h:body>
+
+        <h:form id="formEditSupplier">
+            <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="kmsWorkspace.xhtml"/> 
+
+            <p:breadCrumb>
+                <p:menuitem value="Home" url="kmsWelcome.xhtml"/>
+                <p:menuitem value="Manage Suppliers" url="kmsEditSupplier.xhtml?i=1"/>
+                <p:menuitem value="Edit Suppliers" url="#"/>
+            </p:breadCrumb>
+
+            <p:menubar>
+                <p:menuitem value="View Suppliers" url="kmsViewAllSuppliers.xhtml?i=1" icon="ui-icon-search"/>
+                <p:menuitem value="Add Supplier" url="kmsAddSupplier.xhtml?i=1" icon="ui-icon-plus"/>
+                <p:menuitem value="Add Ingredient to Supplier" url="kmsAddIngredientToSupplier.xhtml?i=1" icon="ui-icon-plus"/>
+                <p:menuitem value="Edit Supplier" url="kmsEditSupplier.xhtml?i=1" icon="ui-icon-pencil"/>
+            </p:menubar>
+
+                <p:panel header="Edit Supplier">
+                    <p:growl id="msgs" autoUpdate="true" showDetail="true"/>
+                    <h:panelGrid id="gridEditSupplier" cellpadding="5">
+
+                        <p:row>
+                            <p:column><p:outputLabel style="font-weight: bold">Supplier ID: </p:outputLabel></p:column>
+                            <p:column><p:outputLabel>#{kitchenSupplierManagedBean.supplierToEdit.ksupplierId}</p:outputLabel></p:column>  
+                        </p:row>
+
+                        <p:row>
+                            <p:column><p:outputLabel style="font-weight: bold">Supplier Name: </p:outputLabel></p:column>
+                            <p:column><p:outputLabel>#{kitchenSupplierManagedBean.supplierToEdit.ksupplierName}</p:outputLabel></p:column>  
+                        </p:row>
+
+                        <p:row>
+                            <p:column><p:outputLabel style="font-weight: bold">Supplier Address: </p:outputLabel></p:column>
+                            <p:column><p:outputLabel>#{kitchenSupplierManagedBean.supplierToEdit.ksupplierAddress}</p:outputLabel></p:column>  
+                        </p:row>                
+                        <br />
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="telephoneNum" value="Telephone No: " />
+                            </p:column>
+                            <p:column>
+                                <p:inputMask mask="9999 9999" placeholder="#{kitchenSupplierManagedBean.supplierToEdit.ktelephone}" required="true" label="Telephone No" requiredMessage="Telephone No is required." id="telephoneNum" value="#{kitchenSupplierManagedBean.ktelephone}"/>
+                            </p:column>                                  
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="contactPersonName" value="Contact Person: " />
+                            </p:column>
+                            <p:column>
+                                <p:inputText placeholder="#{kitchenSupplierManagedBean.supplierToEdit.kcontactPersonName}" required="true" label="Contact Person" requiredMessage="Contact Person is required." id="contactPersonName" value="#{kitchenSupplierManagedBean.kcontactPersonName}">
+                                    <f:validateLength minimum="4" maximum="16" />
+                                </p:inputText>
+                            </p:column>                                   
+                        </p:row>                                      
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="mobileNum" value="Mobile No: " />
+                            </p:column>
+                            <p:column>
+                              <p:inputMask mask="9999 9999" placeholder="#{kitchenSupplierManagedBean.supplierToEdit.kmobileNum}" required="true" label="Mobile No" requiredMessage="Mobile No is required." id="mobileNum" value="#{kitchenSupplierManagedBean.kmobileNum}"/>                            </p:column>                                   
+                        </p:row>                                  
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="faxNum" value="Fax No: " />
+                            </p:column>
+                            <p:column>
+                                <p:inputMask mask="9999 9999" placeholder="#{kitchenSupplierManagedBean.supplierToEdit.kfaxNum}" required="true" label="Fax No" requiredMessage="Fax No is required." id="faxNum" value="#{kitchenSupplierManagedBean.kfaxNum}"/>
+                            </p:column>                                   
+                        </p:row>                                      
+
+                        <p:row>
+                            <p:column>  
+                                <p:outputLabel for="supplierEmailAddr" value="Email Address: " />
+                            </p:column>
+                            <p:column>
+                                <p:inputText placeholder="#{kitchenSupplierManagedBean.supplierToEdit.ksupplierEmailAddress}" required="true" label="Email Address" requiredMessage="Email Address is required." validatorMessage="Invalid email format" id="supplierEmailAddr" value="#{kitchenSupplierManagedBean.ksupplierEmailAddress}">
+                                    <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                                </p:inputText>
+                            </p:column>                                   
+                        </p:row>
+
+                    </h:panelGrid>
+
+                    <p:separator />
+                    <p:commandButton  value="Back" onclick="window.history.back();"/>
+                    <p:commandButton  value="Save" update="gridEditSupplier,msgs" actionListener="#{kitchenSupplierManagedBean.editSupplier}" ajax="true"/>
+
+                </p:panel>
+        </h:form>
+
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>   
+
+</html>
+

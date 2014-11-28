@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>IM Workspace</title>
+        <f:event listener="#{loginManagedBean.checkLoginIMWarehouseStaff(cse)}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" /> 
+    </h:head>
+
+    <h:body>
+        <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="imWorkspace.xhtml">
+            <ui:define name="imWorkspace"> 
+            </ui:define>   
+        </ui:composition>
+
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="imWelcome.xhtml"/>
+            <p:menuitem value="Manage Warehouse" url="#"/>
+            <p:menuitem value="Warehouse Profile" url="#"/>
+        </p:breadCrumb>
+        
+        <p:menubar>
+                <p:menuitem value="Warehouse Profile" url="imEditWarehouse.xhtml?i=1" icon="ui-icon-view"/>
+                <p:menuitem value="Add Warehouse" url="imWarehouseAdd.xhtml?i=1" icon="ui-icon-plus"/>
+            </p:menubar>
+
+        <h:form id="formBomTable">
+            <p:growl autoUpdate="true" id="msgBom" showDetail="true"/> 
+            <p:panel>
+                <p:dataTable id="warehouseList" var="warehouse" value="#{warehouseManageBean.warehouseList}" style="margin-bottom:"  emptyMessage="No results" >
+                <p:column style="width: 150px" headerText="Warehouse Id"><h:outputText value="#{warehouse.id}"/></p:column>
+                <p:column headerText="Warehouse Name" sortBy="#{warehouse.warehouseName}"><h:outputText value="#{warehouse.warehouseName}"/></p:column>
+
+                <p:column headerText="Delete" >
+                    <p:commandButton id="btn11" value="Delete" update=":formBomTable:warehouseList  " actionListener="#{warehouseManageBean.deleteWarehouse}" ajax="true" >
+                        <f:attribute name="warehouseId" value="#{warehouse.id}"/>
+                        <p:confirm header="Confirmation" message="Are you sure you want to delete this Warehouse?" icon="ui-icon-alert" />
+                    </p:commandButton>
+
+                    <p:confirmDialog global="true" >
+                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog>
+                </p:column>   
+
+
+            </p:dataTable>
+                            </p:panel>
+
+        </h:form>
+
+
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>
+
+</html>
+
+
+
+
+
+

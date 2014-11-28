@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>MRP Workspace</title>
+        <f:event listener="#{loginManagedBean.checkLoginMRP(cse)}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+
+    <h:body> 
+
+        <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="mrpWorkspace.xhtml"/>      
+
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="mrpWelcome.xhtml"/>
+            <p:menuitem value="Manage Part" url="#"/>
+            <p:menuitem value="Add Part" url="#"/>
+        </p:breadCrumb>
+
+        <p:menubar>
+            <p:menuitem value="View Part" url="mrpManagePart.xhtml?i=2" icon="ui-icon-search"/>
+            <p:menuitem value="Add Part" url="#" icon="ui-icon-plus"/>
+        </p:menubar>
+
+        <h:form id="formMainPart">
+            <p:growl id="msgs" showDetail="true" autoUpdate="true" />
+            <p:panel header="Add New Part">
+                <p:outputLabel for="partName" value="Part Name: "/>                 
+                <p:inputText id="partName" value="#{partManageBean.partName}" label="Part Name" required="true" >
+                    <p:ajax event="blur" listener="#{partManageBean.checkExistingPart}" update="message" />
+                </p:inputText>
+                <p:message id="message" for="partName" /> 
+                <br />
+                <p:outputLabel for="lotSize" value="Lot Size:"/>                
+                <p:spinner id="lotSize" value="#{partManageBean.lotSize}" placeholder="1" label="Lot Size" required="true" min="1" size="4"/>
+                <br /><br />
+                <p:outputLabel for="leadTime" value="Lead Time (in terms of no. of days):"/>                
+                <p:spinner id="leadTime" value="#{partManageBean.leadTime}" label="Lead Time" placeholder="1" required="true" min="1" size="4"/>
+                <br /><br />
+                <p:commandButton update=":formMainPart,msgs" value="Add New Part" icon="ui-icon-check" validateClient="true" actionListener="#{partManageBean.addNewPart}" ajax="true"/>
+            </p:panel>
+        </h:form>
+
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>
+
+</html>
+

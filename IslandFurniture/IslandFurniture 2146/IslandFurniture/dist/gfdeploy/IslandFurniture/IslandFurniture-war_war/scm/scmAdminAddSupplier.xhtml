@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>SCM Workspace</title>
+        <f:event listener="#{loginManagedBean.checkLoginSCM}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+
+    <h:body>    
+
+        <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="scmAdminWorkspace.xhtml">
+            <ui:define name="scmWorkspaceMenu"/>         
+        </ui:composition> 
+        
+           <p:breadCrumb>
+                <p:menuitem value="Home" url="scmAdminWelcome.xhtml"/>
+                <p:menuitem value="Manage Suppliers" url="scmViewAllSuppliers.xhtml?i=1"/>
+                <p:menuitem value="Add Suppliers" url="#"/>
+            </p:breadCrumb>
+
+        <p:menubar>
+            <p:menuitem value="View Suppliers" url="scmAdminViewAllSuppliers.xhtml" icon="ui-icon-search"/>
+            <p:menuitem value="Add Supplier" url="#" icon="ui-icon-plus"/>
+            <p:menuitem value="Add Parts to Supplier" url="scmAdminAddPartToSupplier.xhtml?i=1" icon="ui-icon-plus"/>
+            <p:menuitem value="Edit Supplier" url="scmAdminEditSupplier.xhtml?i=1" icon="ui-icon-pencil"/>
+        </p:menubar> 
+
+        <h:form id="formAddSupplier">
+                <p:panel header="Add Supplier">
+                    <p:growl id="msgs" showDetail="true" autoUpdate="true" />
+
+                    <h:panelGrid id="gridAddSupplier" columns="2" cellpadding="10">
+                        <p:outputLabel for="formAddSupplier" value="Supplier Particulars" style="font-weight: bold; font-size: larger"/>
+                        <br /><br />
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="supplierName" value="Supplier Name: " />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="supplierName" value="#{supplierManagedBean.supplierName}" binding="#{supplierManagedBean.supplierNameInput}" title="Pseudo" required="true" requiredMessage="Supplier Name is required.">
+                                    <p:ajax event="blur" listener="#{supplierManagedBean.checkExistingSuppliers}" update="message" />
+                                    <f:validateLength minimum="4" />
+                                </p:inputText>
+                                <p:message id="message" for="supplierName" /> 
+                            </p:column>
+                        </p:row>
+                        <br />
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="supplierAddress" value="Supplier Address: " />
+                            </p:column>
+                            <p:column>
+                                <p:inputText required="true" label="Supplier Address" requiredMessage="Supplier Address is required." id="supplierAddress" value="#{supplierManagedBean.supplierAddress}">
+                                    <f:validateLength minimum="4" />
+                                </p:inputText>
+                            </p:column>                                   
+                        </p:row>      
+                        <br />
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="telephoneNum" value="Telephone No: " />
+                            </p:column>
+                            <p:column>
+                                <p:inputMask required="true" label="Telephone No" requiredMessage="Telephone No is required." id="telephoneNum" value="#{supplierManagedBean.telephoneNum}" mask="9999 9999">
+                                </p:inputMask>
+                            </p:column>                                   
+                        </p:row>
+                        <br />
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="contactPersonName" value="Contact Person: " />
+                            </p:column>
+                            <p:column>
+                                <p:inputText required="true" label="Contact Person" requiredMessage="Contact Person is required." id="contactPersonName" value="#{supplierManagedBean.contactPersonName}">
+                                    <f:validateLength minimum="4" maximum="16" />
+                                </p:inputText>
+                            </p:column>                                   
+                        </p:row>                                      
+                        <br />
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="mobileNum" value="Mobile No: " />
+                            </p:column>
+                            <p:column>
+                                <p:inputMask required="true" label="Mobile No" requiredMessage="Mobile No is required." id="mobileNum" value="#{supplierManagedBean.mobileNum}" mask="9999 9999">
+                                </p:inputMask>
+                            </p:column>                                   
+                        </p:row>                                  
+                        <br />
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="faxNum" value="Fax No: " />
+                            </p:column>
+                            <p:column>
+                                <p:inputMask mask="9999 9999" required="true" label="Fax No" requiredMessage="Fax No is required." id="faxNum" value="#{supplierManagedBean.faxNum}">
+                                </p:inputMask>     
+                            </p:column>                                   
+                        </p:row>                                      
+                        <br />
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="supplierEmailAddr" value="Email Address: " />
+                            </p:column>
+                            <p:column>
+                                <p:inputText required="true" label="Email Address" requiredMessage="Email Address is required." validatorMessage="Invalid email format" id="supplierEmailAddr" value="#{supplierManagedBean.supplierEmailAddr}">
+                                    <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                                </p:inputText>
+                            </p:column>                                   
+                        </p:row>
+
+                        <p:separator />
+                        <p:commandButton  value="Save"  update="formAddSupplier,msgs" actionListener="#{supplierManagedBean.addSupplier}" ajax="false"/>
+
+                    </h:panelGrid>  
+                </p:panel>
+
+        </h:form>
+        
+     <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>   
+
+</html>
+

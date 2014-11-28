@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Supplier Portal Workspace</title>
+        <f:event listener="#{supplierAcctManagedBean.checkLoggedIn}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+
+    <h:body> 
+        <h:form id="formMainSPO">
+            <p:growl id="messages" showDetail="true"/>
+            <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="scmSupplierPortalWorkspace.xhtml">
+                <ui:define name="supplierPortalWorkspaceMenu"/> 
+            </ui:composition>
+
+            <p:breadCrumb>
+                <p:menuitem value="Home" url="#"/>
+                <p:menuitem value="View Approved Purchase Orders" url="#"/>
+            </p:breadCrumb>
+
+            <p:panel  id="viewSPOs">            
+                <p:growl autoUpdate="true" showDetail="true" id="msgs"/>
+
+                <p:dataTable id="spoTable" var="spo" value="#{poSupplierPortalManagedBean.supplierPurchaseOrders}" paginator="true" rows="10" emptyMessage="No purchase orders found." widgetVar="spoTable" filteredValue="#{poSupplierPortalManagedBean.filteredSupplierPurchaseOrders}" rowKey="#{spo.purchaseOrderId}">
+                    <p:column headerText="Purchase Order ID">
+                        <h:outputText value="#{spo.purchaseOrderId}" />
+                    </p:column>
+
+                    <p:column headerText="Purchase Order Date" sortBy="#{spo.purchaseOrderDate}"> <h:outputText value="#{spo.purchaseOrderDate}"><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText></p:column>
+                    <p:column headerText="Part Name" filterBy="#{spo.part.partName}" filterMatchMode="contains"> <h:outputText value="#{spo.part.partName}" /></p:column>
+                    <p:column headerText="Scheduled Delivery Date" sortBy="#{spo.scheduledDeliveryDate}"> <h:outputText value="#{spo.scheduledDeliveryDate}"><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText></p:column>
+                    <p:column headerText="Purchase Order Status"> <h:outputText value="#{spo.purchaseOrderStatus}" /></p:column>
+                    <p:column headerText="Delivery Status"><h:outputText value="#{spo.deliveryStatus}" /></p:column>
+
+                    <p:column style="width:32px;text-align: center">
+                        <p:commandButton update=":formMainSPO:spoDetail" oncomplete="PF('spoDialog').show()" icon="ui-icon-search" title="View">
+                            <f:setPropertyActionListener value="#{spo}" target="#{poSupplierPortalManagedBean.selectedSupplierPurchaseOrder}" />
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+
+            <p:dialog header="Purchase Order Info" widgetVar="spoDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" position="center">
+                <p:outputPanel id="spoDetail" style="text-align:center;">
+                    <p:panelGrid columns="2" rendered="#{not empty poSupplierPortalManagedBean.selectedSupplierPurchaseOrder}" columnClasses="label,value">
+                        <h:outputText value="Purchase Order Id:"/><h:outputText value="#{poSupplierPortalManagedBean.selectedSupplierPurchaseOrder.purchaseOrderId}" />
+                        <h:outputText value="Part Name:" /><h:outputText value="#{poSupplierPortalManagedBean.selectedSupplierPurchaseOrder.part.partName}" />
+                        <h:outputText value="Unit Price" /><h:outputText value="#{poSupplierPortalManagedBean.selectedSupplierPurchaseOrder.unitPrice}"><f:convertNumber type="currency" currencySymbol="$"/></h:outputText>
+                        <h:outputText value="Total Price:" /><h:outputText value="#{poSupplierPortalManagedBean.selectedSupplierPurchaseOrder.totalPrice}"><f:convertNumber type="currency" currencySymbol="$"/></h:outputText>
+                        <h:outputText value="Negotiation Condition:" /><h:outputText value="#{poSupplierPortalManagedBean.selectedSupplierPurchaseOrder.negoCondition}" />                
+                        <h:outputText value="Delivery Status:" /><h:outputText value="#{poSupplierPortalManagedBean.selectedSupplierPurchaseOrder.deliveryStatus}" />
+                    </p:panelGrid>
+
+                    <p:commandButton ajax="false" value="Save" icon="ui-icon-disk" onclick="PF('spoDialog').hide()" action="#{reportManagedBean.spoPDF(selectedSupplierPurchaseOrder)}"/>
+                    <p:commandButton value="Close" icon="ui-icon-close" onclick="PF('spoDialog').hide()"/>
+
+
+                </p:outputPanel>
+                <br/>
+            </p:dialog>
+        </h:form>
+
+
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>
+
+</html>
+

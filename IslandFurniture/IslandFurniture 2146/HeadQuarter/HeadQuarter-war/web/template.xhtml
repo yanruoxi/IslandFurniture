@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Headquarter Template</title>
+
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+    <h:body>
+
+     
+            <center><img src="img/internal_banner_globalhq.png"/></center>
+            <center style="font-family: Trebuchet MS;"><h3>   Welcome #{welcomeMessage.currentUser.userName}. You are logged in as #{welcomeMessage.currentUser.accountType} at the Global Headquarter</h3></center>
+            <h:form id="formMain">
+
+       
+
+                <p:menubar>
+                    <p:menuitem value="Welcome" url="headquarterWelcome.xhtml" icon="ui-icon-home"/>
+
+                    <p:menuitem value="Manage Factory" url="manageFactory.xhtml" icon="ui-icon-wrench"/>
+
+                    <p:menuitem value="Manage Store" url="manageStore.xhtml" icon="ui-icon-wrench"/>  
+                    
+                    <p:menuitem value="Manage Product" url="manageProduct.xhtml" icon="ui-icon-wrench"/>  
+                    
+                    <p:menuitem value="Manage Salesforecast" url="manageSalesForecast.xhtml" icon="ui-icon-wrench"/>     
+
+                    <p:menuitem value="Logout" url="headquarterLogout.xhtml" icon="ui-icon-unlocked"/>
+                </p:menubar>        
+
+            </h:form>
+
+            <br/>
+            <br/>      
+    
+
+
+
+
+    </h:body>
+</html>

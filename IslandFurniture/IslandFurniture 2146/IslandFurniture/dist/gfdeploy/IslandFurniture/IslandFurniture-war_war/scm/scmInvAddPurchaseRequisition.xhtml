@@ -1,0 +1,183 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>SCM INVENTORY Workspace</title>
+        <f:event listener="#{loginManagedBean.checkLoginSCMInventoryManagementStaff}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+
+    <h:body> 
+        <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="scmInvWorkspace.xhtml">
+            <ui:define name="invWorkspaceMenu"> 
+            </ui:define>            
+        </ui:composition>    
+
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="scmInvWelcome.xhtml" />
+            <p:menuitem value="Manage Purchase Requisitions" url="#"/>
+            <p:menuitem value="Add Purchase Requisitions" url="#" />
+        </p:breadCrumb>
+
+        <p:menubar>
+            <p:menuitem value="View Purchase Requisitions" url="scmInvViewAllPurchaseReq.xhtml?i=2" icon="ui-icon-search"/>
+            <p:menuitem value="Add Purchase Requisition" url="#" icon="ui-icon-plus"/>
+        </p:menubar>
+
+        <p:accordionPanel activeIndex="null">
+            <p:tab title="Manage MRP">
+
+                <h:form id="formManageAccount">                   
+                    <p:growl id="msgs" showDetail="true" />                        
+                    <p:panel id="panelManageAccount" header="View MRP">
+                        <p:ajaxStatus style="width:16px;height:16px;">
+                            <f:facet name="start">
+                                <h:graphicImage value="/images/spinner.gif" />
+                            </f:facet>
+                            <f:facet name="complete">
+                                <h:outputText value="" />
+                            </f:facet>
+                        </p:ajaxStatus>
+                        <p:messages />        
+
+                        <p:panelGrid>   
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel for="furniture" style="font-weight: bold" value="Enter Furniture Name: " />
+                                </p:column>
+                                <p:column>
+                                    <p:selectOneMenu id="furniture" value="#{purchaseReqManagedBean.furnitureName}" effect="fold" editable="true">
+                                        <f:selectItem itemLabel="Select One" itemValue="" />
+                                        <f:selectItems value="#{purchaseReqManagedBean.furnitures}" />
+                                        <p:ajax update="part" listener="#{purchaseReqManagedBean.getPartNamesForFurniture}" />
+                                    </p:selectOneMenu>
+                                </p:column>    
+                                <p:column>
+                                    <p:outputLabel for="time" style="font-weight: bold" value="Enter Time(MM-YYYY): " />
+                                </p:column>
+                                <p:column>
+                                    <p:inputMask mask="99-9999" label="Time"  id="time" value="#{purchaseReqManagedBean.time}">                                    
+                                    </p:inputMask>
+                                </p:column>  
+                            </p:row>        
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel for="part" style="font-weight: bold" value="Enter Part Name: " />
+                                </p:column>
+                                <p:column>
+                                    <p:selectOneMenu id="part" value="#{purchaseReqManagedBean.partNameForMRP}" effect="fold" editable="true">
+                                        <f:selectItem itemLabel="Select One" itemValue="" />
+                                        <f:selectItems value="#{purchaseReqManagedBean.partList}" />
+                                    </p:selectOneMenu>
+                                </p:column>                                
+                            </p:row>
+                        </p:panelGrid>
+                        <p:commandButton id="btn" value="View Weekly MRP" update="viewUser msgs @parent" actionListener="#{purchaseReqManagedBean.viewMRPRecord}" ajax="true" />
+                    </p:panel>
+
+                    <p:panel id="viewUser" >
+                        <p:dataTable id="viewUsers" var="weeklyPlan" value="#{purchaseReqManagedBean.mpsList}" widgetVar="cellCars" emptyMessage="No such report">
+                            <p:column headerText="Furniture Name" >
+                                <h:outputText value="#{purchaseReqManagedBean.furnitureName}" />
+                            </p:column>
+                            <p:column headerText="Part Name" >
+                                <h:outputText value="#{purchaseReqManagedBean.partNameForMRP}" />
+                            </p:column>
+                            <p:column headerText="Week Number" sortBy="#{weeklyPlan.week}" >
+                                <h:outputText value="#{weeklyPlan.week}" />
+                            </p:column>
+                            <p:column headerText="Week period" >
+                                <h:outputText value="#{weeklyPlan.periodDate}" />
+                            </p:column>  
+                            <p:column headerText="Onhand" >
+                                <h:outputText value="#{weeklyPlan.onHandAfter}" />
+                            </p:column> 
+                            <p:column headerText="Planned Orders" >
+                                <h:outputText value="#{weeklyPlan.plannedOrder}" />
+                            </p:column> 
+                        </p:dataTable>
+                    </p:panel>
+                </h:form>
+            </p:tab>
+        </p:accordionPanel>
+
+        <h:form id="formMainAddPurchaseReq">
+            <p:growl id="messages" autoUpdate="true" showDetail="true"/>
+
+            <p:panel header="Add Purchase Requisition for Scheduled/ Ad Hoc Replenishment" style="height: auto;">
+                <p:panel id="viewPartsForPurchaseReq">
+
+                    <p:dataTable id="partPurchaseReqTable" var="part" value="#{purchaseReqManagedBean.parts}" paginator="true" rows="5" emptyMessage="No parts found." widgetVar="partsForPurchaseReqTable" rowKey="#{part.id}">
+                        <p:column headerText="Part ID" sortBy="#{part.id}">
+                            <h:outputText value="#{part.id}" />
+                        </p:column>
+
+                        <p:column headerText="Part Name"> 
+                            <h:outputText value="#{part.partName}" />
+                        </p:column>
+
+                        <p:column headerText="Lot Size" > 
+                            <h:outputText value="#{part.lotSize}" />
+                        </p:column>
+
+                        <p:column headerText="Add to Purchase Requisition" style="text-align: center">
+                            <p:commandButton update=":formMainAddPurchaseReq:partPurchaseReqDetail" oncomplete="PF('partPurchaseReqDialog').show()" icon="ui-icon-plus" title="Add" widgetVar="addPartToPurchaseReq" value="Add Quantity">
+                                <f:setPropertyActionListener value="#{part}" target="#{purchaseReqManagedBean.selectedPartForPurchaseReq}" />
+                            </p:commandButton>
+                        </p:column>
+
+                        <f:facet name="footer">
+                            <p:button outcome="scmInvAddPurchaseReqCfm" value="Continue" icon="ui-icon-carat-1-e"/>
+                            <p:commandButton value="Cancel" icon="ui-icon-close" actionListener="#{purchaseReqManagedBean.cancelPurchaseReq}" ajax="true"/>
+                        </f:facet>
+                    </p:dataTable>
+
+                </p:panel>
+            </p:panel>
+
+
+
+
+            <p:dialog header="Add Quantity" widgetVar="partPurchaseReqDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                <p:outputPanel id="partPurchaseReqDetail" style="text-align:center;">
+                    <p:panelGrid id="panelGridPartDetail" columns="2" rendered="#{not empty purchaseReqManagedBean.selectedPartForPurchaseReq}" columnClasses="label,value">
+                        <h:outputText value="Part Id:" />
+                        <h:outputText value="#{purchaseReqManagedBean.selectedPartForPurchaseReq.id}" />
+
+                        <h:outputText value="Part Name:" />
+                        <h:outputText value="#{purchaseReqManagedBean.selectedPartForPurchaseReq.partName}" />
+
+                        <h:outputText value="Lot Size:" />
+                        <h:outputText value="#{purchaseReqManagedBean.selectedPartForPurchaseReq.lotSize}" />
+                        
+                        <h:outputText value="Current Inventory:" />
+                        <h:outputText value="#{purchaseReqManagedBean.selectedPartForPurchaseReq.inventory.quantity}" />
+                        
+                        <p:outputLabel for="qty" value="Quantity:"/>
+                        <p:spinner id="qty" value="#{purchaseReqManagedBean.qty}" min="0" placeholder="#{purchaseReqManagedBean.selectedPartForPurchaseReq.lotSize}" stepFactor="#{purchaseReqManagedBean.selectedPartForPurchaseReq.lotSize}" size="10"/>
+
+                        <h:outputText value="Replenishment Type:" />
+                        <p:selectOneButton value="#{purchaseReqManagedBean.replenishmentType}">
+                            <f:selectItem itemLabel="Scheduled" itemValue="Scheduled" />
+                            <f:selectItem itemLabel="Ad Hoc" itemValue="Ad Hoc" />
+                        </p:selectOneButton>
+                    </p:panelGrid>
+                    <p:commandButton value="Add to Purchase Requisition" icon="ui-icon-check" actionListener="#{purchaseReqManagedBean.addToPurchaseReq}" oncomplete="PF('partPurchaseReqDialog').hide();" update=":formMainAddPurchaseReq:partPurchaseReqTable qty" ajax="true"/>
+                </p:outputPanel>
+                <br/>
+            </p:dialog>
+
+        </h:form>
+
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>
+
+</html>
+

@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>MRP Workspace</title>
+        <f:event listener="#{loginManagedBean.checkLoginMRP(cse)}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+
+    <h:body> 
+        <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="mrpWorkspace.xhtml"/>      
+
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="mrpWelcome.xhtml"/>
+            <p:menuitem value="Manage Part" url="#"/>
+            <p:menuitem value="View Part" url="#"/>
+        </p:breadCrumb>
+
+        <p:menubar>
+            <p:menuitem value="View Part" url="#" icon="ui-icon-search"/>
+            <p:menuitem value="Add Part" url="mrpAddPart.xhtml?i=2" icon="ui-icon-plus"/>
+        </p:menubar>
+
+        <h:form id="formPartTable">
+            <p:growl id="messages"/>
+            <p:layout fullPage="false">
+
+                <p:layoutUnit position="west" size="50%" header="Part" resizable="false" closable="false" collapsible="true">
+                    <p:growl autoUpdate="true" showDetail="true"/>
+                    <p:panel>
+                        <p:dataTable id="partTable" var="part" value="#{partManageBean.parts}" paginator="false" emptyMessage="No parts found." widgetVar="partsTable" filteredValue="#{partManageBean.filteredPart}" rowKey="#{part.id}">
+                            <p:column style="width: 100px; font-size: large" headerText="Part ID">
+                                <h:outputText value="#{part.id}" />
+                            </p:column>
+
+                            <p:column headerText="Part Name" style="font-size: large" sortBy="#{part.partName}"  filterBy="#{part.partName}" filterFunction="#{partManageBean.filterByPartName}"> 
+                                <h:outputText value="#{part.partName}" />
+                            </p:column>
+
+                            <p:column style="width:100px;text-align: center; font-size: large">
+                                <p:commandButton update=":formPartTable:partDetail"  icon="ui-icon-search" title="View">
+                                    <f:setPropertyActionListener value="#{part}" target="#{partManageBean.selectedPart}" />
+                                </p:commandButton>
+                                            
+                                <p:commandButton icon="ui-icon-trash" actionListener="#{partManageBean.deletePart}" update=":formPartTable:partTable :formPartTable:partDetail" ajax="true">
+                                    <p:confirm header="Confirmation" message="Confirm Delete?" icon="ui-icon-alert" />
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                </p:layoutUnit>
+
+                <p:layoutUnit header="Part Detail" position="center" >
+                    <p:growl autoUpdate="true" showDetail="true"/>
+                    <p:panel >
+
+                        <p:dataTable id="partDetail" editable="true"  var="part" value="#{partManageBean.selectedPart}" paginator="false" emptyMessage="No Part Selected" widgetVar="partWidget" >
+                            <f:facet name="header"/>
+                            <p:ajax event="rowEdit" listener="#{partManageBean.edit}" update="" />
+                            <p:ajax event="rowEditCancel" listener="#{partManageBean.noEdit}" update="" />
+
+                            <p:column style="width: 50px" headerText="ID"><h:outputText value="#{part.id}" /></p:column>
+                            <p:column style="width: 100px" headerText="Part Name"><h:outputText value="#{part.partName}" /></p:column>
+
+                            <p:column style="width: 50px" headerText="Lead Time">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{part.leadTime}" /></f:facet>  
+                                    <f:facet name="input"><p:inputText placeholder="#{part.leadTime}" value="#{partManageBean.leadTime}" /></f:facet> 
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column style="width: 100px" headerText="Lot Size">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{part.lotSize}" /></f:facet>  
+                                    <f:facet name="input"><p:inputText placeholder="#{part.lotSize}" value="#{partManageBean.lotSize}" /></f:facet> 
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column style="width:32px"><p:rowEditor /></p:column>
+                           
+                        </p:dataTable>   
+
+
+
+                        <p:confirmDialog global="true" >
+                            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                        </p:confirmDialog>
+
+
+                        <br/>
+                    </p:panel>
+                </p:layoutUnit>
+            </p:layout>
+        </h:form>
+
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>   
+
+</html>

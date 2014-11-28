@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>SCM Workspace</title>
+        <f:event listener="#{loginManagedBean.checkLoginKMSStaff(cse)}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+
+    <h:body>    
+
+        <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="kmsWorkspace.xhtml"/>
+
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="kmsWelcome.xhtml"/>
+            <p:menuitem value="Manage Dish" url="#"/>
+            <p:menuitem value="Add Dish" url="#"/>
+        </p:breadCrumb>
+
+        <p:menubar>
+            <p:menuitem value="View Dish" url="kmsViewAllDish.xhtml?i=5" icon="ui-icon-search"/>
+            <p:menuitem value="Add Dish" url="kmsAddDish.xhtml?i=5" icon="ui-icon-plus"/>
+            <p:menuitem value="View Method of Preparation" url="kmsViewMethod.xhtml?i=5" icon="ui-icon-search"/>
+
+        </p:menubar>
+
+        <h:form id="formAddDish">
+            <p:panel header="Add Dish">
+                <p:growl id="msgs" showDetail="true" autoUpdate="true" />
+                <br/><p:outputLabel for="formAddDish" value="Dish Details" style="font-weight: bold; font-size: larger"/>
+                <p:separator/><h:panelGrid id="gridAddDish" columns="2" cellpadding="5">
+
+                    <p:outputLabel for="dishName" value="Dish Name: " />
+                    <p:column><p:inputText id="dishName" value="#{dishManagedBean.dishName}"  binding="#{dishManagedBean.dishNameInput}" title="Pseudo" required="true" requiredMessage="Dish Name is required.">
+                            <p:ajax event="blur" listener="#{dishManagedBean.checkExistingDish}" update="message" />
+                            <f:validateLength minimum="3" />
+                        </p:inputText>
+                        <p:message id="message" for="dishName" /> </p:column>
+
+                    <p:outputLabel for="dishDescription" value="Description: " />
+                    <p:column><p:inputTextarea id="dishDescription" rows="5" cols="30" counter="displayDescription" maxlength="300" counterTemplate="{0} characters remaining." autoResize="false" required="true" value="#{dishManagedBean.dishDescription}"/>
+                        <h:outputText id="displayDescription" style="float: right;"/></p:column>
+
+                    <p:outputLabel for="methodOfPreparation" value="Method of Preparation: "/> 
+                    <p:column><p:inputTextarea id="methodOfPreparation" rows="5" cols="30" counter="display" maxlength="300" counterTemplate="{0} characters remaining." autoResize="false" required="true" value="#{dishManagedBean.methodOfPreparation}"/>
+                        <h:outputText id="display" style="float: right;"/></p:column>
+
+                    <p:outputLabel for="dishType" value="Type: " />
+                    <p:selectOneMenu required="true" label="Type" requiredMessage="Dish Type is required." id="dishType" value="#{dishManagedBean.dishType}" >
+                        <f:selectItem itemLabel="Select One" itemValue="" />
+                        <f:selectItem itemLabel="Mains" itemValue="Mains" />
+                        <f:selectItem itemLabel="Dessert" itemValue="Dessert" />
+                        <f:selectItem itemLabel="Beverage" itemValue="Beverage" />
+                    </p:selectOneMenu>
+
+
+                    <p:outputLabel for="pax" value="No. of Pax: " />
+                    <p:inputText type="number" required="true" label="Pax" requiredMessage="No. of Pax is required." id="pax" value="#{dishManagedBean.pax}"/>                                   
+
+                    <p:outputLabel for="dishPrice" value="Price: " />
+
+                        <p:inputText id="dishPrice" value="#{dishManagedBean.dishPrice}" required="true" requiredMessage="Please enter a valid Unit Price that is a miniumum of $0.01.">
+                            <f:convertNumber currencySymbol="$" type="currency"/>
+                            <f:validateDoubleRange minimum="0.01"/>
+                        </p:inputText>
+
+                    
+
+                </h:panelGrid>      
+                <p:separator/>
+                <p:commandButton  value="Back" onclick="window.history.back();"/>
+                <p:commandButton  value="Save"  update=":formAddDish, msgs" actionListener="#{dishManagedBean.addDish}" ajax="false"/>
+
+            </p:panel>
+
+        </h:form>
+
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>   
+
+</html>
+

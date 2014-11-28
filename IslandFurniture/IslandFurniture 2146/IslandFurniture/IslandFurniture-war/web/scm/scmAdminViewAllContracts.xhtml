@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>SCM Workspace</title>
+        <f:event listener="#{loginManagedBean.checkLoginSCM}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+
+    <h:body> 
+
+        <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="scmAdminWorkspace.xhtml">
+            <ui:define name="scmWorkspaceMenu"> 
+            </ui:define>            
+        </ui:composition>   
+
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="scmAdminWelcome.xhtml" />
+            <p:menuitem value="Manage Contract" url="#" />
+            <p:menuitem value="View Contract" url="#" />
+        </p:breadCrumb>
+
+        <h:form id="formMainContracts">
+            <p:growl id="messages" showDetail="true"/>
+
+            <p:menubar>
+                <p:menuitem value="View Contracts" url="#" icon="ui-icon-search"/>
+                <p:menuitem value="Add Contract" url="scmAdminAddContract.xhtml?i=2" icon="ui-icon-plus"/>
+                <p:menuitem value="Edit Contract" url="#" icon="ui-icon-plus"/>
+            </p:menubar>
+
+            <p:panel>
+                <p:growl autoUpdate="true" showDetail="true" id="msgs"/>
+
+                <p:dataTable id="contractTable" var="contract" value="#{contractManagedBean.contracts}" paginator="true" rows="5" emptyMessage="No contracts found." widgetVar="contractsTable" filteredValue="#{contractManagedBean.filteredContracts}" rowKey="#{contract.contractId}">
+                    <p:column headerText="Contract ID">
+                        <h:outputText value="#{contract.contractId}" />
+                    </p:column>
+
+                    <p:column headerText="Start Date" sortBy="#{contract.startDate}"> 
+                        <h:outputText value="#{contract.startDate}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="End Date" > 
+                        <h:outputText value="#{contract.endDate}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Supplier Name" filterBy="#{contract.supplier.supplierName}"  filterMatchMode="contains" filterFunction="#{supplierManagedBean.filterBySupplierName}" > 
+                        <h:outputText value="#{contract.supplier.supplierName}" />
+                    </p:column>
+
+                    <p:column headerText="Part Name" filterBy="#{contract.part.partName}" filterMatchMode="contains" > 
+                        <h:outputText value="#{contract.part.partName}" />
+                    </p:column>
+
+                    <p:column style="width:32px;text-align: center">
+                        <p:commandButton update=":formMainContracts:contractDetail" oncomplete="PF('contractDialog').show()" icon="ui-icon-search" title="View">
+                            <f:setPropertyActionListener value="#{contract}" target="#{contractManagedBean.selectedContract}" />
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+
+            <p:dialog header="Contract Info" widgetVar="contractDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                <p:outputPanel id="contractDetail" style="text-align:center;">
+                    <p:panelGrid columns="2" rendered="#{not empty contractManagedBean.selectedContract}" columnClasses="label,value">
+                        <h:outputText value="Contract Id:"/><h:outputText value="#{contractManagedBean.selectedContract.contractId}" />
+                        <h:outputText value="Supplier Name:" /><h:outputText value="#{contractManagedBean.selectedContract.supplier.supplierName}" />
+                        <h:outputText value="Part Name:" /><h:outputText value="#{contractManagedBean.selectedContract.part.partName}" />  
+                        <h:outputText value="Unit Price" /><h:outputText value="#{contractManagedBean.selectedContract.unitPrice}"><f:convertNumber type="currency" currencySymbol="$"/></h:outputText>
+                        <h:outputText value="Remark:" /><h:outputText value="#{contractManagedBean.selectedContract.remark}" />
+                    </p:panelGrid>
+
+                    <br /><h:outputText value="Edit Contract?" /><br />
+                    <p:commandButton value="Yes" icon="ui-icon-pencil" actionListener="#{contractManagedBean.redirectToEditContract}" oncomplete="PF('contractDialog').hide()" ajax="true" update=":formMainContracts:contractTable" immediate="true"/>                    <p:commandButton value="No" icon="ui-icon-close" onclick="PF('contractDialog').hide()"/>
+                    <br/><br /><h:outputText value="End Contract?" /><br />
+                    <p:commandButton value="Yes" icon="ui-icon-check" actionListener="#{contractManagedBean.deleteContract}" oncomplete="PF('contractDialog').hide()" update=":formMainContracts:contractTable" ajax="true"/>
+                    <p:commandButton value="No" icon="ui-icon-close" onclick="PF('contractDialog').hide()"/>
+                </p:outputPanel>
+                <br/>
+            </p:dialog>
+
+
+            <f:event listener="#{contractManagedBean.checkContractExpiry}" type="preRenderView" />
+        </h:form>
+
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>
+
+</html>
+

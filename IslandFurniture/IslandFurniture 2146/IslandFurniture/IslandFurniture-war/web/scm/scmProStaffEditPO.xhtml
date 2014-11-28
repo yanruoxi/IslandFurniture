@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <h:head>
+        <title>SCM Procurement Staff Workspace</title>
+        <f:event listener="#{loginManagedBean.checkLoginSCMProcurementStaff}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+
+    <h:body> 
+        <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="scmProStaffWorkspace.xhtml">
+            <ui:define name="scmProStaffWorkspaceMenu"/> 
+        </ui:composition>
+
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="scmProStaffWelcome.xhtml" />
+            <p:menuitem value="View Purchase Orders" url="scmProStaffViewPO..xhtml" />
+            <p:menuitem value="Edit Purchase Order" url="#" />
+        </p:breadCrumb>
+
+        <p:panel id="panelEditPO">
+            <h:panelGrid columns="2" cellpadding="10">
+                <h:form id="formEditPO" >
+                    <p:growl id="messages" showDetail="true"/>
+
+                    <p:ajaxStatus>
+                        <f:facet name="start"><h:graphicImage value="/images/spinner.gif" /></f:facet>
+                        <f:facet name="complete"><h:outputText value="" /></f:facet>
+                    </p:ajaxStatus>
+
+                        <p:panelGrid>
+                            <p:row>
+                                <p:column><p:outputLabel style="font-weight: bold">Purchase Order ID:</p:outputLabel></p:column>
+                                <p:column><p:outputLabel>#{poManagedBean.selectedPurchaseOrder.purchaseOrderId}</p:outputLabel></p:column>  
+                            </p:row>
+
+                            <p:row>
+                                <p:column><p:outputLabel for="poDate" value="Purchase Order Date:"/></p:column>
+                                <p:column><p:outputLabel id="poDate" value="#{poManagedBean.selectedPurchaseOrder.purchaseOrderDate}"><f:convertDateTime pattern="dd/MM/yyyy" /></p:outputLabel></p:column>  
+                            </p:row>  
+
+                            <p:row>
+                                <p:column><p:outputLabel for="partname" value="Part Name:"/></p:column>
+                                <p:column><p:outputLabel id="partname" value="#{poManagedBean.selectedPurchaseOrder.part.partName}"/></p:column>  
+                            </p:row>
+
+                            <p:row>
+                                <p:column><p:outputLabel for="Quantity" value="Quantity:"/></p:column>
+                                <p:column><p:outputLabel id="Quantity" value="#{poManagedBean.selectedPurchaseOrder.qty}"/> </p:column>  
+                            </p:row>
+
+                            <p:row>
+                                <p:column><p:outputLabel value="Unit Price:" for="unitprice"/></p:column>
+                                <p:column><h:outputText id="unitprice" value="#{poManagedBean.selectedPurchaseOrder.unitPrice}"><f:convertNumber type="currency" currencySymbol="$"/></h:outputText></p:column>
+                            </p:row>
+
+                            <p:row>
+                                <p:column><p:outputLabel value="Total Price:" for="totalprice"/></p:column>
+                                <p:column><h:outputText id="totalprice" value="#{poManagedBean.selectedPurchaseOrder.totalPrice}"><f:convertNumber type="currency" currencySymbol="$"/></h:outputText></p:column>
+                            </p:row>
+
+                            <p:row>
+                                <p:column><p:outputLabel value="Negotiation Condition:" for="negocondition"/></p:column>
+                                <p:column><p:outputLabel id="negocondition" value="#{poManagedBean.selectedPurchaseOrder.negoCondition}" /></p:column>
+                            </p:row>
+
+                            <p:row>
+                                <p:column><p:outputLabel for="scheduledDeliveryDate" value="Scheduled Delivery Date:"/>   </p:column>
+                                <p:column><p:calendar id="scheduledDeliveryDate" value="#{poManagedBean.selectedPurchaseOrder.scheduledDeliveryDate}" label="Scheduled Delivery Date" required="true" pattern="dd/MM/yyyy" /></p:column>
+                            </p:row>
+                        </p:panelGrid>
+                    <p:commandButton value="Edit Purchase Order" icon="ui-icon-check" update=":panelEditPO, messages" actionListener="#{poManagedBean.editPO}" ajax="true"/>
+                </h:form>
+            </h:panelGrid>              
+        </p:panel>
+
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>
+
+</html>
+

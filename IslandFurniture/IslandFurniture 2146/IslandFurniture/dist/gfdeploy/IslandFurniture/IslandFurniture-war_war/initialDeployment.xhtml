@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Initial Deployment</title>
+        <f:event listener="#{initialDeploymentManagedBean.checkCompany}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+    <h:body>
+        <h:form id="formMain">
+            <center><img src="img/internal_banner_initdeployment.png"/></center> 
+
+            <p:growl id="msgs" showDetail="true" />
+
+
+            <p:panel id="panel" header="Initial Deployment Process">
+                <p:ajaxStatus style="width:16px;height:16px;">
+                    <f:facet name="start">
+                        <h:graphicImage value="/images/spinner.gif" />
+                    </f:facet>
+                    <f:facet name="complete">
+                        <h:outputText value="" />
+                    </f:facet>
+                </p:ajaxStatus>
+                <p:messages />
+                <p:panelGrid>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="companyName" style="font-weight: bold" value="Company Name: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText required="true" label="Company Name" requiredMessage="Company Name is required." id="companyName" value="#{initialDeploymentManagedBean.companyName}">
+
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="country" style="font-weight: bold" value="Country: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText required="true" label="Country" requiredMessage="Country is required." id="country" value="#{initialDeploymentManagedBean.country}">
+
+                            </p:inputText>
+                        </p:column>                                   
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="address" style="font-weight: bold" value="Address : " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText required="true" label="Address" requiredMessage="Address is required." id="address" value="#{initialDeploymentManagedBean.address}">
+
+                            </p:inputText>
+                        </p:column>                                   
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="postal" style="font-weight: bold" value="Postal Code : " />
+                        </p:column>
+                        <p:column>
+                            <p:inputMask mask="999 999" required="true" label="Postal Code" requiredMessage="Postal Code is required." id="postal" value="#{initialDeploymentManagedBean.postal}">
+                            </p:inputMask>  
+                        </p:column>                                   
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="phone" style="font-weight: bold" value="Phone : " />
+                        </p:column>
+                        <p:column>
+                            <p:inputMask mask="9999 9999" required="true" label="Phone" requiredMessage="Phonel Number is required." id="phone" value="#{initialDeploymentManagedBean.phone}">
+                            </p:inputMask>  
+                        </p:column>                                   
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="email" style="font-weight: bold" value="Email Address: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText required="true" label="Email Address" requiredMessage="Email Address is required." validatorMessage="Invalid email format" id="email" value="#{initialDeploymentManagedBean.email}">
+                                <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                            </p:inputText>
+                        </p:column>                                   
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="type" style="font-weight: bold" value="Type:" />
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu required="true" label="Type" requiredMessage="Type is required." id="type" value="#{initialDeploymentManagedBean.type}">
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItem itemLabel="Plant" itemValue="Plant" />                                
+                                <f:selectItem itemLabel="Store" itemValue="Store" />
+                            </p:selectOneMenu>
+                        </p:column>>
+                    </p:row>>
+
+                </p:panelGrid>
+                <p:commandButton id="btn" value="Continue" update="panel, msgs" actionListener="#{initialDeploymentManagedBean.createCompany}" ajax="true" />
+            </p:panel>
+
+
+
+        </h:form>
+    </h:body>
+</html>

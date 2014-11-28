@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view beforePhase="#{homeManagedBean.beforePhaseListener}">
+        <h:head>
+            <title>Island furniture</title>        
+
+        </h:head>
+        <h:body>
+            <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="ecommerceTemplate.xhtml">
+            </ui:composition>
+            <style>
+                .ui-carousel .ui-carousel-header{
+
+
+                    height:35px;
+                }
+            </style>
+            <h:form id="form" style="margin-top:0px">
+                <p:panel>
+                    <p:carousel numVisible="1" itemStyle="height:650px;width:1300px;" effect="easeInStrong" headerText="Product Display">
+                        <p:tab title="Furniture Part I">
+                            <h:panelGrid columns="2" cellpadding="10">
+                                <p:graphicImage value="img/landing page 2.jpg" style="width: 1250px; height: 650px"/>
+
+                            </h:panelGrid>
+                        </p:tab>
+                        <p:tab title="Furniture II">
+                            <h:panelGrid columns="2" cellpadding="10">
+                                <p:graphicImage value="img/landing page 3.jpg" style="width: 1250px; height: 650px"/>
+
+                            </h:panelGrid>
+                        </p:tab>
+                        <p:tab title="Furniture III">
+                            <h:panelGrid columns="2" cellpadding="10">
+                                <p:graphicImage value="img/landing page_img.jpg" style="width: 1250px; height: 650px"/>
+
+                            </h:panelGrid>
+                        </p:tab>
+                        <p:tab title="Furniture IIII">
+                            <h:panelGrid columns="2" cellpadding="10">
+                                <p:graphicImage value="img/landing page 4.jpg" style="width: 1250px; height: 650px"/>
+
+                            </h:panelGrid>
+                        </p:tab>
+                    </p:carousel>
+                </p:panel>
+            </h:form>
+            <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="footerTemplate.xhtml">
+            </ui:composition>
+
+        </h:body>   
+    </f:view>
+</html>
+

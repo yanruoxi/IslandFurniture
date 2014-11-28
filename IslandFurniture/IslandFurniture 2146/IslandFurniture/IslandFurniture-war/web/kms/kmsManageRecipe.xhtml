@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>KMS Workspace</title>
+        <f:event listener="#{loginManagedBean.checkLoginKMSStaff(cse)}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+
+    <h:body> 
+
+        <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="kmsWorkspace.xhtml"/>
+
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="kmsWelcome.xhtml"/>
+            <p:menuitem value="Manage Recipe" url="#"/>
+            <p:menuitem value="View Recipe" url="#"/>
+        </p:breadCrumb>
+
+        <p:menubar>
+            <p:menuitem value="View Recipe" url="#" icon="ui-icon-search"/>
+            <p:menuitem value="Add Ingredient to Recipe" url="kmsEditRecipe.xhtml?i=6" icon="ui-icon-plus"/>
+        </p:menubar>
+
+        <h:form id="formMainDish">
+            <p:growl id="messages"/>
+            <p:layout fullPage="false">
+
+                <p:layoutUnit position="west" size="35%" header="Dishes" resizable="false" closable="false" collapsible="true">
+                    <p:dataTable id="mains" var="dish" value="#{dishManagedBean.mainDish}" paginator="false" emptyMessage="No Main Dish Found" widgetVar="MainDishList" >
+                        <p:column style="width: 50px" headerText="ID"><h:outputText value="#{dish.dishId}" /></p:column>
+                        <p:column style="width: 100px" headerText="Main Dish"><h:outputText value="#{dish.dishName}" /></p:column>
+
+                        <p:column style="width:32px;text-align: center">
+                            <p:commandButton update=":formMainDish:dishDetail" icon="ui-icon-search" title="View">
+                                <f:setPropertyActionListener value="#{dish}" target="#{dishManagedBean.selectedDish}" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable><br />
+
+                    <p:dataTable id="desserts" var="dish" value="#{dishManagedBean.dessertDish}" paginator="false" emptyMessage="No Dessert Dish Found" widgetVar="MainDishList" >
+                        <p:column style="width: 50px" headerText="ID"><h:outputText value="#{dish.dishId}" /></p:column>
+                        <p:column style="width: 100px" headerText="Dessert Dish"><h:outputText value="#{dish.dishName}" /></p:column>
+
+                        <p:column style="width:32px;text-align: center">
+                            <p:commandButton update=":formMainDish:dishDetail" icon="ui-icon-search" title="View">
+                                <f:setPropertyActionListener value="#{dish}" target="#{dishManagedBean.selectedDish}" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable><br />
+
+                    <p:dataTable id="beverages" var="dish" value="#{dishManagedBean.beverageDish}" paginator="false" emptyMessage="No Dessert Dish Found" widgetVar="MainDishList" >
+                        <p:column style="width: 50px" headerText="ID"><h:outputText value="#{dish.dishId}" /></p:column>
+                        <p:column style="width: 100px" headerText="Dessert Dish"><h:outputText value="#{dish.dishName}" /></p:column>
+
+                        <p:column style="width:32px;text-align: center">
+                            <p:commandButton update=":formMainDish:dishDetail" icon="ui-icon-search" title="View">
+                                <f:setPropertyActionListener value="#{dish}" target="#{dishManagedBean.selectedDish}" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>                
+                </p:layoutUnit>
+
+
+                <p:layoutUnit header="Recipe" position="center" >
+                    <p:panel id="dishDetail">
+                        <p:growl autoUpdate="true" showDetail="true"/>
+<!--                        <h:outputText value="Image" /><br/>-->
+<br/>
+                        <h:outputText style="font-weight: bold" value="Dish Name: " /><br/>
+                        <h:outputText value="#{dishManagedBean.selectedDish.dishName}" /><br/><br/>
+                        <h:outputText style="font-weight: bold" value="Method of Preparation: " /><br/>
+                        <h:outputText value="#{dishManagedBean.selectedDish.methodOfPreparation}" /><br/><br/>
+                        <h:outputText style="font-weight: bold" value="No. of Pax: " /><br/>
+                        <h:outputText value="#{dishManagedBean.selectedDish.pax}" /><br/><br/>
+
+                        <p:dataTable editable="true"  var="recipe" value="#{dishManagedBean.selectedDish.recipeItem}" paginator="false" emptyMessage="No Dish Found" widgetVar="dishWidget" >
+                            <f:facet name="header"/>
+                            <p:ajax event="rowEdit" listener="#{dishManagedBean.edit}" update="" />
+                            <p:ajax event="rowEditCancel" listener="#{dishManagedBean.noEdit}" update="" />
+
+                            <p:column style="width: 50px" headerText="ID"><h:outputText value="#{recipe.recipeItemId}" /></p:column>
+                            <p:column style="width: 100px" headerText="Ingredient"><h:outputText value="#{recipe.ingredient.ingredientName}" /></p:column>
+
+                            <p:column style="width: 50px" headerText="Quantity">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{recipe.quantity}" />
+                                    </f:facet>  
+                                    <f:facet name="input">
+                                        <p:inputMask mask="99.99" placeholder="#{recipe.quantity}" value="#{dishManagedBean.quantity}" />
+                                    </f:facet> 
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column style="width: 100px" headerText="Unit">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{recipe.unit}" />
+                                    </f:facet>  
+                                    <f:facet name="input">
+                                        <p:inputText placeholder="#{recipe.unit}" value="#{dishManagedBean.unit}" />
+                                    </f:facet> 
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column style="width:32px">
+                                <p:rowEditor />
+                            </p:column>
+                        </p:dataTable>   
+
+                    </p:panel>
+
+
+                </p:layoutUnit>
+            </p:layout>
+        </h:form>                
+
+
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>   
+
+</html>
+

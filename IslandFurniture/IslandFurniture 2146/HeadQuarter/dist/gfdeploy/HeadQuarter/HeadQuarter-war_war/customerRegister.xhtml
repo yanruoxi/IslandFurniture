@@ -1,0 +1,164 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view beforePhase="#{eCommerceManagedBean.beforePhaseListener}">
+        <h:head>
+            <title>Customer Register </title>
+            <link href="default.css" rel="stylesheet" type="text/css" />
+        </h:head>
+        <h:body>
+            <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="ecommerceTemplate.xhtml">
+            </ui:composition>
+
+
+            <h:form id="formMain" >
+
+
+
+                <p:growl id="msgs" showDetail="true" />
+
+
+                <p:panel id="panel" header="Register" rendered="#{eCommerceManagedBean.showCommandLink0}" >
+                    <p:ajaxStatus style="width:16px;height:16px;">
+                        <f:facet name="start">
+                            <h:graphicImage value="/images/spinner.gif" />
+                        </f:facet>
+                        <f:facet name="complete">
+                            <h:outputText value="" />
+                        </f:facet>
+
+                    </p:ajaxStatus>
+                    <p:messages/>
+                    <p:panelGrid style="margin-left: 450px; margin-top: 30px" rendered="#{eCommerceManagedBean.showCommandLink0}">
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="console" value="Honorific:" />
+                            </p:column>
+                            <p:column>
+                                <p:selectOneRadio id="console" value="#{eCommerceManagedBean.userGender}">
+                                    <f:selectItem itemLabel="Mr" itemValue="Mr." />
+                                    <f:selectItem itemLabel="Ms" itemValue="Ms." />
+                                </p:selectOneRadio>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="userName" style="font-weight: bold" value="User Name: " />
+                            </p:column>
+                            <p:column>
+                                <p:inputText required="true" label="User Name" requiredMessage="User Name is required." id="userName" value="#{eCommerceManagedBean.userName}">
+                                    <f:validateLength minimum="1" maximum="10" />
+                                </p:inputText>
+                            </p:column>
+
+                        </p:row>
+                        <p:row id='mm'>
+                            <p:column>
+                                <p:outputLabel for="password" style="font-weight: bold" value="Password: " />
+                            </p:column>
+                            <p:column>
+                                <p:password required="true" label="Password" requiredMessage="Password is required." id="password" value="#{eCommerceManagedBean.password}">
+                                    <f:validateLength minimum="1" maximum="200" />
+                                </p:password>
+                                <p:message id='ms' for="password" />
+                            </p:column>
+
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="password2" style="font-weight: bold" value="Re entry Password: " />
+                            </p:column>
+                            <p:column>
+                                <p:password required="true" label="Password" requiredMessage="Password is required." id="password2" value="#{eCommerceManagedBean.password2}" >
+
+                                    <f:validateLength minimum="1" maximum="100" />
+                                </p:password>
+                            </p:column>
+
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="userPhone1" style="font-weight: bold" value="Phone: " />
+                               </p:column>
+                          
+                                <p:column>
+                                <p:selectOneMenu required="true" requiredMessage="please select country first" id="userPhone1" value="#{eCommerceManagedBean.phoneCountry}">
+                                   
+                                    <f:selectItem itemLabel="+86" itemValue="+86" />
+                                    <f:selectItem itemLabel="+65" itemValue="+65" />
+                                   
+                                </p:selectOneMenu>
+    
+                                <p:inputText required="true" label="User Phone" requiredMessage="User Phone is required." id="userPhone" value="#{eCommerceManagedBean.userPhone}" >
+                                    <f:validateLength  minimum="8" maximum="11" />
+                              
+                                     </p:inputText> 
+                                 
+                               
+                                </p:column>
+                            
+
+                        </p:row>
+                       
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="userEmail" style="font-weight: bold" value="Email: " />
+                            </p:column>
+                            <p:column>
+                                <p:inputText required="true" label="User Email" requiredMessage="Email is required." validatorMessage="Invalid email format" id="userEmail" value="#{eCommerceManagedBean.userEmail}">
+                                    <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                                </p:inputText>
+                            </p:column>
+
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="userAddress" style="font-weight: bold" value="Address: " />
+                            </p:column>
+                            <p:column>
+                                <p:inputText required="true" label="User Address" requiredMessage="Address is required." id="userAddress" value="#{eCommerceManagedBean.userAddress}">
+                                    <f:validateLength minimum="1" maximum="100" />
+                                </p:inputText>
+                            </p:column>
+
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="userPostal" style="font-weight: bold" value="Postal: " />
+                            </p:column>
+                            <p:column>
+                                <p:inputText required="true" label="User Postal" requiredMessage="Postal is required." id="userPostal" value="#{eCommerceManagedBean.postalCode}">
+                                    <f:validateLength minimum="1" maximum="100" />
+                                </p:inputText>
+
+                            </p:column>
+
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="country" value="Country: " />
+                            </p:column>
+                            <p:column>
+                                <p:selectOneMenu id="country" value="#{eCommerceManagedBean.country}" style="width:160px">
+
+                                    <f:selectItem itemLabel="Select Country" itemValue="" noSelectionOption="true" />
+                                    <f:selectItems value="#{eCommerceManagedBean.countries}" />
+                                </p:selectOneMenu>
+
+                            </p:column>
+
+                        </p:row>
+                    </p:panelGrid>
+                    <p:commandButton rendered="#{eCommerceManagedBean.showCommandLink0}" id="btn" style="margin-left: 600px; margin-top: 30px; background: orange; color: white" value="Register" update="panel msgs mm" actionListener="#{eCommerceManagedBean.doRegister}" ajax="false" />
+                </p:panel>
+
+            </h:form>
+          
+        </h:body>
+    </f:view>
+</html>

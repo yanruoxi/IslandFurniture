@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>CRMWorkSpace</title>
+        <f:event listener="#{loginManagedBean.checkLoginOCRM(cse)}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+    
+    <h:body>
+        <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="ocrmWorkspace.xhtml">
+        </ui:composition>
+
+          <p:breadCrumb>
+            <p:menuitem value="Home" url="ocrmWelcome.xhtml"/>
+            <p:menuitem value="View Members Loyalty Points" url="#"/>
+        </p:breadCrumb>
+        
+        
+        
+            <h:form id="formManageAccount" >                    
+                <p:growl id="msgs" showDetail="true" />                        
+                <p:panel id="panelManageAccount">
+                    <p:ajaxStatus >
+                        <f:facet name="start">
+                            <h:graphicImage value="/images/spinner.gif" />
+                        </f:facet>
+                        <f:facet name="complete">
+                            <h:outputText value="" />
+                        </f:facet>
+                    </p:ajaxStatus>
+                    <p:messages />        
+
+                    <p:panelGrid>   
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="customerID" style="font-weight: bold" value="Enter Customer id: " />
+                            </p:column>
+                            <p:column>
+                                <p:inputText label="Customer ID"  id="customerID" value="#{loyaltyManageBean.customerID}">                                    
+                                </p:inputText>
+                            </p:column>                                  
+                        </p:row>                           
+                    </p:panelGrid>
+                    <p:commandButton id="btn" value="Search Customer Points" update=":pointsTable:customerTable :formManageAccount:msgs " actionListener="#{loyaltyManageBean.searchCustomer}" ajax="true" />
+                    <p:commandButton id="btnViewAllOrder" value="View All Customer Points" update=":pointsTable:customerTable :formManageAccount:msgs " actionListener="#{loyaltyManageBean.viewAllCustomer}" ajax="true" />
+                </p:panel>
+                </h:form>
+        
+                <h:form id="pointsTable">
+                    
+                
+                <p:panel id="viewUser" >
+                     <p:dataTable id="customerTable" var="customers" value="#{loyaltyManageBean.customers}" editable="true"  style="margin-bottom:20px" emptyMessage="No results" >
+
+                        <f:facet name="header">
+                                 Memebers Loyalty Points 
+                        </f:facet>
+                        <p:ajax event="rowEdit" listener="#{loyaltyManageBean.onRowEditCustomerPoints}" update=":pointsTable:customerTable :formManageAccount:msgs" />
+                        <p:ajax event="rowEditCancel" listener="#{loyaltyManageBean.onRowCancelCustomerPoints}" update=":pointsTable:customerTable :formManageAccount:msgs" />
+
+                    
+                  
+                        <p:column headerText="Customer ID" >
+                            <h:outputText value="#{customers.id}" />
+                        </p:column>
+                        
+                        <p:column headerText="Customer Name" >
+                            <h:outputText value="#{customers.customerName}" />
+                        </p:column>
+                        
+                        <p:column headerText="Customer Available Points" >
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText value="#{customers.loyalty.pointsAvailable}" />
+                                </f:facet>  
+                                <f:facet name="input">
+                                    <p:inputText  value="#{customers.loyalty.pointsAvailable}" />
+                                </f:facet> 
+                            </p:cellEditor>
+                                                  
+                        </p:column>   
+                        
+                        <p:column headerText="Customer Status" >
+                            <h:outputText value="#{customers.status}" />
+                        </p:column>   
+                        
+                        <p:column headerText="Update Customer Status" >
+                             <p:commandButton value="Reset" actionListener="#{loyaltyManageBean.updateCustomerStatus}" oncomplete="PF('dlg2').show();"  ajax="true">
+                                 <f:attribute name="customerId" value="#{customers.id}" />
+                             </p:commandButton>
+                        </p:column> 
+                         <p:column style="width:40px">
+                            <p:rowEditor />
+                        </p:column>
+                        
+                        
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+            
+            <p:dialog header="Reset Account Status" widgetVar="dlg2" minHeight="40">                     
+                    <h:form id="resetAccountStatus">
+                            <p:growl id="msgs" showDetail="true" /> 
+
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel for="accountStatus" style="font-weight: bold" value="Account Status:" />
+                                </p:column>
+                                <p:column>
+                                    <p:selectOneMenu  label="Order Status" id="accountStatus" value="#{loyaltyManageBean.status}">
+                                        <f:selectItem itemLabel="Select One" itemValue="" />
+                                        <f:selectItem itemLabel="active" itemValue="active" />
+                                        <f:selectItem itemLabel="inactive" itemValue="inactive" />                                       
+                                    </p:selectOneMenu>
+                                </p:column>                            
+                            </p:row>
+
+                            <p:commandButton value="Save" update=":formManageAccount:msgs, :pointsTable:customerTable" actionListener="#{loyaltyManageBean.resetAccountSatus()}" ajax="true" >
+                            </p:commandButton>
+                    </h:form>
+                </p:dialog>
+            
+            
+       
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>
+
+</html>

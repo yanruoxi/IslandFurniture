@@ -1,0 +1,167 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    
+    <h:head>
+        <title>IM Workspace</title>        
+        <f:event listener="#{loginManagedBean.checkLoginIMWarehouseStaff(cse)}" type="preRenderView" />
+      <link href="default.css" rel="stylesheet" type="text/css" /> 
+    </h:head>
+    
+    <h:body>
+       <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="imWorkspace.xhtml">
+            <ui:define name="imWorkspace"> 
+            </ui:define>   
+        </ui:composition>
+
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="imWelcome.xhtml"/>
+            <p:menuitem value="Manage Warehouse Safety Stock Level" url="#"/>
+        </p:breadCrumb>
+        
+        
+        
+        
+        
+        <h1> Safety Stock</h1> 
+
+
+        <h:form id="formMain">
+            <p:panel id="panel" header="Modify Safety Stock level to material  ">
+                <p:ajaxStatus style="width:16px;height:16px">
+                    <f:facet name="start">
+                        <h:graphicImage library="image" name="spinner.gif"></h:graphicImage>
+                    </f:facet>
+                    <f:facet name="complete">
+                        <h:outputText value="" />
+
+                    </f:facet>
+
+                </p:ajaxStatus>
+                <p:messages/>
+
+                <p:panelGrid>
+
+
+                    <p:row>
+                         <p:column style="text-align: right">
+                        <p:outputLabel for="material1"  value="Material name: " />
+                        <p:autoComplete id="material1" value="#{warehouseManageBean.materialName}" completeMethod="#{warehouseManageBean.completeTextMaterial}" forceSelection ="true"/>
+
+                    </p:column> 
+                        
+                    </p:row>
+                     <p:row>
+                        <p:column>
+                            <p:outputLabel for="quantity" style="font-weight: bolder" value="Safety level: "/>
+
+                       
+                            <p:inputText required="false" label="quantity level" requiredMessage="a legal Integer is required." id="quantity" value="#{warehouseManageBean.safetyQuantity}">
+                                <f:validateLength minimum="0" maximum="200"/>
+                            </p:inputText>      
+                        </p:column>
+                      
+                    </p:row>
+                    
+                     
+                        
+                </p:panelGrid>
+                <p:commandButton id="btn" value="Save " update="panel :formBomTable:viewBom" actionListener="#{warehouseManageBean.addSafetyMaterial}" ajax="true"/>
+                <p:commandButton id="btn1" value="View All Material " update="panel :formBomTable:viewBom" actionListener="#{warehouseManageBean.viewSafetyLevel}" ajax="true"/>
+               
+
+
+
+            </p:panel>
+            
+             
+            
+        </h:form>
+        
+        
+        <h:form id="formBomTable">
+            <p:growl id="msgbb" showDetail ="true"/>
+
+            <p:panel id="viewBom">
+                <p:contextMenu for="fblist" widgetVar ="cMenu">
+                    <p:menuitem value="Edit Cell" icon="ui-icon-search" onclick="PF('cellBoms').showCellEditor();
+                                return false;"/>
+
+                </p:contextMenu>
+
+
+
+                <p:dataTable  id="fblist" var="fb" value="#{warehouseManageBean.materialList}" emptyMessage="Empty table" editable="false" editMode="cell" widgetVar="cellBoms" >
+                    <p:ajax event="cellEdit" listener="#{warehouseManageBean.onCellEdit44}" update=":formBomTable:msgbb">
+
+                    </p:ajax>
+
+
+                    <p:column headerText="Material Name"   sortBy="#{fb.materialName}">
+
+                        <p:cellEditor>
+                            <f:facet name="output">
+
+                                <h:outputText value="#{fb.materialName}"/>
+
+                            </f:facet>
+
+                            <f:facet name="input">
+
+                                <p:inputText value="#{fb.materialName}" style="width:100%" label="material Name">
+
+                                </p:inputText>
+
+                            </f:facet>   
+                        </p:cellEditor>
+
+                    </p:column>
+                    <p:column headerText="Safety Level"    sortBy="#{fb.safetyStock}">
+                        <p:cellEditor>
+                            <f:facet name="output">
+
+                                <h:outputText value="#{fb.safetyStock}"/>
+
+                            </f:facet>
+
+                            <f:facet name="input">
+
+                                <p:inputText value="#{fb.safetyStock}" style="width:100%" label="quantity">
+
+                                </p:inputText>
+
+                            </f:facet> 
+                        </p:cellEditor>
+
+
+                    </p:column>
+
+
+
+
+
+
+                </p:dataTable>
+
+
+
+
+
+
+
+            </p:panel> 
+
+        </h:form>
+
+ 
+
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>   
+
+</html>
+

@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>SCM INVENTORY Workspace</title>
+        <f:event listener="#{loginManagedBean.checkLoginSCMInventoryManagementStaff}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+
+    <h:body>
+        <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="scmInvWorkspace.xhtml">
+            <ui:define name="invWorkSpaceMenu"> 
+            </ui:define>            
+        </ui:composition>   
+
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="invWelcome.xhtml" />
+            <p:menuitem value="Manage Profile" url="#" />
+        </p:breadCrumb>
+
+
+        <h:form id="formManageAccount" >
+            <p:panel >
+                <p:growl id="msgs" autoUpdate="true" showDetail="true"/>
+                <p:dataTable id="viewUser" var="systemUser" value="#{accountManagedBean.currentUser}"  emptyMessage="No such user" style="text:center">
+                    <p:column headerText="User Name" style="height: 30px"><h:outputText value="#{systemUser.userName}" /></p:column>   
+                    <p:column headerText="Account Type" ><h:outputText value="#{systemUser.accountType}" /></p:column>   
+                    <p:column headerText="Employee Name" ><h:outputText value="#{systemUser.employeeName}" /></p:column>
+                    <p:column headerText="Email" ><h:outputText value="#{systemUser.email}" /></p:column>
+                    <p:column headerText="Date of Birth" ><h:outputText value="#{systemUser.dateOfBirth}" /></p:column>
+                    <p:column  style="width:32px;text-align: center">
+                        <p:commandButton oncomplete="PF('userDialog').show()" icon="ui-icon-search" title="View" ajax="true" actionListener="#{accountManagedBean.setActiveUser(systemUser.userName)}"  >
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+
+            <p:dialog header="Profile" widgetVar="userDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                <p:outputPanel id="profile" style="text-align:center;">
+                    <br />
+                    <h:outputText style="alignment-adjust: central; font-weight: bold" value="User Name: " /><h:outputText style="font-weight: bold" value="#{accountManagedBean.currentUser.userName}" /><br/>
+                    <h:outputText style="alignment-adjust: central; font-weight: bold" value="Account Type: " /><h:outputText style="font-weight: bold" value="#{accountManagedBean.currentUser.accountType}" /><br/>
+                    <br />
+
+                    <p:panelGrid  columns="3" > 
+                        <h:outputText value="Employee Name:" />
+                        <p:inputText  placeholder="#{accountManagedBean.currentUser.employeeName}" id="employeeName" value="#{accountManagedBean.employeeName}"/>
+                        <p:commandButton partialSubmit="true" process="@this formManageAccount:employeeName"  id="btn3" value="Save" actionListener="#{accountManagedBean.resetEmployeename()}" oncomplete="PF('userDialog').hide()" update=":formManageAccount:viewUser"  ajax="true">
+                        </p:commandButton>
+
+                        <h:outputText value="Email:" />
+                        <p:inputText placeholder="#{accountManagedBean.currentUser.email}" id="email" value="#{accountManagedBean.email}" >
+                            <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                        </p:inputText> 
+                        <p:commandButton  id="btn4" value="Save" actionListener="#{accountManagedBean.resetEmail()}" oncomplete="PF('userDialog').hide();"  update=":formManageAccount:viewUser" ajax="true">
+                        </p:commandButton>
+
+                        <h:outputText value="Date of Birth:" />
+                        <p:inputText placeholder="#{accountManagedBean.currentUser.dateOfBirth}" id="dateOfBirth" value="#{accountManagedBean.dateOfBirth}" />
+                        <p:commandButton partialSubmit="true" process="@this formManageAccount:dateOfBirth" id="btn5" value="Save" actionListener="#{accountManagedBean.resetDateOfBirth()}" update=":formManageAccount:viewUser" oncomplete="PF('userDialog').hide();"  ajax="true">
+                        </p:commandButton>
+
+                    </p:panelGrid>
+
+                    <br />
+                    <p:commandButton value="Close" icon="ui-icon-close" onclick="PF('userDialog').hide()"/>
+
+                    <br />   
+                </p:outputPanel>
+            </p:dialog>
+
+        </h:form>
+
+
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>
+
+</html>
+

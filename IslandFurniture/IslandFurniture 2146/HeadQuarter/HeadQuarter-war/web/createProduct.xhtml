@@ -1,0 +1,263 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>create Product</title>
+        <f:event listener="#{loginManagedBean.checkLoginHQ}" type="preRenderView" />
+    </h:head>
+    <h:body>
+
+        <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="template.xhtml">
+
+        </ui:composition>       
+
+        <p:menubar>
+            <p:menuitem value="Create Product" url="createProduct.xhtml" icon="ui-icon-plus"/>
+            <p:menuitem value="Manage Product" url="manageProduct.xhtml" icon="ui-icon-plus"/>
+                   
+        </p:menubar> 
+        <p:tab title="Create Product">
+
+            <h:panelGrid columns="2" cellpadding="10">
+                <p:commandButton id="btn2" value="Furniture"  oncomplete="PF('dlg1').show();"  ajax="true">
+                </p:commandButton>
+            </h:panelGrid>     
+
+            <p:dialog header="Create Furniture" widgetVar="dlg1" minHeight="40">
+
+                <h:form id="formCreateProductUpload" style="width:1000px;">
+                    <p:panel id="panelCreateProduct1" header="Product Image">
+                        <p:panelGrid>
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel for="images" style="font-weight: bold" value="Image:" />
+                                </p:column>
+                                <p:column>
+
+                                    <p:fileUpload  id="images" fileUploadListener="#{productManagedBean.upload}" update=":formCreateProduct:msgs" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" sizeLimit="100000000"  required="ture" dragDropSupport="false" />
+
+                                </p:column>
+                            </p:row>
+
+                        </p:panelGrid>
+                    </p:panel>
+
+                </h:form>
+
+                <h:form id="formCreateProduct" style="width:1000px;" enctype="multipart/form-data" >
+
+
+                    <p:growl id="msgs" showDetail="true" />
+                    <p:panel id="panelCreateProduct" header="Product Details">
+                        <p:ajaxStatus style="width:16px;height:16px;">
+                            <f:facet name="start">
+                                <h:graphicImage value="/images/spinner.gif" />
+                            </f:facet>
+                            <f:facet name="complete">
+                                <h:outputText value="" />
+                            </f:facet>
+                        </p:ajaxStatus>
+                        <p:messages />
+                        <p:panelGrid>
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel for="productName1" style="font-weight: bold" value="Product Name: " />
+                                </p:column>
+                                <p:column>
+                                    <p:inputText required="true" label="Product Name" requiredMessage="Product Name is required." id="productName1" value="#{productManagedBean.productName}">
+
+                                    </p:inputText>
+                                </p:column>                                   
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel for="type1" style="font-weight: bold" value="Product Type:" />
+                                </p:column>
+                                <p:column>
+                                    <p:selectOneMenu required="true" label="Product Type" requiredMessage="Product Type is required." id="type1" value="#{productManagedBean.type}">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{productManagedBean.typeList}" />
+                                    </p:selectOneMenu>
+                                </p:column>
+                            </p:row>
+
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel for="category1" style="font-weight: bold" value="Product Category:" />
+                                </p:column>
+                                <p:column>
+
+                                    <p:selectOneMenu required="true" label="Category" requiredMessage="Category is required." id="category1" value="#{productManagedBean.category}">
+
+                                        <f:selectItem itemLabel="Select One" itemValue="" /> 
+                                        <f:selectItems value="#{productManagedBean.categoryList}"/>
+                                    </p:selectOneMenu>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel for="price" style="font-weight: bold" value="Product price:" />
+                                </p:column>
+                                <p:column>
+
+                                    <p:inputText required="true" label="Product Price" requiredMessage="Product Price is required." id="price" value="#{productManagedBean.price}"/>
+
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel for="height" style="font-weight: bold" value="Product height:" />
+                                </p:column>
+                                <p:column>
+
+                                    <p:inputText required="true" label="Product Price" requiredMessage="Product height is required." id="height" value="#{productManagedBean.height}"/>
+
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                             <p:column>
+                                    <p:outputLabel for="width" style="font-weight: bold" value="Product widith:" />
+                                </p:column>
+                                <p:column>
+                                    <p:inputText required="true" label="Product Price" requiredMessage="Product width is required." id="width" value="#{productManagedBean.width}"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                             <p:column>
+                                    <p:outputLabel for="length" style="font-weight: bold" value="Product length:" />
+                                </p:column>
+                                <p:column>
+                                    <p:inputText required="true" label="Product Price" requiredMessage="Product length is required." id="length" value="#{productManagedBean.length}"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                             <p:column>
+                                    <p:outputLabel for="color" style="font-weight: bold" value="Product color:" />
+                                </p:column>
+                                <p:column>
+                                    <p:inputText required="true" label="Product Price" requiredMessage="Product coloris required." id="color" value="#{productManagedBean.color}"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                             <p:column>
+                                    <p:outputLabel for="productDescription" style="font-weight: bold" value="ProductDescription:" />
+                                </p:column>
+                                <p:column>
+                                    <p:inputText required="true" label="Product Price" requiredMessage="Product Description is required." id="productDescription" value="#{productManagedBean.productDescription}"/>
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid>
+                        <p:commandButton  value="Save"  update="panelCreateProduct,msgs" actionListener="#{productManagedBean.createProduct}" ajax="true"/> 
+
+
+                    </p:panel>
+                </h:form>
+            </p:dialog>
+
+
+
+
+            <p:dialog header="Create Retail Product" widgetVar="dlg2" minHeight="40">
+
+                <h:form id="formCreateRetailProduct" style="width:1000px;">
+
+
+                    <p:growl id="msgs" showDetail="true" />
+                    <p:panel id="panelCreateRetailProduct" header="Product Details">
+                        <p:ajaxStatus style="width:16px;height:16px;">
+                            <f:facet name="start">
+                                <h:graphicImage value="/images/spinner.gif" />
+                            </f:facet>
+                            <f:facet name="complete">
+                                <h:outputText value="" />
+                            </f:facet>
+                        </p:ajaxStatus>
+                        <p:messages />
+                        <p:panelGrid>
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel for="productName" style="font-weight: bold" value="Product Name: " />
+                                </p:column>
+                                <p:column>
+                                    <p:inputText required="true" label="Product Name" requiredMessage="Product Name is required." id="productName" value="#{productManagedBean.productName}">
+
+                                    </p:inputText>
+                                </p:column>                                   
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel for="type" style="font-weight: bold" value="Product Type:" />
+                                </p:column>
+                                <p:column>
+                                    <p:selectOneMenu required="true" label="Product Type" requiredMessage="Product Type is required." id="type" value="#{productManagedBean.type}">
+
+                                        <f:selectItem itemLabel="Retail Product" itemValue="Retail Product" />                                            
+                                    </p:selectOneMenu>
+                                </p:column>
+                            </p:row>
+                              <p:row>
+                                <p:column>
+                                    <p:outputLabel for="Height" style="font-weight: bold" value="Height:" />
+                                </p:column>
+                                <p:column>
+                                    <p:inputText required="true" label="Product Size" requiredMessage="Product Height is required." id="Height" value="#{productManagedBean.height}">
+
+                                    </p:inputText>
+                                </p:column>
+                            </p:row>
+                           
+                             
+
+                        </p:panelGrid>
+                        <p:commandButton  value="Save"  update="panelCreateRetailProduct,msgs" actionListener="#{productManagedBean.createProduct}" ajax="true"/>
+                    </p:panel>
+                </h:form>
+            </p:dialog>
+
+
+            <p:dialog header="Create Part" widgetVar="dlg3" minHeight="40">
+
+                <h:form id="formCreatePart" style="width:1000px;">
+
+
+                    <p:growl id="msgs" showDetail="true" />
+                    <p:panel id="panelCreatePart" header="Part Details">
+                        <p:ajaxStatus style="width:16px;height:16px;">
+                            <f:facet name="start">
+                                <h:graphicImage value="/images/spinner.gif" />
+                            </f:facet>
+                            <f:facet name="complete">
+                                <h:outputText value="" />
+                            </f:facet>
+                        </p:ajaxStatus>
+                        <p:messages />
+                        <p:panelGrid>
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel for="partName" style="font-weight: bold" value="Part Name: " />
+                                </p:column>
+                                <p:column>
+                                    <p:inputText required="true" label="Part Name" requiredMessage="Part Name is required." id="partName" value="#{partManagedBean.partName}">
+
+                                    </p:inputText>
+                                </p:column>                                   
+                            </p:row>
+
+
+
+                        </p:panelGrid>
+                        <p:commandButton  value="Save"  update="panelCreatePart,msgs" actionListener="#{partManagedBean.createPart()}" ajax="true"/>
+                    </p:panel>
+                </h:form>
+            </p:dialog>
+
+        </p:tab>
+
+
+
+
+    </h:body>
+</html>

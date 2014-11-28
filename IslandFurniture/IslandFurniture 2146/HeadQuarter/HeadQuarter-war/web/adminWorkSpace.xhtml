@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>adminWorkSpace</title>
+        
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+    <h:body>
+
+        <ui:insert name="adminWorkSpaceMenu">
+            <center><img src="img/internal_banner_globalhq.png"/></center> 
+            <center style="font-family: Trebuchet MS;"><h3>   Welcome #{welcomeMessage.currentUser.userName}. You are logged in as #{welcomeMessage.currentUser.accountType} at the Global Headquarter</h3></center>
+
+            <h:form id="formMain">
+
+                <p:tabMenu activeIndex="#{menuManagedBean.active}" >
+                    <p:menuitem value="Welcom"   icon="ui-icon-star" action="#{menuManagedBean.updateAdmin(0)}">
+
+                    </p:menuitem>
+                    <p:menuitem value="Create Account"  action="#{menuManagedBean.updateAdmin(1)}"/>
+
+
+
+                    <p:menuitem  value="Manage Account" action="#{menuManagedBean.updateAdmin(2)}"/>
+
+
+                    <p:menuitem value="Reset Password"  action="#{menuManagedBean.updateAdmin(3)}"/>
+                    
+                    
+                    <p:menuitem value="View Log"  action="#{menuManagedBean.updateAdmin(4)}">
+
+                    </p:menuitem>
+                    
+                    <p:menuitem value="Manage Profile"  action="#{menuManagedBean.updateAdmin(5)}">
+
+                    </p:menuitem>
+                    
+                    <p:menuitem value="Logout"  action="#{menuManagedBean.updateAdmin(6)}">
+
+                    </p:menuitem>
+                </p:tabMenu>
+
+            </h:form>
+
+            <br/>
+            <br/>      
+        </ui:insert>      
+
+
+
+
+    </h:body>
+</html>

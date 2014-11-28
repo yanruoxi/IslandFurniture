@@ -1,0 +1,177 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Edit Part</title>
+        <f:event listener="#{loginManagedBean.checkLoginMRP(cse)}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+    <h:body>
+        <h1> Edit * Add * Delete Part</h1> 
+        <p:button outcome="mrpManagePart" value="Back to Part Management page" icon="ui-icon-star">
+            <f:param name="h" value="10"/>
+        </p:button>
+
+        <h:form id="formMain">
+            <p:panel id="panel1" header="Edit part">
+                <p:ajaxStatus style="width:16px;height:16px">
+                    <f:facet name="start">
+                        <h:graphicImage library="image" name="spinner.gif"></h:graphicImage>
+                    </f:facet>
+                    <f:facet name="complete">
+                        <h:outputText value="" />
+
+                    </f:facet>
+
+                </p:ajaxStatus>
+                <p:messages/>
+
+                <p:panelGrid>
+
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="partName" style="font-weight:lighter" value="Original Part Name: "/>
+
+                        </p:column>
+                        <p:column>
+                            <p:inputText required="true" label="Original Part Name" requiredMessage="a legal PartName is required." id="partName" value="#{partManageBean.partName}">
+                                <f:validateLength minimum="1" maximum="200"/>
+                            </p:inputText>      
+                        </p:column>
+                        <p:column>
+                            <p:message for="partName"/>
+                        </p:column>
+
+
+                        <p:column>
+
+
+
+                            <p:outputLabel for="newPartName" style="font-weight: bold" value="New Part Name"/>
+
+                        </p:column>
+                        <p:column>
+                            <p:inputText required="true" label="New Part Name" requiredMessage="New Name is required." id="newPartName" value="#{partManageBean.newPartName}">
+                                <f:validateLength minimum="1" />
+                            </p:inputText>
+                        </p:column>
+                        <p:column>
+                            <p:message for="newPartName"/>
+                        </p:column>
+
+
+                    </p:row>
+
+                    
+                      <p:row>
+                       
+
+
+                        <p:column>
+
+
+
+                            <p:outputLabel for="newLotSize" style="font-weight: bold" value="New Lot Size"/>
+
+                        </p:column>
+                        <p:column>
+                            <p:inputText required="true" label="New Lot Size" requiredMessage="Lot size should be enter." id="newLotSize" value="#{partManageBean.lotSize}">
+                                <f:validateLength minimum="1" />
+                            </p:inputText>
+                        </p:column>
+                        <p:column>
+                            <p:message for="newLotSize"/>
+                        </p:column>
+
+
+                    </p:row>
+                    
+                 
+                    
+                </p:panelGrid>
+                <p:commandButton id="btn" value="Edit new Part" update="panel1"  actionListener="#{partManageBean.editPart}" ajax="true"/>
+
+
+
+            </p:panel>
+
+
+
+
+
+        </h:form>
+
+
+
+        <h:form id="formMain2">
+            <p:panel id="panel2" header="Delete part">
+                <p:ajaxStatus style="width:16px;height:16px">
+                    <f:facet name="start">
+                        <h:graphicImage library="image" name="please_wait.gif"></h:graphicImage>
+                    </f:facet>
+                    <f:facet name="complete">
+                        <h:outputText value="" />
+
+                    </f:facet>
+
+                </p:ajaxStatus>
+                <p:messages/>
+
+                <p:panelGrid>
+
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="partName2" style="font-weight:lighter" value="Part Name: "/>
+
+                        </p:column>
+                        <p:column>
+                            <p:inputText required="true" label="Part Name" requiredMessage="a legal PartName is required." id="partName2" value="#{partManageBean.partName}">
+                                <f:validateLength minimum="1" maximum="200"/>
+                            </p:inputText>      
+                        </p:column>
+                        <p:column>
+                            <p:message for="partName2"/>
+                        </p:column>
+
+
+                       
+                       
+
+
+                    </p:row>
+
+                    
+                  
+                    
+                </p:panelGrid>
+                <p:commandButton id="btn2" value="Delete Part" update="panel2"  actionListener="#{partManageBean.deletePart2}" ajax="true"/>
+
+
+
+            </p:panel>
+
+
+
+
+
+        </h:form>
+
+
+
+
+
+          
+
+
+
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>
+
+</html>

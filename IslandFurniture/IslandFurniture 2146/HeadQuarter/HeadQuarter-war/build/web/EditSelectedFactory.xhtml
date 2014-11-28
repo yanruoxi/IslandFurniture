@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Edit Selected Factory</title>
+        <f:event listener="#{loginManagedBean.checkLoginHQ}" type="preRenderView" />
+    </h:head>
+    <h:body>
+
+        <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="template.xhtml">
+
+        </ui:composition>          
+
+
+        <p:tab title="Edit Selected Factory">
+
+            <h:form id="formEditSelectedFactory" >                    
+                <p:growl id="msgs" showDetail="true" />                        
+                <p:panel id="panelEditSelectedFactory" header="Edit Selected Factory">
+                    <p:ajaxStatus style="width:16px;height:16px;">
+                        <f:facet name="start">
+                            <h:graphicImage value="/images/spinner.gif" />
+                        </f:facet>
+                        <f:facet name="complete">
+                            <h:outputText value="" />
+                        </f:facet>
+                    </p:ajaxStatus>
+                    <p:messages id="messages" />  
+
+                    <p:panelGrid>
+
+                        <p:row>
+                            <p:column><p:outputLabel style="font-weight: bold" >Factory Name: </p:outputLabel></p:column>
+                            <p:column><p:outputLabel>#{factoryManagedBean.selectedFactory.factoryName}</p:outputLabel></p:column>  
+                        </p:row><br/><br/>
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="country" style="font-weight: bold" value="Country: " />
+                            </p:column>
+                            <p:column>
+                                <p:inputText required="true" label="Country" requiredMessage="Country is required." id="country" value="#{factoryManagedBean.selectedFactory.country}">
+
+                                </p:inputText>
+                            </p:column>                                   
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="address" style="font-weight: bold" value="Address : " />
+                            </p:column>
+                            <p:column>
+                                <p:inputText required="true" label="Address" requiredMessage="Address is required." id="address" value="#{factoryManagedBean.selectedFactory.address}">
+
+                                </p:inputText>
+                            </p:column>                                   
+                        </p:row>
+
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="postal" style="font-weight: bold" value="Postal Code : " />
+                            </p:column>
+                            <p:column>
+                                <p:inputMask mask="999 999" required="true" label="Postal Code" requiredMessage="Postal Code is required." id="postal" value="#{factoryManagedBean.selectedFactory.postal}">
+                                </p:inputMask>  
+                            </p:column>                                   
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="phone" style="font-weight: bold" value="Phone : " />
+                            </p:column>
+                            <p:column>
+                                <p:inputMask mask="9999 9999" required="true" label="Phone" requiredMessage="Phonel Number is required." id="phone" value="#{factoryManagedBean.selectedFactory.phone}">
+                                </p:inputMask>  
+                            </p:column>                                   
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="email" style="font-weight: bold" value="Email Address: " />
+                            </p:column>
+                            <p:column>
+                                <p:inputText required="true" label="Email Address" requiredMessage="Email Address is required." validatorMessage="Invalid email format" id="email" value="#{factoryManagedBean.selectedFactory.email}">
+                                    <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                                </p:inputText>
+                            </p:column>                                   
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="status" style="font-weight: bold" value="Factory Status:" />
+                            </p:column>
+                            <p:column>
+                                <p:selectOneMenu  label="Factory Status" id="status" required="true" requiredMessage="Status is required." value="#{factoryManagedBean.selectedFactory.status}">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItem itemLabel="Available" itemValue="Available" />
+                                    <f:selectItem itemLabel="Unavailable" itemValue="Unavailable" />                                       
+                                </p:selectOneMenu>
+                            </p:column>                            
+                        </p:row>
+
+
+
+                    </p:panelGrid>
+
+                    <p:commandButton id="btn1" value="Save Edited Factory" update="panelEditSelectedFactory msgs messages" actionListener="#{factoryManagedBean.saveFactory()}" ajax="true" >
+                        <p:confirm header="Confirmation" message="Are you sure you want to save edited data?" icon="ui-icon-alert" />
+                    </p:commandButton>
+
+                    <p:confirmDialog global="true" >
+                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog>
+                </p:panel>
+            </h:form>           
+        </p:tab>
+    </h:body>
+</html>

@@ -1,0 +1,235 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    
+    <h:head>
+        <title>IM Workspace</title>        
+        <f:event listener="#{loginManagedBean.checkLoginIMWarehouseStaff(cse)}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" /> 
+    </h:head>
+    
+    <h:body>
+         <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="imWorkspace.xhtml">
+            <ui:define name="imWorkspace"> 
+            </ui:define>   
+        </ui:composition>
+
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="imWelcome.xhtml"/>
+            <p:menuitem value="Manage Returned Goods" url="#"/>
+        </p:breadCrumb>
+        
+        
+        
+
+
+        <h:form id="formMain">
+            <p:panel id="panel" header="Add Returned Goods  ">
+                <p:ajaxStatus style="width:16px;height:16px">
+                    <f:facet name="start">
+                        <h:graphicImage library="image" name="spinner.gif"></h:graphicImage>
+                    </f:facet>
+                    <f:facet name="complete">
+                        <h:outputText value="" />
+
+                    </f:facet>
+
+                </p:ajaxStatus>
+                <p:messages/>
+
+                <p:panelGrid>
+                    
+                    
+                      <p:row>
+                    <p:column style="text-align:right">
+                        <p:outputLabel  style="font-weight:bolder" value="Goods name:" />
+                    </p:column>
+                    <p:column style="text-align:right">
+                        <p:selectOneMenu value="#{warehouseManageBean.goodsName}" style="font-weight:bolder;width:205px" >
+                            <f:selectItems value="#{warehouseManageBean.materialNameList}" var="material" itemLabel="#{material}" itemValue="#{material}"/>
+                        </p:selectOneMenu>
+                    </p:column>
+                </p:row>
+                    
+                      <p:row>
+                    <p:column style="text-align:right">
+                        <p:outputLabel  style="font-weight:bolder" value="Return Reason:" />
+                    </p:column>
+                    <p:column style="text-align:right">
+                        <p:selectOneMenu value="#{warehouseManageBean.returnReason}" style="font-weight:bolder;width:205px" >
+                            <f:selectItems value="#{warehouseManageBean.returnReasonList}" var="reason" itemLabel="#{reason}" itemValue="#{reason}"/>
+                        </p:selectOneMenu>
+                    </p:column>
+                </p:row>
+
+                    <p:row>
+                        <p:column style="text-align:right">
+                            <p:outputLabel for="quantity" style="font-weight: bolder" value="Goods Quantity: "/>
+
+                            </p:column>
+                        <p:column style="text-align:right">
+                            <p:inputText  label="goods Name" requiredMessage="a legal Goods Name is required." id="quantity" value="#{warehouseManageBean.goodsQuantity}">
+                                <f:validateLength minimum="0" maximum="200"/>
+                            </p:inputText>      
+                        </p:column>
+
+                    </p:row>
+
+
+
+
+                </p:panelGrid>
+                <p:commandButton id="btn" value="Add New Return Goods" update="panel :formBomTable:viewBom" actionListener="#{warehouseManageBean.addReturnGoods}" ajax="false"/>
+                <p:commandButton id="btnSearchMaterial" value="Search Return Goods" update=":formBomTable:viewBom panel " actionListener="#{warehouseManageBean.searchReturnGoods}" ajax="false" />
+
+                <p:commandButton id="btnViewMaterail" value="View ALL Return Goods" update=":formBomTable:viewBom panel " actionListener="#{warehouseManageBean.viewAllRG}" ajax="false" />
+
+
+
+            </p:panel>
+
+
+
+        </h:form>
+
+        <h:form id="formBomTable">
+            <p:growl id="msgBom" showDetail="true"/> 
+
+            <p:panel id="viewBom">
+
+      <p:dataTable id="rgList" var="rg" value="#{warehouseManageBean.rgList}" editable="true"  style="margin-bottom:20px" emptyMessage="No results" >
+
+                    <f:facet name="header">
+                        Return Goods Table Show
+                    </f:facet>
+                    <p:ajax event="rowEdit" listener="#{warehouseManageBean.onRowEditRG}" update=":formBomTable:msgBom">
+                        <p:ajax event="rowEditCancel" listener="#{warehouseManageBean.onRowCancelRG}" update=":form:msgs" />
+                    </p:ajax>
+
+                        <p:column headerText="Return Goods name"   sortBy="#{rg.goodsName}">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{rg.goodsName}" />
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{rg.goodsName}" />
+                            </f:facet>
+                        </p:cellEditor>
+
+                    </p:column>
+                        <p:column headerText="Amount"      sortBy="#{rg.quantity}">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{rg.quantity}" />
+                            </f:facet>  
+                            <f:facet name="input">
+                                <p:inputText value="#{rg.quantity}" />
+                            </f:facet> 
+                        </p:cellEditor>
+
+                    </p:column>
+
+                        <p:column headerText="Position"   sortBy="#{rg.position}">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{rg.position}" />
+                            </f:facet>  
+                            <f:facet name="input">
+                                <p:inputText value="#{rg.position}" />
+                            </f:facet> 
+                        </p:cellEditor>
+
+                    </p:column>
+
+                        <p:column headerText="Return Reason"   sortBy="#{rg.returnReason}">
+                        
+                                <h:outputText value="#{rg.returnReason}" />
+                            
+                            
+
+                    </p:column>
+                        
+                        <p:column headerText="Status"  sortBy="#{rg.status}" >
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{rg.status}" />
+                            </f:facet>  
+                            <f:facet name="input">
+                                <p:inputText value="#{rg.status}" />
+                            </f:facet> 
+                        </p:cellEditor>
+
+                    </p:column>
+
+                    <p:column style="width:32px">
+                        <p:rowEditor  />
+                    </p:column>
+
+                    <p:column headerText="Sold" >
+                        <p:commandButton id="btn12" disabled="#{warehouseManageBean.checkcheck}" value="Sold from Warehouse" update=":formBomTable:viewBom :formMain:panel" actionListener="#{warehouseManageBean.soldRG}" ajax="true" >
+                            <f:attribute name="RGId" value="#{rg.id}"/>
+
+                            <p:confirm header="Confirmation" message="Confirm" icon="ui-icon-alert" />
+                        </p:commandButton>
+                        <p:confirmDialog global="true" >
+                            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                        </p:confirmDialog>
+
+                    </p:column>
+                    <p:column headerText="Dispose" >
+                        <p:commandButton id="btn123" disabled="#{warehouseManageBean.checkcheck}" value="Dispose from Warehouse" update=":formBomTable:viewBom :formMain:panel" actionListener="#{warehouseManageBean.disposeRG}" ajax="true" >
+                            <f:attribute name="RGId" value="#{rg.id}"/>
+
+                            <p:confirm header="Confirmation" message="Confirm" icon="ui-icon-alert" />
+                        </p:commandButton>
+                        <p:confirmDialog global="true" >
+                            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                        </p:confirmDialog>
+                    </p:column>
+
+
+                    <p:column headerText="Delete"  >
+                        <p:commandButton id="btn11" disabled="#{warehouseManageBean.checkcheck}" value="Delete from Warehouse" update=":formBomTable:viewBom :formBomTable:msgBom :formMain:panel" actionListener="#{warehouseManageBean.deleteRG}" ajax="true" >
+                            <f:attribute name="RGId" value="#{rg.id}"/>
+
+                            <p:confirm header="Confirmation" message="Are you sure you want to clear it from Warehouse?" icon="ui-icon-alert" />
+                        </p:commandButton>
+
+
+
+
+                        <p:confirmDialog global="true" >
+                            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                        </p:confirmDialog>
+                    </p:column>
+
+
+
+
+
+
+
+
+                </p:dataTable>
+
+
+            </p:panel> 
+
+
+
+        </h:form>
+
+   
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>   
+
+</html>
+

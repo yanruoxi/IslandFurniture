@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Admin Workspace</title>
+        <f:event listener="#{loginManagedBean.checkLoginAdmin}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+        <!-- Edited 4/10/14 -->
+        <style>
+            .ui-selectonemenu{
+                width: 100% !important;
+            }
+            .ui-selectonemenu-label{
+                width: 100% !important;
+            }  
+        </style>
+        <!-- -->
+    </h:head>
+    <h:body>
+
+        <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="adminWorkSpace.xhtml">
+            <ui:define name="AdminWorkSpaceMenu"> 
+            </ui:define>     
+        </ui:composition>       
+
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="scmWelcome.xhtml"/>
+            <p:menuitem value="Create Account" url="#"/>
+        </p:breadCrumb>
+
+
+        <h:form id="formCreateAccount">
+
+            <p:panel  id="panelCreateAccount">
+                <p:growl id="msgs" showDetail="true" />
+
+                <p:ajaxStatus style="width:16px;height:16px;">
+                    <f:facet name="start"><h:graphicImage value="/images/spinner.gif" /></f:facet>
+                    <f:facet name="complete"><h:outputText value="" /></f:facet>
+                </p:ajaxStatus>
+                <p:messages />
+
+                <p:panelGrid>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="userName" style="font-weight: bold" value="User Name: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText required="true" label="User Name" requiredMessage="User Name is required." id="userName" value="#{accountManagedBean.userName}">
+                                <f:validateLength minimum="4" maximum="16" />
+                            </p:inputText>
+                        </p:column>                                   
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="password" style="font-weight: bold" value="Password: " />
+                        </p:column>
+                        <p:column>
+                            <p:password required="true" label="Password" requiredMessage="Password is required." id="password" value="#{accountManagedBean.password}">
+                                <f:validateLength minimum="1" maximum="19" />
+                            </p:password>
+                        </p:column>                                    
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="email" style="font-weight: bold" value="Email Address: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText required="true" label="Email Address" requiredMessage="Email Address is required." validatorMessage="Invalid email format" id="email" value="#{accountManagedBean.email}">
+                                <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                            </p:inputText>
+                        </p:column>                                   
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="storeName" style="font-weight: bold" value="Employee Name: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText required="true" label="Store Name" requiredMessage="Employee Name is required." id="storeName" value="#{accountManagedBean.employeeName}">
+
+                            </p:inputText>
+                        </p:column>                                   
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="dateOfBirth" style="font-weight: bold" value="Date of Birth(DD/MM/YYY):" />
+                        </p:column>
+                        <p:column>
+                            <p:inputText required="true" label="DOB" requiredMessage="Date of birth is required." id="dateOfBirth" value="#{accountManagedBean.dateOfBirth}">
+
+                            </p:inputText>
+                        </p:column>               
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="accountType" style="font-weight: bold" value="Account Type:" />
+                        </p:column>
+                        <p:column>                    
+                            <p:selectOneMenu required="true" label="Account Type" requiredMessage="Account Type is required." id="accountType" value="#{accountManagedBean.accountType}" >
+                                <f:selectItems value="#{loginManagedBean.accountTypeList}" />
+                                <!-- <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItem itemLabel="Admin" itemValue="Admin" />
+                                <f:selectItem itemLabel="IM Warehouse Staff" itemValue="IM Warehouse Staff" />
+                                <f:selectItem itemLabel="KMS Staff" itemValue="KMS Staff" />
+                                <f:selectItem itemLabel="MRP Staff" itemValue="MRP Staff" />
+                                <f:selectItem itemLabel="OCRM Staff" itemValue="OCRM Staff" />
+
+                                 Edited SCM Roles 
+                                <f:selectItem itemLabel="SCM Admin" itemValue="SCM Admin" />
+                                <f:selectItem itemLabel="SCM Purchaser" itemValue="SCM Purchaser" />
+                                <f:selectItem itemLabel="SCM Purchasing Manager" itemValue="SCM Purchasing Manager" />
+                                <f:selectItem itemLabel="SCM Inventory Staff" itemValue="SCM Inventory Staff" />
+                                 End of SCM Roles -->
+                            </p:selectOneMenu>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+                <p:commandButton  value="Save"  update="panelCreateAccount,msgs" actionListener="#{accountManagedBean.createAccount}" ajax="true"/>
+            </p:panel>
+        </h:form>
+
+
+
+
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>
+
+</html>

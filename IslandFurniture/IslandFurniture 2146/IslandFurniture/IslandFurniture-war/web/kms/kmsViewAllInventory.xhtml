@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <h:head>
+        <title>KMS Workspace</title>
+        <f:event listener="#{loginManagedBean.checkLoginKMSStaff(cse)}" type="preRenderView" />
+
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+
+    <h:body> 
+        <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="kmsWorkspace.xhtml">
+            <ui:define name="kmsWorkspaceMenu"> 
+            </ui:define>            
+        </ui:composition>   
+
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="kmsWelcome.xhtml"/>
+            <p:menuitem value="Manage Inventory" url="kmsViewAllInventory.xhtml?i=3" />
+        </p:breadCrumb>
+
+        <h:form id="kmsInventory">
+            <p:growl id="messges" autoUpdate="true" showDetail="true"/>
+
+            <p:menubar>
+                <p:menuitem value="View Inventory" url="#" icon="ui-icon-search"/>
+                <p:menuitem value="Generate Inventory Report" ajax="false" icon="ui-icon-script" actionListener="#{kitchenReportManagedBean.kmsInventory}"/>
+            </p:menubar>
+
+            <h:panelGrid >
+                <p:dataTable id="ingredientTable" var="ingredient" value="#{ingredientManagedBean.ingredients}" paginator="true" rows="20" emptyMessage="No ingredient found." widgetVar="ingredientsTable" filteredValue="#{ingredientManagedBean.filteredIngredients}" rowKey="#{ingredient.id}">
+                    <p:column style="width: 150px" headerText="Ingredient ID"><h:outputText value="#{ingredient.id}" /></p:column>
+                    <p:column headerText="Ingredient Name" sortBy="#{ingredient.ingredientName}"  filterBy="#{ingredient.ingredientName}"> <h:outputText value="#{ingredient.ingredientName}" /></p:column>
+                    <p:column headerText="Ingredient Type" filterBy="#{ingredient.ingredientType}" filterMatchMode="exact"> 
+                        <f:facet name="filter">
+                            <p:selectOneMenu onchange="PF('ingredientsTable').filter()">
+                                <f:selectItem itemLabel="Select One" itemValue="#{null}" noSelectionOption="true" />
+                                <f:selectItems value="#{ingredientManagedBean.ingredientTypeList}" />
+                            </p:selectOneMenu>
+                        </f:facet>
+                        <h:outputText value="#{ingredient.ingredientType}"/>
+                    </p:column>                    
+                    <p:column headerText="Safety Stock Level"  style="width:150px"><h:outputText value="#{ingredient.kitchenInventory.ksafetyStockLevel}" /></p:column>
+                    <p:column headerText="Quantitiy"  style="width:100px"><h:outputText value="#{ingredient.kitchenInventory.kqty}" /></p:column>
+                    <p:column headerText="Last Updated" style="width: 150px">  <h:outputText value="#{ingredient.kitchenInventory.kdateUpdated}"><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText></p:column>
+                    <p:column style="width:32px;text-align: center">
+                        <p:commandButton  update=":kmsInventory:inventoryDetail" oncomplete="PF('inventoryDialog').show()" icon="ui-icon-search" title="View">
+                            <f:setPropertyActionListener value="#{ingredient}" target="#{ingredientManagedBean.selectedIngredient}" />
+                        </p:commandButton>  
+                    </p:column>
+                </p:dataTable>  
+            </h:panelGrid>
+
+            <p:dialog header="Ingredient Inventory Details" widgetVar="inventoryDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                <p:outputPanel id="inventoryDetail" style="text-align:center" layout="center">
+                    <p:panelGrid style="alignment-adjust: central" columns="2" rendered="#{not empty ingredientManagedBean.selectedIngredient}" columnClasses="label,value">
+                        <h:outputLabel style="alignment-adjust: central" value="Ingredient Id:" />
+                        <h:outputLabel style="alignment-adjust: central" value="#{ingredientManagedBean.selectedIngredient.id}" />
+                        <h:outputLabel style="alignment-adjust: central" value="Ingredient Name:" />  
+                        <h:outputLabel style="alignment-adjust: central" value="#{ingredientManagedBean.selectedIngredient.ingredientName}" />
+                        <h:outputLabel style="alignment-adjust: central" value="Ingredient Type:" /><h:outputText value="#{ingredientManagedBean.selectedIngredient.ingredientType}" />
+                        <h:outputLabel style="alignment-adjust: central" value="Safety Stock Level:" />  
+                        <h:outputLabel style="alignment-adjust: central" value="#{ingredientManagedBean.selectedIngredient.kitchenInventory.ksafetyStockLevel}" />
+                        <h:outputLabel style="alignment-adjust: central" value="Inventory Level: " />
+                        <h:outputLabel style="alignment-adjust: central" value="#{ingredientManagedBean.selectedIngredient.kitchenInventory.kqty}" />
+                    </p:panelGrid>
+                    <br/><h:outputText value="New Safety Stock Level: " /><h:inputText style="width:100px"  value="#{ingredientManagedBean.safetystock}" />
+                    <br/><h:outputText value="New Inventory Level: " /><h:inputText style="width:100px"  value="#{ingredientManagedBean.kqty}" />
+                    <br></br><br/>
+                    <p:commandButton ajax="true" value="Update" icon="ui-icon-refresh" actionListener="#{ingredientManagedBean.updateKmsInventory}" update=":kmsInventory:ingredientTable"  oncomplete="PF('inventoryDialog').hide()" >
+                        <p:confirm header="Confirmation" message="Comfirm Update?" icon="ui-icon-alert" />
+                    </p:commandButton>
+                    <p:commandButton value="Cancel" icon="ui-icon-close" onclick="PF('inventoryDialog').hide()"/>
+
+                    <p:confirmDialog global="true" >
+                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog>
+                </p:outputPanel>
+                <br/>
+            </p:dialog>
+        <f:event listener="#{ingredientManagedBean.checkStock}" type="preRenderView" />
+        <f:event listener="#{ingredientManagedBean.checkZeroStock}" type="preRenderView" />
+
+        </h:form>
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>
+
+</html>
+

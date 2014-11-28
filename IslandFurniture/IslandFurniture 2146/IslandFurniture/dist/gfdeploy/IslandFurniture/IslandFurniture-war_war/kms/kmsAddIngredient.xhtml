@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>KMS Workspace</title>
+        <f:event listener="#{loginManagedBean.checkLoginKMSStaff}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+
+    <h:body> 
+        <h:form>
+            <p:growl id="messages" autoUpdate="true" showDetail="true"/>
+
+            <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="kmsWorkspace.xhtml">
+                <ui:define name="kmsWorkspaceMenu"> 
+                </ui:define>            
+            </ui:composition> 
+
+            <p:breadCrumb>
+                <p:menuitem value="Home" url="kmsWelcome.xhtml" />
+                <p:menuitem value="Manage Ingredient" url="kmsViewAllIngredient.xhtml?i=2" />
+                <p:menuitem value="Add Ingredient" url="#" />
+            </p:breadCrumb>
+
+            <p:menubar>
+                <p:menuitem value="View Ingredients" url="kmsViewAllIngredient.xhtml?i=2" icon="ui-icon-search"/>
+                <p:menuitem value="Add Ingredient" url="#" icon="ui-icon-plus"/>
+                <p:menuitem value="Set Default Supplier" url="kmsSetDefaultSupplier.xhtml?i=2" icon="ui-icon-plus"/>
+            </p:menubar>
+
+            <p:panel header="Add Ingredient">
+                <h:panelGrid id="gridIngredient" columns="2" cellpadding="5">
+                    <p:outputLabel for="ingredientName" value="Ingredient Name:"/>                 
+                    <p:inputText id="ingredientName" value="#{ingredientManagedBean.ingredientName}" label="Ingredient Name" required="true"/>
+
+                    <p:outputLabel for="klotSize" value="Lot Size:"/>                
+                    <p:spinner id="klotSize" value="#{ingredientManagedBean.klotSize}" placeholder="1" label="Lot Size" required="true" min="1" size="4"/>
+
+                    <p:outputLabel for="kleadTime" value="Lead Time (in terms of no. of days):"/>                
+                    <p:spinner id="kleadTime" value="#{ingredientManagedBean.kleadTime}" label="Lead Time" placeholder="1" required="true" min="1" size="4"/>
+
+                    <p:outputLabel for="ingredientType" value="Ingredient Type: " />  
+                    <p:selectOneMenu id="ingredientType" value="#{ingredientManagedBean.ingredientType}" required="true">  
+                        <f:selectItem itemLabel="Select One" itemValue="" />  
+                        <f:selectItem itemLabel="Vegetable" itemValue="Vegetable" />  
+                        <f:selectItem itemLabel="Poultry" itemValue="Poultry" />  
+                        <f:selectItem itemLabel="Seafood" itemValue="Seafood" />  
+                        <f:selectItem itemLabel="Noodle" itemValue="Noodle" />  
+                        <f:selectItem itemLabel="Grain" itemValue="Grain" />  
+                        <f:selectItem itemLabel="Dairy Product" itemValue="Dairy Product" />
+                        <f:selectItem itemLabel="Spices and Herbs" itemValue="Spices and Herbs" />  
+                        <f:selectItem itemLabel="Condiment" itemValue="Condiment" />  
+                        <f:selectItem itemLabel="Fruit" itemValue="Fruit" />  
+                        <f:selectItem itemLabel="Syrup" itemValue="Syrup" />   
+                        <f:selectItem itemLabel="Dry Goods" itemValue="Dry Goods" /> 
+                        <f:selectItem itemLabel="Manufactured Items" itemValue="Manufactured Items" />
+                        <f:selectItem itemLabel="Beverage" itemValue="Beverage" />
+                    </p:selectOneMenu> 
+                </h:panelGrid>
+                <p:commandButton value="Add Ingredient" update="gridIngredient" icon="ui-icon-check" validateClient="true" actionListener="#{ingredientManagedBean.addIngredient}" ajax="true"/>
+            </p:panel>
+        </h:form>
+
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>
+
+</html>
+

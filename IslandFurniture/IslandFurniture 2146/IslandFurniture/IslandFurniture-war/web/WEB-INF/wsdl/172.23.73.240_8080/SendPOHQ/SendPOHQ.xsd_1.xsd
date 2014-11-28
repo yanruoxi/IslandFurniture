@@ -1,0 +1,202 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is Metro/2.3 (tags/2.3-7528; 2013-04-29T19:34:10+0000) JAXWS-RI/2.2.8 JAXWS/2.2 svn-revision#unknown. --><xs:schema xmlns:tns="http://ws.session/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://ws.session/">
+
+<xs:element name="sendPO" type="tns:sendPO"/>
+
+<xs:element name="sendPOResponse" type="tns:sendPOResponse"/>
+
+<xs:complexType name="sendPO">
+<xs:sequence>
+<xs:element name="factoryName" type="xs:string" minOccurs="0"/>
+<xs:element name="year" type="xs:string" minOccurs="0"/>
+<xs:element name="month" type="xs:string" minOccurs="0"/>
+<xs:element name="productName" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="sendPOResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:productionOrder" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="productionOrder">
+<xs:sequence>
+<xs:element name="factory" type="tns:factory" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="month" type="xs:string" minOccurs="0"/>
+<xs:element name="product" type="tns:product" minOccurs="0"/>
+<xs:element name="quantity" type="xs:int" minOccurs="0"/>
+<xs:element name="salesForcast" type="tns:salesForcast" minOccurs="0"/>
+<xs:element name="status" type="xs:string" minOccurs="0"/>
+<xs:element name="store" type="tns:store" minOccurs="0"/>
+<xs:element name="year" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="factory">
+<xs:sequence>
+<xs:element name="address" type="xs:string" minOccurs="0"/>
+<xs:element name="country" type="xs:string" minOccurs="0"/>
+<xs:element name="defaultFactoryList" type="tns:defaultFactory" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="email" type="xs:string" minOccurs="0"/>
+<xs:element name="factoryName" type="xs:string" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="isDeleted" type="xs:string" minOccurs="0"/>
+<xs:element name="phone" type="xs:string" minOccurs="0"/>
+<xs:element name="postal" type="xs:string" minOccurs="0"/>
+<xs:element name="productionOrderList" type="tns:productionOrder" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="products" type="tns:product" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="status" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="defaultFactory">
+<xs:sequence>
+<xs:element name="factory" type="tns:factory" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="product" type="tns:product" minOccurs="0"/>
+<xs:element name="rank" type="xs:string" minOccurs="0"/>
+<xs:element name="store" type="tns:store" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="product">
+<xs:sequence>
+<xs:element name="category" type="xs:string" minOccurs="0"/>
+<xs:element name="color" type="xs:string" minOccurs="0"/>
+<xs:element name="defaultFactoryList" type="tns:defaultFactory" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="discountPrice" type="xs:decimal" minOccurs="0"/>
+<xs:element name="factories" type="tns:factory" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="height" type="xs:double" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="instructions" type="xs:string" minOccurs="0"/>
+<xs:element name="isDeleted" type="xs:string" minOccurs="0"/>
+<xs:element name="length" type="xs:double" minOccurs="0"/>
+<xs:element name="path" type="xs:string" minOccurs="0"/>
+<xs:element name="pomotion" type="xs:string" minOccurs="0"/>
+<xs:element name="price" type="xs:decimal" minOccurs="0"/>
+<xs:element name="productDescription" type="xs:string" minOccurs="0"/>
+<xs:element name="productName" type="xs:string" minOccurs="0"/>
+<xs:element name="productionOrderList" type="tns:productionOrder" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="stores" type="tns:store" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="type" type="xs:string" minOccurs="0"/>
+<xs:element name="width" type="xs:double" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="store">
+<xs:sequence>
+<xs:element name="address" type="xs:string" minOccurs="0"/>
+<xs:element name="country" type="xs:string" minOccurs="0"/>
+<xs:element name="defaultFactoryList" type="tns:defaultFactory" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="email" type="xs:string" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="isDeleted" type="xs:string" minOccurs="0"/>
+<xs:element name="phone" type="xs:string" minOccurs="0"/>
+<xs:element name="postal" type="xs:string" minOccurs="0"/>
+<xs:element name="productionOrderList" type="tns:productionOrder" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="products" type="tns:product" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="salesForcastList" type="tns:salesForcast" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="storeName" type="xs:string" minOccurs="0"/>
+<xs:element name="transationOrderList" type="tns:transactionOrderHQ" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="salesForcast">
+<xs:sequence>
+<xs:element name="amount" type="xs:int" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="isDeleted" type="xs:string" minOccurs="0"/>
+<xs:element name="month" type="xs:string" minOccurs="0"/>
+<xs:element name="product" type="tns:product" minOccurs="0"/>
+<xs:element name="productionOrder" type="tns:productionOrder" minOccurs="0"/>
+<xs:element name="status" type="xs:string" minOccurs="0"/>
+<xs:element name="store" type="tns:store" minOccurs="0"/>
+<xs:element name="year" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="transactionOrderHQ">
+<xs:sequence>
+<xs:element name="customer" type="tns:customer" minOccurs="0"/>
+<xs:element name="customerPhone" type="xs:string" minOccurs="0"/>
+<xs:element name="date" type="xs:string" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="isMember" type="xs:boolean" minOccurs="0"/>
+<xs:element name="itemList" type="tns:singleTransactionItemHQ" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="month" type="xs:string" minOccurs="0"/>
+<xs:element name="store" type="tns:store" minOccurs="0"/>
+<xs:element name="total" type="xs:decimal" minOccurs="0"/>
+<xs:element name="transactionReference" type="xs:string" minOccurs="0"/>
+<xs:element name="year" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="customer">
+<xs:sequence>
+<xs:element name="addressLine1" type="xs:string" minOccurs="0"/>
+<xs:element name="cart" type="tns:redemptionCart" minOccurs="0"/>
+<xs:element name="country" type="xs:string" minOccurs="0"/>
+<xs:element name="customerName" type="xs:string" minOccurs="0"/>
+<xs:element name="dob" type="xs:string" minOccurs="0"/>
+<xs:element name="email" type="xs:string" minOccurs="0"/>
+<xs:element name="gender" type="xs:string" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="isDeleted" type="xs:string" minOccurs="0"/>
+<xs:element name="loyalty" type="tns:loyalty" minOccurs="0"/>
+<xs:element name="password" type="xs:string" minOccurs="0"/>
+<xs:element name="phone" type="xs:string" minOccurs="0"/>
+<xs:element name="postalCode" type="xs:string" minOccurs="0"/>
+<xs:element name="shoppingcart" type="tns:shoppingcart" minOccurs="0"/>
+<xs:element name="status" type="xs:string" minOccurs="0"/>
+<xs:element name="transationOrderList" type="tns:transactionOrderHQ" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="redemptionCart">
+<xs:sequence>
+<xs:element name="createTime" type="xs:string" minOccurs="0"/>
+<xs:element name="customer" type="tns:customer" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="points" type="xs:int" minOccurs="0"/>
+<xs:element name="vouchers" type="tns:evoucher" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="evoucher">
+<xs:sequence>
+<xs:element name="faceValue" type="xs:int" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="point" type="xs:int" minOccurs="0"/>
+<xs:element name="redemptionCart" type="tns:redemptionCart" minOccurs="0"/>
+<xs:element name="termCondition" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="loyalty">
+<xs:sequence>
+<xs:element name="customer" type="tns:customer" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="pointsAvailable" type="xs:int" minOccurs="0"/>
+<xs:element name="pointsRedeemed" type="xs:int" minOccurs="0"/>
+<xs:element name="totalExpenditure" type="xs:float"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="shoppingcart">
+<xs:sequence>
+<xs:element name="customer" type="tns:customer" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="products" type="tns:product" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="singleTransactionItemHQ">
+<xs:sequence>
+<xs:element name="amount" type="xs:int" minOccurs="0"/>
+<xs:element name="furntiture" type="tns:product" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="transactionOrder" type="tns:transactionOrderHQ" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>

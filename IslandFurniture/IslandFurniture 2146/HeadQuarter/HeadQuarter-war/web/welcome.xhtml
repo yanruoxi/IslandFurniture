@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Welcome</title>
+    </h:head>
+    <h:body>
+       <p:column>
+                    <img src="img/logo_edited.png" alt="Island Furniture" style="position:relative" height="15%" width="15%" />
+        </p:column>
+        <p:panel id="panel" header="Welcome to Island Furniture International" >
+
+        <h:form>
+            <p:selectOneMenu value="#{welcomeManagedBean.selectedLocale}">
+                <f:selectItem itemValue="Please Select Your Country" itemLabel="Please Select Your Country"/>
+                <f:selectItem itemValue="en_SG" itemLabel="Singapore" />
+                <f:selectItem itemValue="zh_CN" itemLabel="China" />
+                <p:ajax  event="valueChange" listener="#{welcomeManagedBean.selectedLocaleValueChangeListener}" />
+            </p:selectOneMenu>
+       
+        </h:form>
+              <img src="img/welcome4.jpg" alt="Island Furniture" style="margin-left: 300px;" height="30%" width="50%" />
+              </p:panel>
+    </h:body>
+</html>
+

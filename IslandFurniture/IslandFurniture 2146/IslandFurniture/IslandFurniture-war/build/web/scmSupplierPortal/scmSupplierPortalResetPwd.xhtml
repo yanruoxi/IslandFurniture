@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Supplier Portal Workspace</title>
+        <f:event listener="#{supplierAcctManagedBean.checkLoggedIn}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+
+    <h:body>
+        <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="scmSupplierPortalWorkspace.xhtml">
+            <ui:define name="supplierPortalWorkspaceMenu"> 
+            </ui:define>            
+        </ui:composition>  
+
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="scmSupplierPortalWelcome.xhtml" />
+            <p:menuitem value="Reset Password" url="#" />
+
+        </p:breadCrumb>
+
+
+        <p:growl id="messages" showDetail="true" />
+
+        <p:idleMonitor timeout="3000">
+            <p:ajax event="idle" listener="#{idleMonitorView.onIdle}" update="messages" />
+            <p:ajax event="active" listener="#{idleMonitorView.onActive}" update="messages" />
+        </p:idleMonitor>
+
+            <h:form id="formResetPassword" >                    
+                <p:growl id="msgs" showDetail="true" />
+
+                <p:panel id="panel">
+                    <p:ajaxStatus style="width:16px;height:16px;">
+                        <f:facet name="start">
+                            <h:graphicImage value="/images/spinner.gif" />
+                        </f:facet>
+                        <f:facet name="complete">
+                            <h:outputText value="" />
+                        </f:facet>
+                    </p:ajaxStatus>
+                    <p:messages />                            
+                    <p:panelGrid>  
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="password" style="font-weight: bold" value="Old Password: " />
+                            </p:column>
+                            <p:column>
+                                <p:password required="true" label="Old Password" requiredMessage="Old Password is required." id="password" value="#{supplierAcctManagedBean.oldPwd}">
+                                    <f:validateLength minimum="1" maximum="19" />
+                                </p:password>
+                            </p:column>
+
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="newPassword" style="font-weight: bold" value="New Password: " />
+                            </p:column>
+                            <p:column>
+                                <p:password required="true" label="New Password" requiredMessage="New Password is required." id="newPassword" value="#{supplierAcctManagedBean.newPwd}">
+                                    <f:validateLength minimum="1" maximum="19" />
+                                </p:password>
+                            </p:column>
+
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="reEnterNewPassword" style="font-weight: bold" value="Re-enter New Password: " />
+                            </p:column>
+                            <p:column>
+                                <p:password required="true" label="Re-enter New Password" requiredMessage="Re-enter password field is required." id="reEnterNewPassword" value="#{supplierAcctManagedBean.reEnterNewPwd}">
+                                    <f:validateLength minimum="1" maximum="19" />
+                                </p:password>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                    <br/>
+
+                    <p:commandButton id="btn" value="Reset Password" update="panel, msgs" actionListener="#{supplierAcctManagedBean.resetPwd}" ajax="true" />
+                </p:panel>
+            </h:form>
+
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>
+
+</html>
+

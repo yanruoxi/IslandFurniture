@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Material added page </title>
+
+        <f:event listener="#{loginManagedBean.checkLoggedIn}" type="preRenderView" />
+      <link href="default.css" rel="stylesheet" type="text/css" /> 
+    </h:head>
+    <h:body>
+         <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="warehouseWorkSpace.xhtml">
+
+        </ui:composition> 
+        <h1> Store</h1> 
+        <p:button outcome="warehouseWorkSpace" value="Back to Warehouse Workspace page" icon="ui-icon-star">
+            <f:param name="h" value="10"/>
+        </p:button>
+
+        <h:form id="formMain">
+            <p:panel id="panel" header="Initalizaition for Material">
+                <p:ajaxStatus style="width:16px;height:16px">
+                    <f:facet name="start">
+                        <h:graphicImage library="image" name="spinner.gif"></h:graphicImage>
+                    </f:facet>
+                    <f:facet name="complete">
+                        <h:outputText value="" />
+
+                    </f:facet>
+
+                </p:ajaxStatus>
+                <p:messages/>
+
+                <p:panelGrid>
+
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="materialName" style="font-weight: bolder" value="Material Name: "/>
+
+                        </p:column>
+                        <p:column>
+                            <p:inputText required="true" label="Material Name" requiredMessage="a legal Material Name is required." id="materialName" value="#{warehouseManageBean.materialName}">
+                                <f:validateLength minimum="1" maximum="200"/>
+                            </p:inputText>      
+                        </p:column>
+                        
+                    </p:row>
+                     <p:row>
+                        <p:column>
+                            <p:outputLabel for="storeAddress" style="font-weight: bolder" value="Store Address: "/>
+
+                        </p:column>
+                        <p:column>
+                            <p:inputText required="true" label="Store Address" requiredMessage="a legal Store Address is required." id="storeAddress" value="#{warehouseManageBean.storeAddress}">
+                                <f:validateLength minimum="1" maximum="200"/>
+                            </p:inputText>      
+                        </p:column>
+                      
+                    </p:row>
+                    
+                     <p:row>
+                        <p:column>
+                            <p:outputLabel for="storeContact" style="font-weight: bolder" value="Contact: "/>
+
+                        </p:column>
+                        <p:column>
+                            <p:inputText required="true"  label="Store Contact"  id="storeContact" value="#{warehouseManageBean.storeContact}"  requiredMessage="a legal Store Contact is required.">
+                               <f:validateLength minimum="1" maximum="200"/>
+                            </p:inputText>      
+                        </p:column>
+                       
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="warehouse" style="font-weight: bolder" value="Warehouse Name: "/>
+
+                        </p:column>
+                        <p:column>
+                            <p:inputText required="true"  label="warehouse"  id="warehouse" value="#{warehouseManageBean.backName}"  requiredMessage="a legal warehouse name is required.">
+                               <f:validateLength minimum="1" maximum="200"/>
+                            </p:inputText>      
+                        </p:column>
+                       
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="front" style="font-weight: bolder" value="front Name: "/>
+
+                        </p:column>
+                        <p:column>
+                            <p:inputText required="true"  label="front"  id="front" value="#{warehouseManageBean.frontName}"  requiredMessage="a legal front name is required.">
+                               <f:validateLength minimum="1" maximum="200"/>
+                            </p:inputText>      
+                        </p:column>
+                       
+                    </p:row>
+                </p:panelGrid>
+                <p:commandButton id="btn" value="Save new Store" update="panel" actionListener="#{warehouseManageBean.saveNewStore}" ajax="true"/>
+               
+
+
+
+            </p:panel>
+            
+             
+            
+        </h:form>
+
+
+
+    </h:body>
+</html>
+
+

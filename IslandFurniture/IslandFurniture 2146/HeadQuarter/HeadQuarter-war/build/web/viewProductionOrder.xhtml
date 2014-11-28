@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>viewProductionOrder</title>
+        <f:event listener="#{loginManagedBean.checkLoginHQ}" type="preRenderView" />
+    </h:head>
+    <h:body>
+
+        <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="template.xhtml">
+            
+        </ui:composition>          
+
+
+        <p:tab title="viewProductionOrder">
+
+            <h:form id="formViewProductionOrder" style="width:1200px;">                    
+                <p:growl id="msgs" showDetail="true" />                        
+                <p:panel id="panelViewProductionOrder" header="Search Part">
+                    <p:ajaxStatus style="width:16px;height:16px;">
+                        <f:facet name="start">
+                            <h:graphicImage value="/images/spinner.gif" />
+                        </f:facet>
+                        <f:facet name="complete">
+                            <h:outputText value="" />
+                        </f:facet>
+                    </p:ajaxStatus>
+                    <p:messages />        
+
+                    <p:panelGrid>   
+                          <p:row>
+                                    <p:column>
+                                        <p:outputLabel for="storeName" style="font-weight: bold" value="Store Name: " />
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText  label="Store Name"  id="storeName" value="#{productionOrderManagedBean.storeName}">
+                                           
+                                        </p:inputText>
+                                    </p:column>                                   
+                                </p:row>    
+                        
+                        <p:row>
+                                    <p:column>
+                                        <p:outputLabel for="factoryName" style="font-weight: bold" value="Factory Name: " />
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText  label="Factory Name"  id="factoryName" value="#{productionOrderManagedBean.factoryName}">
+                                           
+                                        </p:inputText>
+                                    </p:column>                                   
+                                </p:row>   
+                    </p:panelGrid>
+                    <p:commandButton id="btn" value="Search By Store" update="viewPO msgs @parent" actionListener="#{productionOrderManagedBean.searchByStore()}" ajax="true" />
+                    <p:commandButton id="btnFactory" value="Search By Factory" update="viewPO msgs @parent" actionListener="#{productionOrderManagedBean.searchByFacory()}" ajax="true" />
+                    <p:commandButton id="btnViewAllPO" value="View All PO" update="viewPO @parent" actionListener="#{productionOrderManagedBean.searchAllProductionOrder()}" ajax="true" />
+                </p:panel>
+
+                <p:panel id="viewPO" >
+                    <p:dataTable var="productionOrder" value="#{productionOrderManagedBean.productionOrderList}"  emptyMessage="No production order">
+                        <p:column headerText="Store Name" >
+                            <h:outputText value="#{productionOrder.store.storeName}" />
+                        </p:column> 
+                        
+                        <p:column headerText="Factory Name" >
+                            <h:outputText value="#{productionOrder.factory.factoryName}" />
+                        </p:column> 
+                        
+                        <p:column headerText="Product Name" >
+                            <h:outputText value="#{productionOrder.product.productName}" />
+                        </p:column> 
+                        
+                        <p:column headerText="Month" >
+                            <h:outputText value="#{productionOrder.month}" />
+                        </p:column> 
+                        
+                        <p:column headerText="Quantity" >
+                            <h:outputText value="#{productionOrder.quantity}" />
+                        </p:column> 
+
+                       
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+            
+           
+            
+        </p:tab>
+    </h:body>
+</html>

@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <h:head>
+        <title>KMS Staff Workspace</title>
+        <f:event listener="#{loginManagedBean.checkLoginKMSStaff}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+
+    <h:body> 
+        <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="kmsWorkspace.xhtml">
+            <ui:define name="kmsWorkspaceMenu"> 
+            </ui:define>            
+        </ui:composition>   
+
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="kmsWelcome.xhtml" />
+            <p:menuitem value="Manage Purchase Orders" url="#" />
+            <p:menuitem value="Edit Purchase Orders" url="#" />
+        </p:breadCrumb>
+
+        <p:menubar>
+            <p:menuitem value="View Purchase Orders" url="#" icon="ui-icon-search"/>
+            <p:menuitem value="Edit Purchase Order" url="kmsEditPO.xhtml?i=4" icon="ui-icon-plus"/>
+        </p:menubar>
+
+
+        <h:form id="formMainPO">
+            <p:panel id="panelEditPO">
+                <p:growl id="messages" showDetail="true"/>
+
+                <p:ajaxStatus>
+                    <f:facet name="start"><h:graphicImage value="/images/spinner.gif" /></f:facet>
+                    <f:facet name="complete"><h:outputText value="" /></f:facet>
+                </p:ajaxStatus>
+
+                <p:panelGrid>
+                    <p:row>
+                        <p:column><p:outputLabel style="font-weight: bold">Purchase Order ID:</p:outputLabel></p:column>
+                        <p:column><p:outputLabel>#{kpoManagedBean.selectedKitchenPurchaseOrder.kpurchaseOrderId}</p:outputLabel></p:column>  
+                    </p:row>
+
+                    <p:row>
+                        <p:column><p:outputLabel for="poDate" value="Purchase Order Date:"/></p:column>
+                        <p:column><p:outputLabel id="poDate" value="#{kpoManagedBean.selectedKitchenPurchaseOrder.kpurchaseOrderDate}"><f:convertDateTime pattern="dd/MM/yyyy" /></p:outputLabel></p:column>  
+                    </p:row>  
+
+                    <p:row>
+                        <p:column><p:outputLabel for="ingredientname" value="Ingredient Name:"/></p:column>
+                        <p:column><p:outputLabel id="ingredientname" value="#{kpoManagedBean.selectedKitchenPurchaseOrder.ingredient.ingredientName}"/></p:column>  
+                    </p:row>
+
+                    <p:row>
+                        <p:column><p:outputLabel for="ingredienttype" value="Ingredient Type"/></p:column>
+                        <p:column><p:outputLabel id="ingredienttype" value="#{kpoManagedBean.selectedKitchenPurchaseOrder.ingredient.ingredientType}"/></p:column>  
+                    </p:row>
+
+                    <p:row>
+                        <p:column><p:outputLabel for="Quantity" value="Quantity:"/></p:column>
+                        <p:column><p:inputText id="Quantity" value="#{kpoManagedBean.quantityForKPO}" placeholder="#{kpoManagedBean.selectedKitchenPurchaseOrder.kqty}"/> </p:column>  
+                        <p:inputText>
+                            <p:ajax event="blur" listener="#{kpoManagedBean.getCalculatedTotalPrice}" update="message messages" />
+                        </p:inputText>
+                    </p:row>
+
+                    <p:row>
+                        <p:column><p:outputLabel value="Unit Price:" for="unitprice"/></p:column>
+                        <p:column><h:outputText id="unitprice" value="#{kpoManagedBean.selectedKitchenPurchaseOrder.kunitPrice}"><f:convertNumber type="currency" currencySymbol="$"/></h:outputText></p:column>
+                        <p:message for="kqty" id="message" showSummary="true" showDetail="false"/>
+
+                    </p:row>
+
+
+                    <p:row>
+                        <p:column><p:outputLabel for="scheduledDeliveryDate" value="Scheduled Delivery Date:"/>   </p:column>
+                        <p:column><p:calendar id="scheduledDeliveryDate" value="#{kpoManagedBean.scheduledDeliveryDate}" placeholder="#{kpoManagedBean.selectedKitchenPurchaseOrder.kscheduledDeliveryDate}" label="Scheduled Delivery Date" required="true" pattern="dd/MM/yyyy" /></p:column>
+                    </p:row>
+                </p:panelGrid>
+                <p:commandButton value="Edit Purchase Order" icon="ui-icon-check" update=":formMainPO, messages" actionListener="#{kpoManagedBean.editPO}" ajax="true"/>
+
+            </p:panel>
+        </h:form>
+
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>
+
+</html>
+

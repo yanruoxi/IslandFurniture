@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>KMS Workspace</title>
+        <f:event listener="#{loginManagedBean.checkLoginKMSStaff(cse)}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+
+    <h:body> 
+
+        <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="kmsWorkspace.xhtml"/>
+
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="kmsWelcome.xhtml"/>
+            <p:menuitem value="Manage Recipe" url="#"/>
+            <p:menuitem value="Add Item to Recipe" url="#"/>
+        </p:breadCrumb>
+
+        <p:menubar>
+            <p:menuitem value="View Recipe" url="kmsManageRecipe.xhtml?i=6" icon="ui-icon-search"/>
+            <p:menuitem value="Add Ingredient to Recipe" url="kmsEditRecipe.xhtml?i=6" icon="ui-icon-plus"/>
+        </p:menubar>
+
+             <h:form id="formAddIngredienttoRecipe">
+            <p:panel header="Add Ingredient to Recipe">   
+                <p:growl autoUpdate="true" showDetail="true"/>
+                <h:panelGrid id="gridAddIngredientToRecipe" cellpadding="5">
+                    <p:outputLabel for="chooseDish" value="Choose Dish"  />
+                    <p:selectOneMenu id="chooseDish" value="#{dishManagedBean.selectedDish}" converter="dishConverter" effect="fade" filter="true" filterMatchMode="contains">
+                        <f:selectItem itemLabel="Select" itemValue="#{null}" noSelectionOption="true" />    
+                        <f:selectItems value="#{dishManagedBean.dishes}" var="dish" itemLabel="#{dish.dishName}" itemValue="#{dish}"/>
+                    </p:selectOneMenu>
+
+                    <h:outputLabel for="ingredientMenu" value="Choose Ingredient(s) to Add:" />
+                    <p:selectCheckboxMenu id="ingredientMenu" value="#{dishManagedBean.selectedIngredient}" label="Ingredient" filter="true" filterMatchMode="startsWith" panelStyle="width:300px" required="true">
+                        <f:selectItems value="#{dishManagedBean.ingredients}" />
+                    </p:selectCheckboxMenu>
+                </h:panelGrid>  
+
+                <p:separator />
+                <p:commandButton value="Add Ingredient to Recipe" update="gridAddIngredientToRecipe" actionListener="#{dishManagedBean.addIngredientToDish}"/>    
+            </p:panel>
+        </h:form>         
+
+
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>   
+
+</html>
+

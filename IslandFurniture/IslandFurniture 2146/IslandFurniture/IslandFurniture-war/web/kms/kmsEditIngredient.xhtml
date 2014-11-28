@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>KMS Workspace</title>
+        <f:event listener="#{loginManagedBean.checkLoginKMSStaff(cse)}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+    <h:body>
+
+        <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="kmsWorkspace.xhtml">
+            <ui:define name="kmsWorkspaceMenu"/>         
+        </ui:composition>  
+
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="kmsWelcome.xhtml" />
+            <p:menuitem value="Manage Ingredient" url="kmsViewAllIngredient.xhtml?i=2" />
+            <p:menuitem value="Edit Ingredient" url="#" />
+        </p:breadCrumb>
+
+        <p:menubar>
+            <p:menuitem value="View Ingredients" url="kmsViewAllIngredient.xhtml?i=2" icon="ui-icon-search"/>
+            <p:menuitem value="Add Ingredient" url="kmsAddIngredient.xhtml?i=2" icon="ui-icon-plus"/>
+            <p:menuitem value="Set Default Supplier" url="kmsSetDefaultSupplier.xhtml?i=2" icon="ui-icon-plus"/>
+        </p:menubar>
+
+        <h:form id="formEditIngredient" >
+            <p:growl id="messages" showDetail="true"/>
+            <p:panel id="panelEditIngredient" header="Ingredient Details">
+                <p:ajaxStatus style="width:16px;height:16px;">
+                    <f:facet name="start"><h:graphicImage value="/images/spinner.gif" /></f:facet>
+                    <f:facet name="complete"><h:outputText value="" /></f:facet>
+                </p:ajaxStatus>
+
+                <p:panelGrid>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel style="font-weight: bold">Ingredient ID</p:outputLabel>
+                        </p:column>
+                        <p:column>     
+                            <p:outputLabel>#{ingredientManagedBean.selectedIngredient.id}</p:outputLabel>               
+                        </p:column>  
+                    </p:row>  
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel>Ingredient Type</p:outputLabel>
+                        </p:column>
+                        <p:column>     
+                            <p:outputLabel>#{ingredientManagedBean.selectedIngredient.ingredientType}</p:outputLabel>               
+                        </p:column>  
+                    </p:row> 
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel>Lot Size</p:outputLabel>
+                        </p:column>
+                        <p:column>     
+                            <p:spinner id="klotSize" value="#{ingredientManagedBean.selectedIngredient.klotSize}" placeholder="#{ingredientManagedBean.selectedIngredient.klotSize}" label="Lot Size" required="true" min="1" size="4"/>             
+                        </p:column>  
+                    </p:row> 
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel>Lead Time (in terms of no. of days)</p:outputLabel>
+                        </p:column>
+                        <p:column>     
+                            <p:spinner id="kleadTime" value="#{ingredientManagedBean.selectedIngredient.kleadTime}" placeholder="#{ingredientManagedBean.selectedIngredient.kleadTime}" label="Lead Time" required="true" min="1" size="4"/>             
+                        </p:column>  
+                    </p:row> 
+                </p:panelGrid>
+                <p:commandButton value="Save Changes" icon="ui-icon-check" update="panelEditIngredient, messages" actionListener="#{ingredientManagedBean.editIngredient}" ajax="true"/>
+            </p:panel>
+        </h:form>
+
+
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>
+
+</html>
+

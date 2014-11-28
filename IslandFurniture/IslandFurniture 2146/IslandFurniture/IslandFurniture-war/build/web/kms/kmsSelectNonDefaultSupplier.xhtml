@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <h:head>
+        <title>KMS Staff Workspace</title>
+        <f:event listener="#{loginManagedBean.checkLoginKMSStaff}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+
+    <h:body> 
+        <h:form id="formMainPO">
+            <p:growl id="messages"/>
+            <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="kmsWorkspace.xhtml">
+                <ui:define name="kmsWorkspaceMenu"> 
+                </ui:define>            
+            </ui:composition>   
+
+            <p:breadCrumb>
+                <p:menuitem value="Home" url="kmsWelcome.xhtml" />
+                <p:menuitem value="Manage Purchase Orders" url="kmsViewAllPO.xhtml?i=6" />
+                <p:menuitem value="Create Purchase Order" url="#" />
+            </p:breadCrumb>
+            
+            <p:menubar>
+                <p:menuitem value="View Purchase Orders" url="kmsViewAllPO.xhtml?i=6" icon="ui-icon-search"/>
+            </p:menubar>
+            
+            <p:panel id="header" header="View All Suppliers Based on Ingredient Selected">
+                <p:growl autoUpdate="true" showDetail="true"/>
+
+                <p:dataTable id="filteredSupNoFilterTable" var="supplierWithIngredient" value="#{kpoManagedBean.supplierWithIngredientList}" emptyMessage="No supplier found." widgetVar="filteredSupNoIngredientsTable" selection="#{kpoManagedBean.selectedsupplierWithIngredient}" rowKey="#{supplierWithIngredient.kitchenSupplier.ksupplierId}">
+                    <p:column selectionMode="single" style="width:16px;text-align:center"/>
+                    <p:column headerText="Supplier ID"><h:outputText value="#{supplierWithIngredient.kitchenSupplier.ksupplierId}" /></p:column>
+                    <p:column headerText="Supplier Name"><h:outputText value="#{supplierWithIngredient.kitchenSupplier.ksupplierName}" /></p:column>
+                    <p:column headerText="Contact Person Name"><h:outputText value="#{supplierWithIngredient.kitchenSupplier.ksupplierName}" /></p:column>
+                    <p:column headerText="Fax No."><h:outputText value="#{supplierWithIngredient.kitchenSupplier.kfaxNum}" /></p:column>
+                    <p:column headerText="Telephone No."><h:outputText value="#{supplierWithIngredient.kitchenSupplier.ktelephone}" /></p:column>
+                    <p:column headerText="HP No."><h:outputText value="#{supplierWithIngredient.kitchenSupplier.kmobileNum}" /></p:column>
+                    <p:column headerText="Address"><h:outputText value="#{supplierWithIngredient.kitchenSupplier.ksupplierAddress}" /></p:column>
+                    <p:column headerText="Email Address"><h:outputText value="#{supplierWithIngredient.kitchenSupplier.ksupplierEmailAddress}" /></p:column>
+                    <p:column headerText="Ingredient Name"><h:outputText value="#{supplierWithIngredient.ingredient.ingredientName}" /></p:column>
+
+                    <f:facet name="footer">
+                        <p:commandButton value="Create Purchase Order" icon="ui-icon-plus" update=":formMainPO:filteredSupNoFilterTable" action="#{kpoManagedBean.redirectTocreatePOToNonDefaultSup}"/>
+                    </f:facet>
+                </p:dataTable>
+            </p:panel>
+            
+        </h:form>
+    </h:body>
+</html>
+

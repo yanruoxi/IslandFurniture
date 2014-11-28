@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Admin - View Log</title>
+        <f:event listener="#{loginManagedBean.checkLoginAdmin}" type="preRenderView" />
+        <link href="default.css" rel="stylesheet" type="text/css" />
+    </h:head>
+    <h:body>
+
+        <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="adminWorkSpace.xhtml">
+            <ui:define name="AdminWorkSpaceMenu"> 
+            </ui:define>            
+        </ui:composition>       
+
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="scmWelcome.xhtml"/>
+            <p:menuitem value="View Log" url="#"/>
+        </p:breadCrumb>
+
+        <h:form id="formViewLog" >                    
+            <p:growl id="msgs" showDetail="true" />                        
+
+            <p:accordionPanel>
+                <p:tab id="panelViewLog" title="Search Log">
+                    <p:ajaxStatus >
+                        <f:facet name="start"><h:graphicImage value="/images/spinner.gif" /></f:facet>
+                        <f:facet name="complete"><h:outputText value="" /></f:facet>
+                    </p:ajaxStatus>
+                    <p:messages />   
+                    
+                    <p:row>
+                        <p:column><p:outputLabel for="systemUser" style="font-weight: bold" value="Enter System User: " /></p:column>
+                        <p:column><p:inputText label="systemUser"  id="systemUser" value="#{logManagedBean.systemUser}"></p:inputText></p:column>                                  
+                    </p:row>       
+                    <br/><br/>
+                    <p:commandButton id="btn" value="Search Log" update=":formViewLog:viewLog" actionListener="#{logManagedBean.searchLog()}" ajax="true" />
+                    <p:commandButton id="btnViewAllLog" value="View All Log" update=":formViewLog:viewLog" actionListener="#{logManagedBean.getLog()}" ajax="true" />
+                </p:tab>  
+            </p:accordionPanel>                      
+
+
+            <p:panel id="viewLog" >
+                <p:dataTable style="width: 800px; " var="log" value="#{logManagedBean.logList}" emptyMessage="No log">
+                    <p:column headerText="System User" ><h:outputText value="#{log.systemUser}" /></p:column>   
+                    <p:column headerText="Date" ><h:outputText value="#{log.activityTime}"><f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" /></h:outputText></p:column>   
+                    <p:column headerText="Activitey" ><h:outputText value="#{log.activity}" /></p:column>   
+                </p:dataTable>
+            </p:panel>
+
+        </h:form>
+
+
+
+
+        <br /><br />
+        <br />
+        <p:separator></p:separator>
+    </h:body>
+
+</html>

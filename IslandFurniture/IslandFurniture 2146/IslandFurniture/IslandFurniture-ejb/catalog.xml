@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="http://localhost:8080/MRPWebService/MRPWebService?wsdl" uri="src/conf/xml-resources/web-service-references/MRPWebService/wsdl/localhost_8080/MRPWebService/MRPWebService.wsdl"/>
+    <system systemId="http://localhost:8080/MRPWebService/MRPWebService?xsd=1" uri="src/conf/xml-resources/web-service-references/MRPWebService/wsdl/localhost_8080/MRPWebService/MRPWebService.xsd_1.xsd"/>
+    <system systemId="http://172.28.178.29:8080/PartWebService/PartWebService?wsdl" uri="src/conf/xml-resources/web-service-references/PartWebService/wsdl/172.28.178.29_8080/PartWebService/PartWebService.wsdl"/>
+    <system systemId="http://172.28.178.29:8080/PartWebService/PartWebService?xsd=1" uri="src/conf/xml-resources/web-service-references/PartWebService/wsdl/172.28.178.29_8080/PartWebService/PartWebService.xsd_1.xsd"/>
+    <system systemId="http://localhost:8080/PartWebService/PartWebService?wsdl" uri="src/conf/xml-resources/web-service-references/PartWebService/wsdl/localhost_8080/PartWebService/PartWebService.wsdl"/>
+    <system systemId="http://localhost:8080/PartWebService/PartWebService?xsd=1" uri="src/conf/xml-resources/web-service-references/PartWebService/wsdl/localhost_8080/PartWebService/PartWebService.xsd_1.xsd"/>
+    <system systemId="http://localhost:8080/PartWebSession/PartWebSession?wsdl" uri="src/conf/xml-resources/web-service-references/PartWebSession/wsdl/localhost_8080/PartWebSession/PartWebSession.wsdl"/>
+    <system systemId="http://localhost:8080/PartWebSession/PartWebSession?xsd=1" uri="src/conf/xml-resources/web-service-references/PartWebSession/wsdl/localhost_8080/PartWebSession/PartWebSession.xsd_1.xsd"/>
+    <system systemId="http://172.28.188.24:8080/PartWebSession/PartWebSession?wsdl" uri="src/conf/xml-resources/web-service-references/PartWebSession/wsdl/172.28.188.24_8080/PartWebSession/PartWebSession.wsdl"/>
+    <system systemId="http://172.28.188.24:8080/PartWebSession/PartWebSession?xsd=1" uri="src/conf/xml-resources/web-service-references/PartWebSession/wsdl/172.28.188.24_8080/PartWebSession/PartWebSession.xsd_1.xsd"/>
+    <system systemId="http://172.28.188.24:8080/FurnitureWebService/FurnitureWebService?wsdl" uri="src/conf/xml-resources/web-service-references/FurnitureWebService/wsdl/172.28.188.24_8080/FurnitureWebService/FurnitureWebService.wsdl"/>
+    <system systemId="http://172.28.188.24:8080/FurnitureWebService/FurnitureWebService?xsd=1" uri="src/conf/xml-resources/web-service-references/FurnitureWebService/wsdl/172.28.188.24_8080/FurnitureWebService/FurnitureWebService.xsd_1.xsd"/>
+    <system systemId="http://localhost:8080/SendPOHQ/SendPOHQ?wsdl" uri="src/conf/xml-resources/web-service-references/SendPOHQ/wsdl/localhost_8080/SendPOHQ/SendPOHQ.wsdl"/>
+    <system systemId="http://localhost:8080/SendPOHQ/SendPOHQ?xsd=1" uri="src/conf/xml-resources/web-service-references/SendPOHQ/wsdl/localhost_8080/SendPOHQ/SendPOHQ.xsd_1.xsd"/>
+</catalog>

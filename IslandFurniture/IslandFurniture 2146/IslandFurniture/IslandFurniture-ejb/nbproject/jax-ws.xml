@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jax-ws xmlns="http://www.netbeans.org/ns/jax-ws/1">
+  <services>
+    <service name="FurnitureForPOS">
+      <implementation-class>Web.service.FurnitureForPOS</implementation-class>
+    </service>
+    <service name="GetStoreInfoPOS">
+      <implementation-class>Web.service.GetStoreInfoPOS</implementation-class>
+    </service>
+    <service name="LoginPOS">
+      <implementation-class>Web.service.LoginPOS</implementation-class>
+    </service>
+    <service name="StoreTransactionOrder">
+      <implementation-class>Web.service.StoreTransactionOrder</implementation-class>
+    </service>
+  </services>
+  <clients>
+  </clients>
+</jax-ws>
